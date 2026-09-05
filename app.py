@@ -206,6 +206,24 @@ class StudentProfile(db.Model):
         return all(value and value.strip() for value in required_fields)
 
 
+STUDENT_PROFILE_REQUIRED_FIELDS = {
+    'full_name': 'Họ và tên',
+    'class_name': 'Lớp',
+    'phone': 'Số điện thoại học sinh',
+    'address': 'Địa chỉ',
+    'guardian_name': 'Họ tên phụ huynh/người giám hộ',
+    'guardian_phone': 'Số điện thoại phụ huynh/người giám hộ',
+}
+
+
+def missing_student_profile_fields(profile):
+    return {
+        field: label
+        for field, label in STUDENT_PROFILE_REQUIRED_FIELDS.items()
+        if not (getattr(profile, field, '') or '').strip()
+    }
+
+
 class TeacherProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
@@ -2421,7 +2439,11 @@ def student_profile():
         db.session.commit()
         flash('Đã cập nhật hồ sơ học sinh', 'success')
         return redirect(url_for('student_profile'))
-    return render_template('student_profile.html', profile=profile)
+    return render_template(
+        'student_profile.html',
+        profile=profile,
+        missing_profile_fields=missing_student_profile_fields(profile),
+    )
 
 
 @app.route('/teacher/profile', methods=['GET', 'POST'])

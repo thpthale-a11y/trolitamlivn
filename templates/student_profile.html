@@ -1,6 +1,49 @@
 {% extends "layout.html" %}
 {% block title %}Hồ sơ học sinh{% endblock %}
 {% block content %}
+  <style>
+    .student-profile-avatar-tools {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .student-profile-avatar-tools .btn {
+      margin-top: 0 !important;
+    }
+
+    .student-profile-missing {
+      border-color: rgba(239, 68, 68, 0.42) !important;
+      background: rgba(127, 29, 29, 0.22) !important;
+      color: #FEE2E2 !important;
+    }
+
+    .student-profile-missing strong,
+    .student-profile-missing li {
+      color: #FEE2E2 !important;
+    }
+
+    .student-profile-missing ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .student-app-body.endpoint-student_profile .profile-field-missing {
+      border-color: #F87171 !important;
+      box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16) !important;
+    }
+
+    .student-app-body.endpoint-student_profile .profile-field-warning {
+      display: block;
+      margin-top: 6px;
+      color: #FCA5A5 !important;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+  </style>
+
   <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
     <div>
       <p class="text-primary fw-semibold mb-1">Hệ thống</p>
@@ -18,16 +61,18 @@
 
     <div class="col-lg-4">
       <aside class="profile-preview-card">
-        <label class="profile-avatar-wrap" for="avatar-input">
-          {% if profile.avatar_filename %}
-            <img id="avatar-preview" src="{{ url_for('static', filename='uploads/profiles/' ~ profile.avatar_filename) }}" alt="Ảnh hồ sơ">
-          {% else %}
-            <span id="avatar-placeholder">{{ (profile.full_name or current_user.username)[:2]|upper }}</span>
-            <img id="avatar-preview" alt="Ảnh hồ sơ" hidden>
-          {% endif %}
-        </label>
-        <input id="avatar-input" class="d-none" type="file" name="avatar" accept="image/png,image/jpeg,image/webp">
-        <button type="button" class="btn btn-outline-primary btn-sm mt-3" id="avatar-button">Upload ảnh profile</button>
+        <div class="student-profile-avatar-tools">
+          <label class="profile-avatar-wrap" for="avatar-input">
+            {% if profile.avatar_filename %}
+              <img id="avatar-preview" src="{{ url_for('static', filename='uploads/profiles/' ~ profile.avatar_filename) }}" alt="Ảnh hồ sơ">
+            {% else %}
+              <span id="avatar-placeholder">{{ (profile.full_name or current_user.username)[:2]|upper }}</span>
+              <img id="avatar-preview" alt="Ảnh hồ sơ" hidden>
+            {% endif %}
+          </label>
+          <input id="avatar-input" class="d-none" type="file" name="avatar" accept="image/png,image/jpeg,image/webp">
+          <button type="button" class="btn btn-outline-primary btn-sm" id="avatar-button">Upload ảnh profile</button>
+        </div>
         <div class="text-muted small mt-2">Chọn ảnh xong hệ thống sẽ tự lưu.</div>
 
         <div class="profile-preview-info mt-4">
@@ -42,19 +87,33 @@
     </div>
 
     <div class="col-lg-8">
+      {% if missing_profile_fields %}
+        <div class="alert student-profile-missing mb-3">
+          <strong>Còn thiếu {{ missing_profile_fields|length }} thông tin bắt buộc:</strong>
+          <ul>
+            {% for label in missing_profile_fields.values() %}
+              <li>{{ label }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label">Họ và tên</label>
-          <input name="full_name" class="form-control" value="{{ profile.full_name or '' }}" placeholder="Nhập họ và tên đầy đủ">
+          <input name="full_name" class="form-control {% if 'full_name' in missing_profile_fields %}profile-field-missing{% endif %}" value="{{ profile.full_name or '' }}" placeholder="Nhập họ và tên đầy đủ" required>
+          {% if 'full_name' in missing_profile_fields %}<span class="profile-field-warning">Vui lòng nhập họ và tên.</span>{% endif %}
         </div>
         <div class="col-md-6">
           <label class="form-label">Lớp</label>
-          <input name="class_name" class="form-control" value="{{ profile.class_name or '' }}" placeholder="Ví dụ: 10A1">
+          <input name="class_name" class="form-control {% if 'class_name' in missing_profile_fields %}profile-field-missing{% endif %}" value="{{ profile.class_name or '' }}" placeholder="Ví dụ: 10A1" required>
+          {% if 'class_name' in missing_profile_fields %}<span class="profile-field-warning">Vui lòng nhập lớp.</span>{% endif %}
         </div>
 
         <div class="col-md-6">
           <label class="form-label">Số điện thoại học sinh</label>
-          <input name="phone" class="form-control" value="{{ profile.phone or '' }}" placeholder="Nhập số điện thoại liên hệ">
+          <input name="phone" class="form-control {% if 'phone' in missing_profile_fields %}profile-field-missing{% endif %}" value="{{ profile.phone or '' }}" placeholder="Nhập số điện thoại liên hệ" required>
+          {% if 'phone' in missing_profile_fields %}<span class="profile-field-warning">Vui lòng nhập số điện thoại học sinh.</span>{% endif %}
         </div>
         <div class="col-md-6">
           <label class="form-label">Liên hệ khẩn cấp</label>
@@ -63,16 +122,19 @@
 
         <div class="col-12">
           <label class="form-label">Địa chỉ</label>
-          <input name="address" class="form-control" value="{{ profile.address or '' }}" placeholder="Nhập địa chỉ hiện tại">
+          <input name="address" class="form-control {% if 'address' in missing_profile_fields %}profile-field-missing{% endif %}" value="{{ profile.address or '' }}" placeholder="Nhập địa chỉ hiện tại" required>
+          {% if 'address' in missing_profile_fields %}<span class="profile-field-warning">Vui lòng nhập địa chỉ.</span>{% endif %}
         </div>
 
         <div class="col-md-6">
           <label class="form-label">Họ tên phụ huynh/người giám hộ</label>
-          <input name="guardian_name" class="form-control" value="{{ profile.guardian_name or '' }}" placeholder="Nhập họ tên phụ huynh">
+          <input name="guardian_name" class="form-control {% if 'guardian_name' in missing_profile_fields %}profile-field-missing{% endif %}" value="{{ profile.guardian_name or '' }}" placeholder="Nhập họ tên phụ huynh" required>
+          {% if 'guardian_name' in missing_profile_fields %}<span class="profile-field-warning">Vui lòng nhập họ tên phụ huynh/người giám hộ.</span>{% endif %}
         </div>
         <div class="col-md-6">
           <label class="form-label">Số điện thoại phụ huynh/người giám hộ</label>
-          <input name="guardian_phone" class="form-control" value="{{ profile.guardian_phone or '' }}" placeholder="Nhập số điện thoại phụ huynh">
+          <input name="guardian_phone" class="form-control {% if 'guardian_phone' in missing_profile_fields %}profile-field-missing{% endif %}" value="{{ profile.guardian_phone or '' }}" placeholder="Nhập số điện thoại phụ huynh" required>
+          {% if 'guardian_phone' in missing_profile_fields %}<span class="profile-field-warning">Vui lòng nhập số điện thoại phụ huynh/người giám hộ.</span>{% endif %}
         </div>
 
         <div class="col-12">

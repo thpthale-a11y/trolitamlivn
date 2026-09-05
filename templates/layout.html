@@ -5344,6 +5344,1705 @@
         color: #F8FAFC !important;
       }
 
+      /* Final contrast contract: dark background = light text, light background = dark text. */
+      :root {
+        --contrast-light-bg: #FFFFFF;
+        --contrast-light-text: #111827;
+        --contrast-light-muted: #374151;
+        --contrast-dark-bg: #090A1F;
+        --contrast-dark-panel: #141332;
+        --contrast-dark-text: #F8FAFC;
+        --contrast-dark-muted: rgba(248, 250, 252, 0.76);
+        --contrast-line: rgba(255, 255, 255, 0.18);
+      }
+
+      body:has(.app-shell) {
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 8% 10%, rgba(219, 39, 119, 0.22), transparent 28rem),
+          radial-gradient(circle at 88% 14%, rgba(37, 99, 235, 0.18), transparent 30rem),
+          linear-gradient(135deg, var(--contrast-dark-bg) 0%, #120D2E 52%, #1A0827 100%) !important;
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) .topbar {
+        max-width: 100vw;
+        overflow-x: clip;
+      }
+
+      body:has(.app-shell) .topbar .container-fluid {
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      body:has(.app-shell) .navbar-collapse {
+        min-width: 0;
+      }
+
+      body:has(.app-shell) .navbar-nav {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      body:has(.app-shell) .navbar-nav .nav-item {
+        min-width: 0;
+        flex: 0 1 auto;
+      }
+
+      body:has(.app-shell) .navbar-nav .nav-link {
+        max-width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      body:has(.app-shell) .navbar-nav .nav-link.d-flex {
+        max-width: 230px;
+      }
+
+      body:has(.app-shell) .navbar-nav .nav-link.d-flex > span:last-child {
+        min-width: 0;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      body:has(.app-shell) .navbar-nav .btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 1440px) {
+        .student-app-body .navbar-nav {
+          gap: 6px !important;
+        }
+
+        .student-app-body .student-nav-link,
+        .student-app-body .nav-link {
+          font-size: 15px;
+        }
+
+        body:has(.app-shell) .navbar-nav .nav-link {
+          max-width: 160px;
+        }
+
+        body:has(.app-shell) .navbar-nav .nav-link.d-flex > span:last-child {
+          max-width: 120px;
+        }
+      }
+
+      body:has(.app-shell) .topbar,
+      body:has(.app-shell) .sidebar,
+      body:has(.app-shell) .content-panel,
+      body:has(.app-shell) .content-body,
+      body:has(.app-shell) .main-area,
+      body:has(.app-shell) .page-frame,
+      body:has(.app-shell) .chat-workspace,
+      body:has(.app-shell) .chat-sidebar-panel,
+      body:has(.app-shell) .chat-sidebar-header,
+      body:has(.app-shell) .chat-thread-panel,
+      body:has(.app-shell) .chat-thread-list,
+      body:has(.app-shell) .chat-thread,
+      body:has(.app-shell) .chat-thread-title,
+      body:has(.app-shell) .chat-history,
+      body:has(.app-shell) .chat-composer,
+      body:has(.app-shell) .realtime-chat,
+      body:has(.app-shell) .realtime-chat-header,
+      body:has(.app-shell) .realtime-chat-body,
+      body:has(.app-shell) .realtime-composer {
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) :is(.content-panel, .content-body, .card, .feature-card, .stat-card, .room-card, .life-card, .life-detail-card, .life-side-panel, .profile-preview-card, .teacher-student-summary > div, .teacher-student-table, .admin-chart-card, .admin-chart-row, .forum-composer, .forum-post, .journal-section, .journal-prompt, .journal-history-item, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .career-sheet, .career-empty, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-highlight, .assessment-level, .realtime-bubble) {
+        border-color: var(--contrast-line) !important;
+        background:
+          radial-gradient(circle at 12% 0%, rgba(236, 72, 153, 0.12), transparent 22rem),
+          linear-gradient(135deg, #32216A 0%, #211843 100%) !important;
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) :is(.content-panel, .content-body, .card, .feature-card, .stat-card, .room-card, .life-card, .life-detail-card, .life-side-panel, .profile-preview-card, .teacher-student-summary, .teacher-student-table, .admin-chart-card, .forum-composer, .forum-post, .journal-section, .journal-prompt, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .career-sheet, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-highlight, .assessment-level, .chat-workspace, .realtime-chat) :is(h1, h2, h3, h4, h5, h6, strong, b, label, .fw-bold, .fw-semibold, .section-title, .feature-title) {
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) :is(.content-panel, .content-body, .card, .feature-card, .stat-card, .room-card, .life-card, .life-detail-card, .life-side-panel, .profile-preview-card, .teacher-student-summary, .teacher-student-table, .admin-chart-card, .forum-composer, .forum-post, .journal-section, .journal-prompt, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .career-sheet, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-highlight, .assessment-level, .chat-workspace, .realtime-chat) :is(p, span, small, em, .text-muted, .section-subtitle, .feature-kicker) {
+        color: var(--contrast-dark-muted) !important;
+      }
+
+      body:has(.app-shell) :is(.btn, .badge, .sidebar-link, .nav-link, .dropdown-item, .chat-avatar, .forum-avatar, .career-save, .forum-action-btn, .forum-topic, .life-pill, .life-status, .psych-status),
+      body:has(.app-shell) :is(.btn, .badge, .sidebar-link, .nav-link, .dropdown-item, .chat-avatar, .forum-avatar, .career-save, .forum-action-btn, .forum-topic, .life-pill, .life-status, .psych-status) * {
+        color: inherit !important;
+      }
+
+      body:has(.app-shell) :is(.btn-primary, .badge:not(.text-bg-light), .chat-avatar, .forum-avatar, .career-save, .forum-action-btn.active, .forum-topic, .life-status.done, .psych-status-safe) {
+        color: #FFFFFF !important;
+      }
+
+      body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        border: 1px solid rgba(255, 255, 255, 0.22) !important;
+        background: var(--contrast-dark-panel) !important;
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) :is(.form-control, .form-select, textarea, input, select)::placeholder {
+        color: rgba(248, 250, 252, 0.56) !important;
+      }
+
+      body:has(.app-shell) :is(.bg-white, .bg-light, .text-bg-light, .alert-light, .list-group-item-light, .dropdown-menu.light-menu, .contrast-light) {
+        border-color: #E5E7EB !important;
+        background: var(--contrast-light-bg) !important;
+        color: var(--contrast-light-text) !important;
+      }
+
+      body:has(.app-shell) :is(.bg-white, .bg-light, .text-bg-light, .alert-light, .list-group-item-light, .contrast-light) :is(h1, h2, h3, h4, h5, h6, p, span, small, em, strong, b, label, a, .fw-bold, .fw-semibold, .text-muted, .section-subtitle) {
+        color: var(--contrast-light-text) !important;
+      }
+
+      body:has(.app-shell) :is(.bg-white, .bg-light, .text-bg-light, .alert-light, .list-group-item-light, .contrast-light) :is(.text-muted, .section-subtitle, small) {
+        color: var(--contrast-light-muted) !important;
+      }
+
+      body:has(.app-shell) .table,
+      body:has(.app-shell) table {
+        --bs-table-color: var(--contrast-dark-text);
+        --bs-table-bg: transparent;
+        --bs-table-striped-color: var(--contrast-dark-text);
+        --bs-table-striped-bg: rgba(255, 255, 255, 0.05);
+        --bs-table-hover-color: var(--contrast-dark-text);
+        --bs-table-hover-bg: rgba(236, 72, 153, 0.14);
+        --bs-table-border-color: rgba(255, 255, 255, 0.16);
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) .table-light {
+        --bs-table-color: var(--contrast-dark-text);
+        --bs-table-bg: rgba(255, 255, 255, 0.08);
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) .chat-row:not(.outgoing) .chat-bubble,
+      body:has(.app-shell) .realtime-message:not(.mine) .realtime-bubble {
+        border-color: rgba(255, 255, 255, 0.18) !important;
+        background: rgba(20, 19, 50, 0.92) !important;
+        color: var(--contrast-dark-text) !important;
+      }
+
+      body:has(.app-shell) .chat-row.outgoing .chat-bubble,
+      body:has(.app-shell) .realtime-message.mine .realtime-bubble {
+        border-color: rgba(245, 158, 11, 0.38) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        color: #FFFFFF !important;
+      }
+
+      body:has(.app-shell) :is(.chat-bubble, .realtime-bubble) * {
+        color: inherit !important;
+      }
+
+      body:not(:has(.app-shell)) .topbar {
+        background: linear-gradient(135deg, #2B174D 0%, #2D2168 100%) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+      }
+
+      body:not(:has(.app-shell)) .topbar :is(.navbar-brand, .navbar-brand *, .nav-link, .navbar-toggler, .text-muted) {
+        color: #FFFFFF !important;
+      }
+
+      body:not(:has(.app-shell)) .topbar .btn-primary,
+      body:not(:has(.app-shell)) .topbar .btn-primary * {
+        color: #FFFFFF !important;
+      }
+
+      body:not(:has(.app-shell)) .topbar .btn-outline-primary,
+      body:not(:has(.app-shell)) .topbar .btn-outline-secondary {
+        border-color: rgba(255, 255, 255, 0.38) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #FFFFFF !important;
+      }
+
+      body:not(:has(.app-shell)) .auth-panel .btn-outline-primary,
+      body:not(:has(.app-shell)) .auth-panel .btn-outline-secondary {
+        border-color: rgba(96, 165, 250, 0.85) !important;
+        background: rgba(15, 23, 42, 0.18) !important;
+        color: #BFDBFE !important;
+      }
+
+      body:not(:has(.app-shell)) .auth-panel .btn-primary,
+      body:not(:has(.app-shell)) .auth-panel .btn-primary * {
+        color: #FFFFFF !important;
+      }
+
+      /* Authenticated app reset: every inner page uses a white canvas with dark text;
+         individual frames stay vivid and readable. Landing/login keep their own theme. */
+      :root {
+        --auth-page-bg: #FFFFFF;
+        --auth-page-soft: #F8FAFC;
+        --auth-page-line: #E2E8F0;
+        --auth-text: #111827;
+        --auth-muted: #4B5563;
+        --frame-pink: linear-gradient(135deg, #BE185D 0%, #9333EA 100%);
+        --frame-orange: linear-gradient(135deg, #EA580C 0%, #B91C1C 100%);
+        --frame-blue: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+        --frame-green: linear-gradient(135deg, #16A34A 0%, #047857 100%);
+        --frame-violet: linear-gradient(135deg, #7C3AED 0%, #4338CA 100%);
+        --frame-amber: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+        --frame-shadow-pink: 0 14px 34px rgba(190, 24, 93, 0.16);
+        --frame-shadow-orange: 0 14px 34px rgba(234, 88, 12, 0.16);
+        --frame-shadow-blue: 0 14px 34px rgba(37, 99, 235, 0.16);
+        --frame-shadow-green: 0 14px 34px rgba(4, 120, 87, 0.16);
+        --frame-shadow-violet: 0 14px 34px rgba(124, 58, 237, 0.16);
+        --frame-shadow-amber: 0 14px 34px rgba(217, 119, 6, 0.16);
+      }
+
+      html body:has(.app-shell) {
+        overflow-x: hidden !important;
+        background: var(--auth-page-bg) !important;
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.app-shell, .main-area, .page-frame, .content-panel, .content-body) {
+        border-color: transparent !important;
+        background: var(--auth-page-bg) !important;
+        color: var(--auth-text) !important;
+        box-shadow: none !important;
+      }
+
+      html body:has(.app-shell) .main-area {
+        padding-block: 28px !important;
+      }
+
+      html body:has(.app-shell) .topbar {
+        max-width: 100vw !important;
+        overflow-x: clip !important;
+        border-bottom: 1px solid var(--auth-page-line) !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08) !important;
+        backdrop-filter: blur(12px);
+      }
+
+      html body:has(.app-shell) .topbar :is(.navbar-brand, .navbar-brand *, .navbar-nav .nav-link, .nav-link.text-muted, .navbar-toggler) {
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .navbar-nav {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+      }
+
+      html body:has(.app-shell) .navbar-nav .nav-link {
+        max-width: 180px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+
+      html body:has(.app-shell) .navbar-nav .nav-link.d-flex > span:last-child {
+        min-width: 0 !important;
+        max-width: 130px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+
+      html body:has(.app-shell) .sidebar {
+        border-right: 1px solid var(--auth-page-line) !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+        box-shadow: 12px 0 34px rgba(15, 23, 42, 0.05) !important;
+      }
+
+      html body:has(.app-shell) .sidebar-label {
+        color: #64748B !important;
+      }
+
+      html body:has(.app-shell) .sidebar-link {
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .sidebar-link:hover,
+      html body:has(.app-shell) .sidebar-link.active {
+        background: var(--frame-blue) !important;
+        color: #FFFFFF !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) .content-body :is(h1, h2, h3, h4, h5, h6, strong, b, label, .fw-bold, .fw-semibold, .section-title) {
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .content-body :is(p, span, small, em, .text-muted, .section-subtitle, .feature-kicker) {
+        color: var(--auth-muted) !important;
+      }
+
+      html body:has(.app-shell) :is(.content-body > .mb-4:first-child, .content-body > .d-flex.flex-column.flex-lg-row:first-child, .career-topbar, .career-hero, .learning-goal-card, .life-hero, .forum-topbar, .forum-safe-banner, .journal-top, .parent-hero) {
+        border: 0 !important;
+        border-radius: 24px !important;
+        background: var(--frame-blue) !important;
+        color: #FFFFFF !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) :is(.content-body > .mb-4:first-child, .content-body > .d-flex.flex-column.flex-lg-row:first-child, .career-topbar, .career-hero, .learning-goal-card, .life-hero, .forum-topbar, .forum-safe-banner, .journal-top, .parent-hero) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.card, .feature-card, .stat-card, .room-card, .life-card, .life-detail-card, .life-side-panel, .profile-preview-card, .teacher-student-summary > div, .parent-panel, .parent-stat, .parent-teacher-card, .parent-side-card, .parent-empty, .admin-chart-card, .admin-chart-row, .forum-composer, .forum-post, .journal-section, .journal-prompt, .journal-history-item, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .career-sheet, .career-empty, .learning-career-card, .learning-stage-card, .learning-skill-card, .learning-task, .assessment-highlight, .assessment-level, .career-inbox-card, .chat-workspace, .chat-sidebar-panel, .chat-thread-panel, .realtime-chat, .border.rounded) {
+        overflow: hidden;
+        border: 0 !important;
+        border-radius: 22px !important;
+        background: var(--frame-pink) !important;
+        color: #FFFFFF !important;
+        box-shadow: var(--frame-shadow-pink) !important;
+      }
+
+      html body:has(.app-shell) :is(.card, .feature-card, .stat-card, .room-card, .life-card, .life-detail-card, .life-side-panel, .profile-preview-card, .teacher-student-summary > div, .parent-panel, .parent-stat, .parent-teacher-card, .parent-side-card, .parent-empty, .admin-chart-card, .admin-chart-row, .forum-composer, .forum-post, .journal-section, .journal-prompt, .journal-history-item, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .career-sheet, .career-empty, .learning-career-card, .learning-stage-card, .learning-skill-card, .learning-task, .assessment-highlight, .assessment-level, .career-inbox-card, .chat-workspace, .chat-sidebar-panel, .chat-thread-panel, .realtime-chat, .border.rounded) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-test-strip, .career-featured-strip, .career-job-list, .career-insight-list, .forum-post-list, .journal-history, .learning-path-grid, .teacher-student-summary) > :nth-child(6n + 1) > :is(.card, .feature-card, .stat-card, .room-card, .life-card, .parent-stat, .admin-chart-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-level, .border.rounded),
+      html body:has(.app-shell) :is(.student-stat-tile, .student-focus-card, .career-test-card, .career-job-card, .career-job-row, .forum-post, .journal-history-item, .learning-stage-card, .learning-skill-card):nth-child(6n + 1) {
+        background: var(--frame-pink) !important;
+        box-shadow: var(--frame-shadow-pink) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-test-strip, .career-featured-strip, .career-job-list, .career-insight-list, .forum-post-list, .journal-history, .learning-path-grid, .teacher-student-summary) > :nth-child(6n + 2) > :is(.card, .feature-card, .stat-card, .room-card, .life-card, .parent-stat, .admin-chart-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-level, .border.rounded),
+      html body:has(.app-shell) :is(.student-stat-tile, .student-focus-card, .career-test-card, .career-job-card, .career-job-row, .forum-post, .journal-history-item, .learning-stage-card, .learning-skill-card):nth-child(6n + 2) {
+        background: var(--frame-orange) !important;
+        box-shadow: var(--frame-shadow-orange) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-test-strip, .career-featured-strip, .career-job-list, .career-insight-list, .forum-post-list, .journal-history, .learning-path-grid, .teacher-student-summary) > :nth-child(6n + 3) > :is(.card, .feature-card, .stat-card, .room-card, .life-card, .parent-stat, .admin-chart-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-level, .border.rounded),
+      html body:has(.app-shell) :is(.student-stat-tile, .student-focus-card, .career-test-card, .career-job-card, .career-job-row, .forum-post, .journal-history-item, .learning-stage-card, .learning-skill-card):nth-child(6n + 3) {
+        background: var(--frame-blue) !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-test-strip, .career-featured-strip, .career-job-list, .career-insight-list, .forum-post-list, .journal-history, .learning-path-grid, .teacher-student-summary) > :nth-child(6n + 4) > :is(.card, .feature-card, .stat-card, .room-card, .life-card, .parent-stat, .admin-chart-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-level, .border.rounded),
+      html body:has(.app-shell) :is(.student-stat-tile, .student-focus-card, .career-test-card, .career-job-card, .career-job-row, .forum-post, .journal-history-item, .learning-stage-card, .learning-skill-card):nth-child(6n + 4) {
+        background: var(--frame-green) !important;
+        box-shadow: var(--frame-shadow-green) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-test-strip, .career-featured-strip, .career-job-list, .career-insight-list, .forum-post-list, .journal-history, .learning-path-grid, .teacher-student-summary) > :nth-child(6n + 5) > :is(.card, .feature-card, .stat-card, .room-card, .life-card, .parent-stat, .admin-chart-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-level, .border.rounded),
+      html body:has(.app-shell) :is(.student-stat-tile, .student-focus-card, .career-test-card, .career-job-card, .career-job-row, .forum-post, .journal-history-item, .learning-stage-card, .learning-skill-card):nth-child(6n + 5) {
+        background: var(--frame-violet) !important;
+        box-shadow: var(--frame-shadow-violet) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-test-strip, .career-featured-strip, .career-job-list, .career-insight-list, .forum-post-list, .journal-history, .learning-path-grid, .teacher-student-summary) > :nth-child(6n) > :is(.card, .feature-card, .stat-card, .room-card, .life-card, .parent-stat, .admin-chart-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .assessment-level, .border.rounded),
+      html body:has(.app-shell) :is(.student-stat-tile, .student-focus-card, .career-test-card, .career-job-card, .career-job-row, .forum-post, .journal-history-item, .learning-stage-card, .learning-skill-card):nth-child(6n) {
+        background: var(--frame-amber) !important;
+        box-shadow: var(--frame-shadow-amber) !important;
+      }
+
+      html body:has(.app-shell) :is(.card, .feature-card, .stat-card, .room-card, .life-card, .life-detail-card, .life-side-panel, .profile-preview-card, .teacher-student-summary > div, .parent-panel, .parent-stat, .parent-teacher-card, .parent-side-card, .parent-empty, .admin-chart-card, .admin-chart-row, .forum-composer, .forum-post, .journal-section, .journal-prompt, .journal-history-item, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .career-sheet, .career-empty, .learning-career-card, .learning-stage-card, .learning-skill-card, .learning-task, .assessment-highlight, .assessment-level, .career-inbox-card, .chat-workspace, .chat-sidebar-panel, .chat-thread-panel, .realtime-chat, .border.rounded):hover {
+        transform: translateY(-3px);
+        filter: saturate(1.02);
+      }
+
+      html body:has(.app-shell) :is(.btn-primary, .btn-success) {
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: var(--frame-blue) !important;
+        color: #FFFFFF !important;
+        font-weight: 800 !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light) {
+        border: 1px solid #CBD5E1 !important;
+        border-radius: 999px !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+        font-weight: 750 !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .badge:not(.text-bg-light), .career-save, .forum-action-btn, .forum-topic, .chat-avatar, .forum-avatar, .life-pill.active, .career-filter-pill.active) *,
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .badge:not(.text-bg-light), .career-save, .forum-action-btn, .forum-topic, .chat-avatar, .forum-avatar, .life-pill.active, .career-filter-pill.active) {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select, .dropdown-menu, .list-group-item, .table-responsive, .table, table, thead, tbody, tr, th, td, .bg-white, .bg-light, .text-bg-light, .alert-light) {
+        border-color: var(--auth-page-line) !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.03) !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input, select)::placeholder {
+        color: #6B7280 !important;
+      }
+
+      html body:has(.app-shell) :is(.dropdown-menu, .list-group-item, .table-responsive, .table, table, thead, tbody, tr, th, td, .bg-white, .bg-light, .text-bg-light, .alert-light) *,
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .table,
+      html body:has(.app-shell) table {
+        --bs-table-bg: #FFFFFF;
+        --bs-table-color: var(--auth-text);
+        --bs-table-striped-bg: #F8FAFC;
+        --bs-table-striped-color: var(--auth-text);
+        --bs-table-hover-bg: #EFF6FF;
+        --bs-table-hover-color: var(--auth-text);
+        --bs-table-border-color: var(--auth-page-line);
+      }
+
+      html body:has(.app-shell) :is(.chat-workspace, .realtime-chat) {
+        background: var(--frame-blue) !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) :is(.chat-sidebar-header, .chat-thread-list, .chat-thread, .chat-history, .chat-composer, .realtime-chat-header, .realtime-chat-body, .realtime-composer) {
+        border-color: rgba(255, 255, 255, 0.24) !important;
+        background: rgba(255, 255, 255, 0.14) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.chat-row:not(.outgoing) .chat-bubble, .realtime-message:not(.mine) .realtime-bubble) {
+        border: 1px solid var(--auth-page-line) !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1) !important;
+      }
+
+      html body:has(.app-shell) :is(.chat-row:not(.outgoing) .chat-bubble, .realtime-message:not(.mine) .realtime-bubble) * {
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.chat-row.outgoing .chat-bubble, .realtime-message.mine .realtime-bubble) {
+        border: 0 !important;
+        background: var(--frame-pink) !important;
+        color: #FFFFFF !important;
+        box-shadow: var(--frame-shadow-pink) !important;
+      }
+
+      html body:has(.app-shell) :is(.chat-row.outgoing .chat-bubble, .realtime-message.mine .realtime-bubble) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) .modal-content {
+        border-color: var(--auth-page-line) !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .modal-content * {
+        color: inherit !important;
+      }
+
+      html body:has(.app-shell) .alert {
+        border: 1px solid var(--auth-page-line) !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .alert * {
+        color: var(--auth-text) !important;
+      }
+
+      html body:has(.app-shell) .app-footer {
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+        border-top: 1px solid var(--auth-page-line) !important;
+      }
+
+      html body:has(.app-shell) .app-footer * {
+        color: var(--auth-muted) !important;
+      }
+
+      html body:has(.app-shell) .support-hero {
+        border: 0 !important;
+        border-radius: 24px !important;
+        background: var(--frame-blue) !important;
+        color: #FFFFFF !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) .support-card {
+        min-height: 220px;
+        border: 0 !important;
+        border-radius: 22px !important;
+        background: var(--frame-pink) !important;
+        color: #FFFFFF !important;
+        box-shadow: var(--frame-shadow-pink) !important;
+      }
+
+      html body:has(.app-shell) .support-grid > .support-card:nth-child(4n + 1) {
+        background: var(--frame-blue) !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) .support-grid > .support-card:nth-child(4n + 2) {
+        background: var(--frame-orange) !important;
+        box-shadow: var(--frame-shadow-orange) !important;
+      }
+
+      html body:has(.app-shell) .support-grid > .support-card:nth-child(4n + 3) {
+        background: var(--frame-green) !important;
+        box-shadow: var(--frame-shadow-green) !important;
+      }
+
+      html body:has(.app-shell) .support-grid > .support-card:nth-child(4n) {
+        background: var(--frame-violet) !important;
+        box-shadow: var(--frame-shadow-violet) !important;
+      }
+
+      html body:has(.app-shell) .support-card *,
+      html body:has(.app-shell) .support-hero * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) .d-flex.flex-column.gap-3 > :is(.career-inbox-card, .room-card, .feature-card, .life-card, .card, .border.rounded):nth-child(6n + 1) {
+        background: var(--frame-pink) !important;
+        box-shadow: var(--frame-shadow-pink) !important;
+      }
+
+      html body:has(.app-shell) .d-flex.flex-column.gap-3 > :is(.career-inbox-card, .room-card, .feature-card, .life-card, .card, .border.rounded):nth-child(6n + 2) {
+        background: var(--frame-orange) !important;
+        box-shadow: var(--frame-shadow-orange) !important;
+      }
+
+      html body:has(.app-shell) .d-flex.flex-column.gap-3 > :is(.career-inbox-card, .room-card, .feature-card, .life-card, .card, .border.rounded):nth-child(6n + 3) {
+        background: var(--frame-blue) !important;
+        box-shadow: var(--frame-shadow-blue) !important;
+      }
+
+      html body:has(.app-shell) .d-flex.flex-column.gap-3 > :is(.career-inbox-card, .room-card, .feature-card, .life-card, .card, .border.rounded):nth-child(6n + 4) {
+        background: var(--frame-green) !important;
+        box-shadow: var(--frame-shadow-green) !important;
+      }
+
+      html body:has(.app-shell) .d-flex.flex-column.gap-3 > :is(.career-inbox-card, .room-card, .feature-card, .life-card, .card, .border.rounded):nth-child(6n + 5) {
+        background: var(--frame-violet) !important;
+        box-shadow: var(--frame-shadow-violet) !important;
+      }
+
+      html body:has(.app-shell) .d-flex.flex-column.gap-3 > :is(.career-inbox-card, .room-card, .feature-card, .life-card, .card, .border.rounded):nth-child(6n) {
+        background: var(--frame-amber) !important;
+        box-shadow: var(--frame-shadow-amber) !important;
+      }
+
+      /* Function page layout variants: widen the canvas and give each tool a distinct composition. */
+      html body:has(.app-shell) .page-frame {
+        max-width: none !important;
+        width: 100% !important;
+      }
+
+      html body:has(.app-shell) .content-body {
+        padding: clamp(22px, 2.2vw, 42px) !important;
+      }
+
+      html body:has(.app-shell) :is(.career-mobile-page, .learning-page, .forum-page, .support-hub) {
+        max-width: none !important;
+        width: 100% !important;
+      }
+
+      html body.endpoint-dashboard .page-frame {
+        max-width: min(100%, 1540px) !important;
+      }
+
+      html body.endpoint-student_career_library .career-mobile-page {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.28fr) minmax(0, 0.72fr);
+        gap: 22px 26px;
+        align-items: start;
+      }
+
+      html body.endpoint-student_career_library .career-topbar {
+        grid-column: 1 / -1;
+      }
+
+      html body.endpoint-student_career_library .career-search,
+      html body.endpoint-student_career_library .career-filter-strip {
+        grid-column: 1;
+        margin: 0 !important;
+      }
+
+      html body.endpoint-student_career_library .career-search {
+        position: sticky;
+        top: 104px;
+        z-index: 3;
+      }
+
+      html body.endpoint-student_career_library .career-filter-strip {
+        position: sticky;
+        top: 174px;
+        z-index: 2;
+        display: grid !important;
+        grid-template-columns: 1fr;
+        overflow: visible !important;
+        padding: 18px !important;
+        border-radius: 22px;
+        background: #F8FAFC;
+        box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
+      }
+
+      html body.endpoint-student_career_library .career-section-head,
+      html body.endpoint-student_career_library .career-featured-strip,
+      html body.endpoint-student_career_library .career-job-list {
+        grid-column: 2;
+      }
+
+      html body.endpoint-student_career_library .career-featured-strip {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        overflow: visible !important;
+      }
+
+      html body.endpoint-student_career_library .career-job-list {
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 16px;
+      }
+
+      html body.endpoint-student_career_library .career-job-row {
+        min-height: 150px;
+        align-items: flex-start;
+      }
+
+      html body.endpoint-student_self_discovery .career-mobile-page {
+        display: grid;
+        grid-template-columns: minmax(300px, 0.36fr) minmax(0, 0.64fr);
+        gap: 22px 26px;
+        align-items: start;
+      }
+
+      html body.endpoint-student_self_discovery .career-topbar,
+      html body.endpoint-student_self_discovery .career-hero {
+        grid-column: 1 / -1;
+      }
+
+      html body.endpoint-student_self_discovery .career-stat-grid {
+        grid-column: 1;
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+      }
+
+      html body.endpoint-student_self_discovery .career-insight-list {
+        grid-column: 2;
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+      }
+
+      html body.endpoint-student_self_discovery .career-section-head:nth-of-type(3) {
+        grid-column: 1;
+      }
+
+      html body.endpoint-student_self_discovery .career-section-head:nth-of-type(4) {
+        grid-column: 2;
+      }
+
+      html body.endpoint-student_self_discovery .career-test-strip,
+      html body.endpoint-student_self_discovery .career-trend-box {
+        grid-column: 1 / -1;
+      }
+
+      html body.endpoint-student_self_discovery .career-test-strip {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(190px, 1fr));
+        overflow: visible !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-trend-box {
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+      }
+
+      html body.endpoint-student_learning_path .learning-career-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(220px, 1fr)) !important;
+        gap: 18px;
+      }
+
+      html body.endpoint-student_learning_path .learning-select-head {
+        max-width: none !important;
+        margin-bottom: 22px;
+        padding: 34px !important;
+        border-radius: 26px !important;
+        text-align: left !important;
+      }
+
+      html body.endpoint-student_learning_path .learning-page:has(.learning-timeline) {
+        display: grid;
+        grid-template-columns: minmax(0, 0.68fr) minmax(320px, 0.32fr);
+        gap: 22px 28px;
+        align-items: start;
+      }
+
+      html body.endpoint-student_learning_path .career-topbar,
+      html body.endpoint-student_learning_path .learning-goal-card,
+      html body.endpoint-student_learning_path .career-stat-grid,
+      html body.endpoint-student_learning_path .forum-section-head:first-of-type,
+      html body.endpoint-student_learning_path .learning-timeline {
+        grid-column: 1;
+      }
+
+      html body.endpoint-student_learning_path .forum-section-head.mt-4,
+      html body.endpoint-student_learning_path .learning-skill-grid {
+        grid-column: 2;
+      }
+
+      html body.endpoint-student_learning_path .learning-skill-grid {
+        grid-template-columns: 1fr !important;
+        position: sticky;
+        top: 104px;
+      }
+
+      html body.endpoint-support_tools .support-grid {
+        grid-template-columns: repeat(4, minmax(220px, 1fr)) !important;
+      }
+
+      html body.endpoint-support_tools .support-hero {
+        min-height: 230px;
+        display: grid;
+        align-content: center;
+      }
+
+      html body.endpoint-student_chat_rooms .row.g-3:first-of-type,
+      html body.endpoint-teacher_chat_list .row.g-3,
+      html body.endpoint-teacher_parent_chat_list .row.g-3,
+      html body.endpoint-parent_teacher_chat_list .row.g-3 {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(220px, 1fr));
+      }
+
+      html body.endpoint-student_chat_rooms .row.g-3:first-of-type > *,
+      html body.endpoint-teacher_chat_list .row.g-3 > *,
+      html body.endpoint-teacher_parent_chat_list .row.g-3 > *,
+      html body.endpoint-parent_teacher_chat_list .row.g-3 > * {
+        width: auto !important;
+      }
+
+      html body:has(.realtime-chat) .page-frame {
+        max-width: none !important;
+      }
+
+      html body:has(.realtime-chat) .realtime-chat {
+        min-height: calc(100vh - 210px) !important;
+      }
+
+      html body.endpoint-student_forum .forum-page {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.34fr) minmax(0, 0.66fr);
+        gap: 20px 26px;
+        align-items: start;
+      }
+
+      html body.endpoint-student_forum .forum-topbar,
+      html body.endpoint-student_forum .forum-safe-banner,
+      html body.endpoint-student_forum .forum-filter-strip {
+        grid-column: 1 / -1;
+      }
+
+      html body.endpoint-student_forum .forum-filter-strip {
+        display: flex;
+        flex-wrap: wrap;
+        overflow: visible !important;
+      }
+
+      html body.endpoint-student_forum .forum-composer {
+        grid-column: 1;
+        position: sticky;
+        top: 104px;
+      }
+
+      html body.endpoint-student_forum .forum-section-head,
+      html body.endpoint-student_forum .forum-feed {
+        grid-column: 2;
+      }
+
+      html body.endpoint-student_forum .forum-page:not(:has(.forum-composer)) .forum-section-head,
+      html body.endpoint-student_forum .forum-page:not(:has(.forum-composer)) .forum-feed {
+        grid-column: 1 / -1;
+      }
+
+      html body.endpoint-student_forum :is(.forum-topbar, .forum-safe-banner) {
+        border: 1px solid var(--auth-page-line) !important;
+        background: #FFFFFF !important;
+        color: var(--auth-text) !important;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06) !important;
+      }
+
+      html body.endpoint-student_forum :is(.forum-topbar, .forum-safe-banner) * {
+        color: var(--auth-text) !important;
+      }
+
+      html body.endpoint-student_forum .forum-safe-banner {
+        background: #EFF6FF !important;
+      }
+
+      html body.endpoint-student_forum .forum-safe-banner :is(span, strong) {
+        color: #1E40AF !important;
+      }
+
+      html body.endpoint-student_forum .forum-filter-pill {
+        border: 1px solid #D6D3E8 !important;
+        background: #F8FAFC !important;
+        color: #1F2937 !important;
+        box-shadow: none !important;
+      }
+
+      html body.endpoint-student_forum .forum-filter-pill.active {
+        border-color: rgba(217, 119, 6, 0.42) !important;
+        background: linear-gradient(135deg, #D97706 0%, #BE185D 100%) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 10px 24px rgba(190, 24, 93, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-composer {
+        background: linear-gradient(135deg, #BE185D 0%, #7E22CE 100%) !important;
+        box-shadow: 0 14px 34px rgba(126, 34, 206, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-feed > .forum-post:nth-child(6n + 1) {
+        background: linear-gradient(135deg, #BE185D 0%, #7E22CE 100%) !important;
+        box-shadow: 0 14px 34px rgba(190, 24, 93, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-feed > .forum-post:nth-child(6n + 2) {
+        background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%) !important;
+        box-shadow: 0 14px 34px rgba(37, 99, 235, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-feed > .forum-post:nth-child(6n + 3) {
+        background: linear-gradient(135deg, #047857 0%, #065F46 100%) !important;
+        box-shadow: 0 14px 34px rgba(4, 120, 87, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-feed > .forum-post:nth-child(6n + 4) {
+        background: linear-gradient(135deg, #EA580C 0%, #9A3412 100%) !important;
+        box-shadow: 0 14px 34px rgba(234, 88, 12, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-feed > .forum-post:nth-child(6n + 5) {
+        background: linear-gradient(135deg, #7C3AED 0%, #3730A3 100%) !important;
+        box-shadow: 0 14px 34px rgba(124, 58, 237, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum .forum-feed > .forum-post:nth-child(6n) {
+        background: linear-gradient(135deg, #B45309 0%, #92400E 100%) !important;
+        box-shadow: 0 14px 34px rgba(180, 83, 9, 0.14) !important;
+      }
+
+      html body.endpoint-student_forum :is(.forum-action-btn, .forum-topic) {
+        background: rgba(255, 255, 255, 0.16) !important;
+        color: #FFFFFF !important;
+        box-shadow: none !important;
+      }
+
+      html body.endpoint-emotion_journal .content-body {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.42fr) minmax(0, 0.58fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      html body.endpoint-emotion_journal .journal-top {
+        grid-column: 1 / -1;
+      }
+
+      html body.endpoint-emotion_journal .journal-prompt,
+      html body.endpoint-emotion_journal .journal-section {
+        grid-column: 1;
+      }
+
+      html body.endpoint-emotion_journal .journal-history-list {
+        grid-column: 2;
+      }
+
+      html body:is(.teacher-app-body, .admin-app-body) .row.g-3:has(:is(.feature-card, .life-card, .room-card, .admin-chart-card)) {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(220px, 1fr));
+      }
+
+      html body:is(.teacher-app-body, .admin-app-body) .row.g-3:has(:is(.feature-card, .life-card, .room-card, .admin-chart-card)) > * {
+        width: auto !important;
+      }
+
+      html body:is(.teacher-app-body, .admin-app-body) .table-responsive {
+        width: 100% !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger),
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning),
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning) * {
+        color: var(--auth-text) !important;
+      }
+
+      @media (max-width: 991.98px) {
+        html body:has(.app-shell) .app-shell {
+          grid-template-columns: 1fr !important;
+        }
+
+        html body:has(.app-shell) .sidebar {
+          border-right: 0 !important;
+          border-bottom: 1px solid var(--auth-page-line) !important;
+        }
+
+        html body.endpoint-student_career_library .career-mobile-page,
+        html body.endpoint-student_self_discovery .career-mobile-page,
+        html body.endpoint-student_learning_path .learning-page:has(.learning-timeline),
+        html body.endpoint-student_forum .forum-page,
+        html body.endpoint-emotion_journal .content-body {
+          display: block;
+        }
+
+        html body.endpoint-student_career_library .career-filter-strip,
+        html body.endpoint-student_learning_path .learning-skill-grid,
+        html body.endpoint-student_forum .forum-composer,
+        html body.endpoint-student_career_library .career-search {
+          position: static;
+        }
+
+        html body.endpoint-student_career_library .career-featured-strip,
+        html body.endpoint-student_career_library .career-job-list,
+        html body.endpoint-student_self_discovery .career-test-strip,
+        html body.endpoint-student_self_discovery .career-insight-list,
+        html body.endpoint-student_learning_path .learning-career-grid,
+        html body.endpoint-support_tools .support-grid,
+        html body:is(.teacher-app-body, .admin-app-body) .row.g-3:has(:is(.feature-card, .life-card, .room-card, .admin-chart-card)),
+        html body.endpoint-student_chat_rooms .row.g-3:first-of-type,
+        html body.endpoint-teacher_chat_list .row.g-3,
+        html body.endpoint-teacher_parent_chat_list .row.g-3,
+        html body.endpoint-parent_teacher_chat_list .row.g-3 {
+          display: grid !important;
+          grid-template-columns: 1fr !important;
+        }
+      }
+
+      /* Calm correction pass: keep pages readable, color only the real feature cards. */
+      :root {
+        --calm-page: #FFFFFF;
+        --calm-soft: #F8FAFC;
+        --calm-line: #E2E8F0;
+        --calm-text: #111827;
+        --calm-muted: #475569;
+        --calm-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+        --calm-blue: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
+        --calm-pink: linear-gradient(135deg, #BE185D 0%, #9333EA 100%);
+        --calm-orange: linear-gradient(135deg, #C2410C 0%, #B91C1C 100%);
+        --calm-green: linear-gradient(135deg, #047857 0%, #15803D 100%);
+        --calm-violet: linear-gradient(135deg, #6D28D9 0%, #3730A3 100%);
+        --calm-amber: linear-gradient(135deg, #B45309 0%, #92400E 100%);
+      }
+
+      html body:has(.app-shell),
+      html body:has(.app-shell) :is(.app-shell, .main-area, .page-frame, .content-panel, .content-body) {
+        background: var(--calm-page) !important;
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) .page-frame {
+        max-width: min(100%, 1480px) !important;
+        margin-inline: auto !important;
+      }
+
+      html body:has(.app-shell) .content-body {
+        padding: clamp(24px, 2vw, 36px) !important;
+      }
+
+      html body:has(.app-shell) .content-body :is(h1, h2, h3, h4, h5, h6, strong, b, label, .section-title, .fw-bold, .fw-semibold) {
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) .content-body :is(p, span, small, em, .text-muted, .section-subtitle, .feature-kicker) {
+        color: var(--calm-muted) !important;
+      }
+
+      html body:has(.app-shell) :is(.career-mobile-page, .learning-page, .forum-page, .support-hub) {
+        max-width: none !important;
+        width: 100% !important;
+      }
+
+      html body:has(.app-shell) :is(.career-topbar, .forum-topbar, .journal-top, .content-body > .mb-4:first-child, .content-body > .d-flex.flex-column.flex-lg-row:first-child) {
+        min-height: auto !important;
+        padding: 0 0 18px !important;
+        border: 0 !important;
+        border-bottom: 1px solid var(--calm-line) !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: var(--calm-text) !important;
+        box-shadow: none !important;
+      }
+
+      html body:has(.app-shell) :is(.career-topbar, .forum-topbar, .journal-top, .content-body > .mb-4:first-child, .content-body > .d-flex.flex-column.flex-lg-row:first-child) * {
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.career-hero, .learning-select-head, .learning-goal-card, .life-hero, .support-hero, .forum-safe-banner, .parent-hero) {
+        border: 1px solid #BFDBFE !important;
+        border-radius: 20px !important;
+        background: #EFF6FF !important;
+        color: var(--calm-text) !important;
+        box-shadow: var(--calm-shadow) !important;
+      }
+
+      html body:has(.app-shell) :is(.career-hero, .learning-select-head, .learning-goal-card, .life-hero, .support-hero, .forum-safe-banner, .parent-hero) * {
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select, .dropdown-menu, .list-group-item, .table-responsive, .table, table, thead, tbody, tr, th, td, .alert, .text-center.border.rounded, .career-empty, .parent-empty, .modal-content) {
+        border-color: var(--calm-line) !important;
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+        box-shadow: none !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select)::placeholder {
+        color: #64748B !important;
+      }
+
+      html body:has(.app-shell) :is(.dropdown-menu, .list-group-item, .table-responsive, .table, table, thead, tbody, tr, th, td, .alert, .text-center.border.rounded, .career-empty, .parent-empty, .modal-content) * {
+        color: var(--calm-text) !important;
+      }
+
+      html body.endpoint-contact_admin .content-body > form {
+        padding: 20px !important;
+        border: 1px solid var(--calm-line) !important;
+        border-radius: 18px !important;
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+        box-shadow: var(--calm-shadow) !important;
+      }
+
+      html body.endpoint-contact_admin .content-body > form * {
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card, .admin-chart-card, .teacher-student-summary > div) {
+        border: 0 !important;
+        border-radius: 18px !important;
+        background: var(--calm-blue) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12) !important;
+        transform: none;
+        filter: none;
+      }
+
+      html body:has(.app-shell) :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card, .admin-chart-card, .teacher-student-summary > div) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card, .admin-chart-card, .teacher-student-summary > div):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 1):is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card),
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 1) > :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card) {
+        background: var(--calm-blue) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 2):is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card),
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 2) > :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card) {
+        background: var(--calm-pink) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 3):is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card),
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 3) > :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card) {
+        background: var(--calm-green) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 4):is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card),
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 4) > :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card) {
+        background: var(--calm-orange) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 5):is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card),
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n + 5) > :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card) {
+        background: var(--calm-violet) !important;
+      }
+
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n):is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card),
+      html body:has(.app-shell) :is(.row, .student-stats-grid, .student-focus-grid, .career-stat-grid, .career-featured-strip, .career-job-list, .career-test-strip, .career-insight-list, .learning-career-grid, .learning-skill-grid, .support-grid, .forum-feed, .d-flex.flex-column.gap-3, .teacher-student-summary) > :nth-child(6n) > :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card) {
+        background: var(--calm-amber) !important;
+      }
+
+      html body:has(.app-shell) :is(.career-insight-icon, .career-row-icon, .career-job-icon, .career-test-icon, .support-icon, .student-focus-icon, .chat-avatar, .forum-avatar, .learning-career-icon, .learning-goal-icon) {
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        background: rgba(255, 255, 255, 0.18) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.badge.text-bg-light, .career-chip-row small, .career-badge, .forum-action-btn, .forum-topic, .support-meta, .learning-status, .learning-task-type) {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: rgba(255, 255, 255, 0.16) !important;
+        color: #FFFFFF !important;
+        box-shadow: none !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger) {
+        background: var(--calm-blue) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 10px 24px rgba(37, 99, 235, 0.14) !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning) {
+        border: 1px solid #CBD5E1 !important;
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+        box-shadow: none !important;
+      }
+
+      html body.endpoint-student_career_library .career-mobile-page,
+      html body.endpoint-student_self_discovery .career-mobile-page,
+      html body.endpoint-student_forum .forum-page,
+      html body.endpoint-emotion_journal .content-body,
+      html body.endpoint-student_learning_path .learning-page:has(.learning-timeline) {
+        display: block !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-search, .career-filter-strip),
+      html body.endpoint-student_forum .forum-composer,
+      html body.endpoint-student_learning_path .learning-skill-grid {
+        position: static !important;
+      }
+
+      html body.endpoint-student_career_library .career-filter-strip,
+      html body.endpoint-student_forum .forum-filter-strip {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        margin: 14px 0 22px !important;
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      html body.endpoint-student_career_library .career-filter-pill,
+      html body.endpoint-student_forum .forum-filter-pill {
+        min-width: auto !important;
+        border-radius: 999px !important;
+        background: #F8FAFC !important;
+        color: var(--calm-text) !important;
+      }
+
+      html body.endpoint-student_career_library .career-filter-pill.active,
+      html body.endpoint-student_forum .forum-filter-pill.active {
+        background: var(--calm-blue) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library .career-featured-strip,
+      html body.endpoint-student_career_library .career-job-list {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(240px, 1fr)) !important;
+        gap: 16px !important;
+        overflow: visible !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-stat-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-insight-list,
+      html body.endpoint-student_self_discovery .career-test-strip {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(240px, 1fr)) !important;
+        gap: 16px !important;
+        overflow: visible !important;
+      }
+
+      html body.endpoint-student_learning_path .learning-career-grid,
+      html body.endpoint-support_tools .support-grid,
+      html body:is(.teacher-app-body, .admin-app-body) .row.g-3:has(:is(.feature-card, .life-card, .room-card, .admin-chart-card)) {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(240px, 1fr)) !important;
+        gap: 16px !important;
+      }
+
+      html body.endpoint-student_forum .forum-page {
+        display: grid !important;
+        grid-template-columns: minmax(280px, 420px) minmax(0, 1fr) !important;
+        gap: 20px !important;
+      }
+
+      html body.endpoint-student_forum :is(.forum-topbar, .forum-safe-banner, .forum-filter-strip) {
+        grid-column: 1 / -1 !important;
+      }
+
+      html body.endpoint-student_forum .forum-composer {
+        grid-column: 1 !important;
+        align-self: start;
+      }
+
+      html body.endpoint-student_forum :is(.forum-section-head, .forum-feed) {
+        grid-column: 2 !important;
+      }
+
+      html body.endpoint-student_forum .forum-composer {
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+        border: 1px solid var(--calm-line) !important;
+        box-shadow: var(--calm-shadow) !important;
+      }
+
+      html body.endpoint-student_forum .forum-composer * {
+        color: var(--calm-text) !important;
+      }
+
+      html body.endpoint-contact_admin :is(.chat-thread, .chat-history) {
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+        border: 1px solid var(--calm-line) !important;
+        box-shadow: var(--calm-shadow) !important;
+      }
+
+      html body.endpoint-contact_admin :is(.chat-thread, .chat-history) * {
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+        border: 1px solid #CBD5E1 !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select)::placeholder {
+        color: #64748B !important;
+      }
+
+      html body:has(.app-shell) :is(.table, table, thead, tbody, tr, th, td, .table-responsive) :is(.badge.text-bg-light, .badge.text-bg-secondary, .badge.text-bg-warning),
+      html body:has(.app-shell) :is(.text-center.border.rounded, .career-empty, .parent-empty, .alert, .modal-content) :is(.badge, .btn-outline-primary, .btn-outline-secondary) {
+        background: #F8FAFC !important;
+        color: var(--calm-text) !important;
+        border-color: #CBD5E1 !important;
+      }
+
+      html body:has(.app-shell) :is(.table, table, thead, tbody, tr, th, td, .table-responsive) :is(.badge.text-bg-success, .badge.text-bg-primary),
+      html body:has(.app-shell) :is(.table, table, thead, tbody, tr, th, td, .table-responsive) :is(.badge.text-bg-success, .badge.text-bg-primary) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.text-center.border.rounded, .career-empty, .parent-empty, .alert, .modal-content, .table, table, thead, tbody, tr, th, td, .table-responsive) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, label, div) {
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card, .admin-chart-card, .teacher-student-summary > div) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, .text-muted, .section-subtitle, .feature-kicker, .feature-title) {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card, .admin-chart-card, .teacher-student-summary > div) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        background: #FFFFFF !important;
+        color: var(--calm-text) !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger, .forum-action-btn.active, .career-filter-pill.active),
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger, .forum-action-btn.active, .career-filter-pill.active) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning),
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning) * {
+        color: var(--calm-text) !important;
+      }
+
+      @media (max-width: 1199.98px) {
+        html body.endpoint-student_career_library .career-featured-strip,
+        html body.endpoint-student_career_library .career-job-list,
+        html body.endpoint-student_self_discovery .career-insight-list,
+        html body.endpoint-student_self_discovery .career-test-strip,
+        html body.endpoint-student_learning_path .learning-career-grid,
+        html body.endpoint-support_tools .support-grid,
+        html body:is(.teacher-app-body, .admin-app-body) .row.g-3:has(:is(.feature-card, .life-card, .room-card, .admin-chart-card)) {
+          grid-template-columns: repeat(2, minmax(220px, 1fr)) !important;
+        }
+
+        html body.endpoint-student_forum .forum-page {
+          grid-template-columns: 1fr !important;
+        }
+
+        html body.endpoint-student_forum :is(.forum-composer, .forum-section-head, .forum-feed) {
+          grid-column: 1 !important;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        html body.endpoint-student_career_library .career-featured-strip,
+        html body.endpoint-student_career_library .career-job-list,
+        html body.endpoint-student_self_discovery .career-stat-grid,
+        html body.endpoint-student_self_discovery .career-insight-list,
+        html body.endpoint-student_self_discovery .career-test-strip,
+        html body.endpoint-student_learning_path .learning-career-grid,
+        html body.endpoint-support_tools .support-grid,
+        html body:is(.teacher-app-body, .admin-app-body) .row.g-3:has(:is(.feature-card, .life-card, .room-card, .admin-chart-card)) {
+          grid-template-columns: 1fr !important;
+        }
+      }
+
+      /* Last contrast lock: white/light blocks use dark text, colored blocks use white text. */
+      html body:has(.app-shell) :is(.career-hero, .learning-select-head, .learning-goal-card, .life-hero, .support-hero, .forum-safe-banner, .parent-hero) {
+        border: 1px solid #BFDBFE !important;
+        background: #EFF6FF !important;
+        color: #111827 !important;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08) !important;
+      }
+
+      html body:has(.app-shell) :is(.career-hero, .learning-select-head, .learning-goal-card, .life-hero, .support-hero, .forum-safe-banner, .parent-hero) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div) {
+        color: #111827 !important;
+      }
+
+      html body:has(.app-shell) :is(.feature-card, .stat-card, .room-card, .life-card, .career-stat, .career-insight, .career-test-card, .career-job-card, .career-job-row, .learning-career-card, .learning-stage-card, .learning-skill-card, .support-card, .forum-post, .career-inbox-card, .parent-stat, .parent-teacher-card, .admin-chart-card, .teacher-student-summary > div) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, .text-muted, .section-subtitle, .feature-kicker, .feature-title) {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select, .dropdown-menu, .list-group-item, .table-responsive, .table, table, thead, tbody, tr, th, td, .alert, .text-center.border.rounded, .career-empty, .parent-empty, .modal-content, .forum-composer, .chat-thread, .chat-history) {
+        background: #FFFFFF !important;
+        color: #111827 !important;
+        border-color: #CBD5E1 !important;
+      }
+
+      html body:has(.app-shell) :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select, .dropdown-menu, .list-group-item, .table-responsive, .table, table, thead, tbody, tr, th, td, .alert, .text-center.border.rounded, .career-empty, .parent-empty, .modal-content, .forum-composer, .chat-thread, .chat-history) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, .text-muted) {
+        color: #111827 !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger, .career-filter-pill.active, .forum-filter-pill.active),
+      html body:has(.app-shell) :is(.btn-primary, .btn-success, .btn-danger, .career-filter-pill.active, .forum-filter-pill.active) * {
+        color: #FFFFFF !important;
+      }
+
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning),
+      html body:has(.app-shell) :is(.btn-outline-primary, .btn-outline-secondary, .btn-light, .btn-warning) * {
+        color: #111827 !important;
+      }
+
+      /* Final targeted color repair for profile, admin contact, and teacher chat pages. */
+      html body.endpoint-student_profile {
+        --repair-green: #86EFAC;
+        --repair-green-strong: #4ADE80;
+        --repair-green-line: #22C55E;
+        --repair-ink: #06120A;
+      }
+
+      html body.endpoint-student_profile .content-body > .d-flex:first-child,
+      html body.endpoint-student_profile .profile-preview-card,
+      html body.endpoint-student_profile #student-profile-form > .col-lg-8 {
+        border: 1px solid rgba(34, 197, 94, 0.55) !important;
+        border-radius: 22px !important;
+        background: linear-gradient(135deg, #BBF7D0 0%, var(--repair-green) 58%, var(--repair-green-strong) 100%) !important;
+        color: var(--repair-ink) !important;
+        box-shadow: 0 16px 34px rgba(22, 163, 74, 0.16) !important;
+      }
+
+      html body.endpoint-student_profile #student-profile-form > .col-lg-8 {
+        padding: 22px !important;
+      }
+
+      html body.endpoint-student_profile :is(.content-body > .d-flex:first-child, .profile-preview-card, #student-profile-form > .col-lg-8) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, li, .text-muted, .section-title, .section-subtitle, .feature-kicker) {
+        color: var(--repair-ink) !important;
+      }
+
+      html body.endpoint-student_profile .profile-avatar-wrap {
+        border: 2px solid rgba(6, 18, 10, 0.2) !important;
+        background: #FFFFFF !important;
+        color: var(--repair-ink) !important;
+        box-shadow: 0 12px 26px rgba(6, 18, 10, 0.12) !important;
+      }
+
+      html body.endpoint-student_profile .student-profile-missing {
+        border: 1px solid rgba(234, 88, 12, 0.5) !important;
+        background: #FFEDD5 !important;
+        color: #7C2D12 !important;
+        box-shadow: none !important;
+      }
+
+      html body.endpoint-student_profile .student-profile-missing :is(strong, li) {
+        color: #7C2D12 !important;
+      }
+
+      html body.endpoint-student_profile :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        border: 1px solid rgba(6, 18, 10, 0.24) !important;
+        background: #FFFFFF !important;
+        color: #111827 !important;
+      }
+
+      html body.endpoint-student_profile .profile-field-warning {
+        color: #7F1D1D !important;
+      }
+
+      html body.endpoint-student_profile :is(.btn-primary, .btn-success) {
+        background: #050505 !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 12px 24px rgba(5, 5, 5, 0.16) !important;
+      }
+
+      html body.endpoint-contact_admin {
+        --contact-green: #86EFAC;
+        --contact-green-soft: #BBF7D0;
+        --contact-green-strong: #4ADE80;
+        --contact-ink: #06120A;
+      }
+
+      html body.endpoint-contact_admin .content-body > .mb-4:first-child,
+      html body.endpoint-contact_admin .content-body > form,
+      html body.endpoint-contact_admin .content-body > .border-top,
+      html body.endpoint-contact_admin :is(.chat-thread, .chat-history, .text-center.border.rounded) {
+        border: 1px solid rgba(34, 197, 94, 0.55) !important;
+        border-radius: 22px !important;
+        background: linear-gradient(135deg, var(--contact-green-soft) 0%, var(--contact-green) 58%, var(--contact-green-strong) 100%) !important;
+        color: var(--contact-ink) !important;
+        box-shadow: 0 16px 34px rgba(22, 163, 74, 0.16) !important;
+      }
+
+      html body.endpoint-contact_admin .content-body > .border-top {
+        margin-top: 22px !important;
+        padding: 22px !important;
+        border-top: 1px solid rgba(34, 197, 94, 0.55) !important;
+      }
+
+      html body.endpoint-contact_admin :is(.content-body > .mb-4:first-child, .content-body > form, .content-body > .border-top, .chat-thread, .chat-history, .text-center.border.rounded) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, .text-muted, .section-title, .section-subtitle) {
+        color: var(--contact-ink) !important;
+      }
+
+      html body.endpoint-contact_admin :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select) {
+        border: 1px solid rgba(6, 18, 10, 0.26) !important;
+        background: #FFFFFF !important;
+        color: #111827 !important;
+        box-shadow: inset 0 0 0 1px rgba(6, 18, 10, 0.03) !important;
+      }
+
+      html body.endpoint-contact_admin :is(.form-control, .form-select, textarea, input:not([type="checkbox"]):not([type="radio"]), select)::placeholder {
+        color: #4B5563 !important;
+      }
+
+      html body.endpoint-contact_admin .chat-bubble {
+        border: 1px solid rgba(6, 18, 10, 0.14) !important;
+        background: rgba(255, 255, 255, 0.86) !important;
+        color: #111827 !important;
+        box-shadow: 0 10px 22px rgba(6, 18, 10, 0.1) !important;
+      }
+
+      html body.endpoint-contact_admin .chat-bubble * {
+        color: #111827 !important;
+      }
+
+      html body.endpoint-contact_admin :is(.btn-primary, .btn-success) {
+        background: #050505 !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 12px 24px rgba(5, 5, 5, 0.16) !important;
+      }
+
+      html body:is(.endpoint-student_chat_rooms, .endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_list, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat_list, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_list, .endpoint-teacher_parent_chat_room) {
+        --chat-black: #050505;
+        --chat-panel: #0F1115;
+        --chat-panel-soft: #171A21;
+        --chat-line: rgba(255, 255, 255, 0.2);
+      }
+
+      html body:is(.endpoint-student_chat_rooms, .endpoint-teacher_chat_list, .endpoint-parent_teacher_chat_list, .endpoint-teacher_parent_chat_list) :is(.content-body > .mb-4:first-child, .room-card, .text-center.border.rounded),
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) :is(.content-body > .d-flex:first-child, .realtime-chat, .realtime-chat-header, .realtime-chat-body, .realtime-composer) {
+        border: 1px solid var(--chat-line) !important;
+        background: var(--chat-black) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 16px 36px rgba(5, 5, 5, 0.22) !important;
+      }
+
+      html body:is(.endpoint-student_chat_rooms, .endpoint-teacher_chat_list, .endpoint-parent_teacher_chat_list, .endpoint-teacher_parent_chat_list) :is(.content-body > .mb-4:first-child, .room-card, .text-center.border.rounded) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, .text-muted, .section-title, .section-subtitle, .feature-kicker, .feature-title),
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) :is(.content-body > .d-flex:first-child, .realtime-chat, .realtime-chat-header, .realtime-chat-body, .realtime-composer) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, .text-muted, .section-title, .section-subtitle) {
+        color: #FFFFFF !important;
+      }
+
+      html body:is(.endpoint-student_chat_rooms, .endpoint-teacher_chat_list, .endpoint-parent_teacher_chat_list, .endpoint-teacher_parent_chat_list) .room-card:nth-of-type(2n),
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-chat-body {
+        background: var(--chat-panel) !important;
+      }
+
+      html body:is(.endpoint-student_chat_rooms, .endpoint-teacher_chat_list, .endpoint-parent_teacher_chat_list, .endpoint-teacher_parent_chat_list) .room-card:hover {
+        background: #171A21 !important;
+        transform: translateY(-2px);
+      }
+
+      html body:is(.endpoint-student_chat_rooms, .endpoint-teacher_chat_list, .endpoint-parent_teacher_chat_list, .endpoint-teacher_parent_chat_list, .endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .chat-avatar {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: #FFFFFF !important;
+        color: #050505 !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-message .realtime-bubble {
+        border: 1px solid var(--chat-line) !important;
+        background: var(--chat-panel-soft) !important;
+        color: #FFFFFF !important;
+        box-shadow: none !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-message.mine .realtime-bubble {
+        border-color: rgba(255, 255, 255, 0.34) !important;
+        background: #000000 !important;
+        color: #FFFFFF !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) :is(.realtime-bubble, .realtime-bubble *, .realtime-meta) {
+        color: #FFFFFF !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-composer :is(.form-control, input) {
+        border: 1px solid rgba(255, 255, 255, 0.28) !important;
+        background: #0F1115 !important;
+        color: #FFFFFF !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-composer :is(.form-control, input)::placeholder {
+        color: rgba(255, 255, 255, 0.68) !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-composer .btn-primary {
+        border: 1px solid #FFFFFF !important;
+        background: #FFFFFF !important;
+        color: #050505 !important;
+        box-shadow: none !important;
+      }
+
+      html body:is(.endpoint-student_kbot_chat, .endpoint-student_teacher_chat, .endpoint-teacher_chat_room, .endpoint-parent_teacher_chat, .endpoint-teacher_parent_chat_room) .realtime-composer .btn-primary * {
+        color: #050505 !important;
+      }
+
+      /* Career library: list card color and detail sheet color must follow the same field. */
+      html body.endpoint-student_career_library {
+        --career-field-default: linear-gradient(135deg, #334155 0%, #1E293B 100%);
+        --career-field-tech: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+        --career-field-health: linear-gradient(135deg, #059669 0%, #047857 100%);
+        --career-field-creative: linear-gradient(135deg, #EA580C 0%, #DC2626 100%);
+        --career-field-business: linear-gradient(135deg, #D97706 0%, #92400E 100%);
+        --career-field-social: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet) {
+        border: 0 !important;
+        border-radius: 20px !important;
+        background: var(--career-field-default) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18) !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet) :is(h1, h2, h3, h4, h5, h6, p, span, small, strong, b, em, label, div, .text-muted, .section-subtitle, .feature-title, .feature-kicker) {
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet)[data-field="Công nghệ"] {
+        background: var(--career-field-tech) !important;
+        box-shadow: 0 18px 42px rgba(8, 145, 178, 0.2) !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet)[data-field="Y tế"] {
+        background: var(--career-field-health) !important;
+        box-shadow: 0 18px 42px rgba(5, 150, 105, 0.2) !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet)[data-field="Sáng tạo"] {
+        background: var(--career-field-creative) !important;
+        box-shadow: 0 18px 42px rgba(220, 38, 38, 0.18) !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet)[data-field="Kinh doanh"] {
+        background: var(--career-field-business) !important;
+        box-shadow: 0 18px 42px rgba(217, 119, 6, 0.2) !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet)[data-field="Xã hội"] {
+        background: var(--career-field-social) !important;
+        box-shadow: 0 18px 42px rgba(79, 70, 229, 0.18) !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-icon, .career-row-icon) {
+        border: 1px solid rgba(255, 255, 255, 0.26) !important;
+        background: rgba(255, 255, 255, 0.18) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library [data-field="Kinh doanh"] :is(.career-job-icon, .career-row-icon),
+      html body.endpoint-student_career_library .career-row-icon[data-field="Kinh doanh"] {
+        background: rgba(255, 255, 255, 0.22) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library :is(.career-job-card, .career-job-row, .career-sheet) .career-chip-row small {
+        border: 1px solid rgba(255, 255, 255, 0.28) !important;
+        background: rgba(255, 255, 255, 0.16) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library .career-save {
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        background: rgba(255, 255, 255, 0.16) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library .career-detail-grid div {
+        border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        background: rgba(0, 0, 0, 0.18) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_career_library .career-sheet :is(.btn-outline-primary, .btn-outline-secondary) {
+        border: 1px solid rgba(255, 255, 255, 0.84) !important;
+        background: #FFFFFF !important;
+        color: #111827 !important;
+        box-shadow: none !important;
+      }
+
+      html body.endpoint-student_career_library .career-sheet :is(.btn-outline-primary, .btn-outline-secondary) * {
+        color: #111827 !important;
+      }
+
+      html body.endpoint-student_career_library .career-sheet .career-ask-form {
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 16px !important;
+        background: rgba(0, 0, 0, 0.16) !important;
+        padding: 14px !important;
+      }
+
+      html body.endpoint-student_career_library .career-sheet .career-ask-form :is(.form-control, textarea, input:not([type="checkbox"]):not([type="radio"])) {
+        border: 1px solid rgba(255, 255, 255, 0.28) !important;
+        background: #FFFFFF !important;
+        color: #111827 !important;
+      }
+
+      html body.endpoint-student_career_library .career-sheet .career-ask-form :is(.form-control, textarea, input:not([type="checkbox"]):not([type="radio"]))::placeholder {
+        color: #4B5563 !important;
+      }
+
+      html body.endpoint-student_career_library .career-sheet .career-ask-form .btn-primary {
+        border: 1px solid #FFFFFF !important;
+        background: #050505 !important;
+        color: #FFFFFF !important;
+      }
+
+      /* Self-discovery trend contrast lock. */
+      html body.endpoint-student_self_discovery .career-trend-box {
+        border: 1px solid rgba(96, 165, 250, 0.34) !important;
+        background: linear-gradient(135deg, #2563EB 0%, #3730A3 52%, #111827 100%) !important;
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-trend-box :is(.career-trend-row, span, strong, div) {
+        color: #FFFFFF !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-trend-row > span,
+      html body.endpoint-student_self_discovery .career-trend-row > strong {
+        color: #FFFFFF !important;
+        opacity: 1 !important;
+        font-weight: 800 !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-trend-track {
+        background: rgba(255, 255, 255, 0.3) !important;
+      }
+
+      html body.endpoint-student_self_discovery .career-trend-track i {
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 6px 16px rgba(0, 0, 0, 0.16) !important;
+      }
+
     </style>
 
   </head>

@@ -62,7 +62,7 @@
     </div>
 
     <div class="career-sheet-backdrop" id="career-sheet">
-      <div class="career-sheet">
+      <div class="career-sheet" id="career-sheet-panel">
         <div class="career-sheet-head">
           <span>Chi tiết nghề</span>
           <button type="button" class="btn btn-outline-secondary" id="career-sheet-close">×</button>
@@ -101,6 +101,7 @@
     const rows = Array.from(document.querySelectorAll('.career-job-row'));
     const filters = Array.from(document.querySelectorAll('.career-filter-pill'));
     const sheet = document.getElementById('career-sheet');
+    const sheetPanel = document.getElementById('career-sheet-panel');
     const askForm = document.getElementById('ask-job-form');
     let activeField = 'Tất cả';
 
@@ -128,6 +129,7 @@
       sheetIcon.textContent = job.icon;
       sheetIcon.className = 'career-row-icon';
       sheetIcon.dataset.field = job.field;
+      sheetPanel.dataset.field = job.field;
       sheetSkills.dataset.field = job.field;
       document.getElementById('sheet-name').textContent = job.name;
       document.getElementById('sheet-field').textContent = job.field;

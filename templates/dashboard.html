@@ -522,17 +522,184 @@
       .student-feature-modern.accent-community .student-feature-icon-modern {
         background: linear-gradient(135deg, #818CF8 0%, #4F46E5 100%) !important;
       }
+
+      .student-dashboard-hero {
+        min-height: 360px !important;
+        padding: 34px 38px !important;
+        border: 1px solid rgba(226, 232, 240, 0.95) !important;
+        border-radius: 28px !important;
+        background: #FFFFFF !important;
+        color: #111827 !important;
+        box-shadow: 0 22px 58px rgba(15, 23, 42, 0.14) !important;
+      }
+
+      .student-dashboard-hero::before,
+      .student-dashboard-hero::after {
+        display: none !important;
+      }
+
+      .student-dashboard-label {
+        color: #2563EB !important;
+        font-size: 13px !important;
+        letter-spacing: 0.08em !important;
+      }
+
+      .student-dashboard-hero h1 {
+        max-width: 620px !important;
+        margin: 12px 0 14px !important;
+        color: #111827 !important;
+        font-size: clamp(38px, 4.2vw, 58px) !important;
+        line-height: 1.08 !important;
+      }
+
+      .student-dashboard-hero p {
+        max-width: 610px !important;
+        margin-bottom: 24px !important;
+        color: #374151 !important;
+        font-size: 18px !important;
+        font-weight: 650 !important;
+        line-height: 1.6 !important;
+      }
+
+      .student-dashboard-actions .btn {
+        min-height: 48px !important;
+        padding: 11px 20px !important;
+        border-radius: 999px !important;
+        font-size: 16px !important;
+        font-weight: 850 !important;
+      }
+
+      .student-dashboard-actions .btn-primary {
+        background: linear-gradient(135deg, #2563EB 0%, #0EA5E9 100%) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 14px 32px rgba(37, 99, 235, 0.25) !important;
+      }
+
+      .student-dashboard-actions .btn-outline-primary {
+        border-color: #BFDBFE !important;
+        background: #EFF6FF !important;
+        color: #1D4ED8 !important;
+        box-shadow: none !important;
+      }
+
+      .student-dashboard-visual-card {
+        width: min(100%, 420px) !important;
+        padding: 12px !important;
+        border: 1px solid #DBEAFE !important;
+        border-radius: 26px !important;
+        background: #F8FAFC !important;
+        box-shadow: 0 18px 44px rgba(37, 99, 235, 0.14) !important;
+        backdrop-filter: none !important;
+      }
+
+      .student-dashboard-visual-card::before {
+        display: none !important;
+      }
+
+      .dashboard-photo-single {
+        border-color: #1E293B !important;
+        border-radius: 20px !important;
+        box-shadow: none !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-hero,
+      body.student-app-body.endpoint-dashboard .content-body .student-dashboard-hero {
+        background: #FFFFFF !important;
+        color: #111827 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-hero :is(h1, h2, h3, strong, .student-dashboard-title),
+      body.student-app-body.endpoint-dashboard .content-body .student-dashboard-hero :is(h1, h2, h3, strong, .student-dashboard-title) {
+        color: #111827 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-hero :is(p, .student-dashboard-copy),
+      body.student-app-body.endpoint-dashboard .content-body .student-dashboard-hero :is(p, .student-dashboard-copy) {
+        color: #374151 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-hero .student-dashboard-label,
+      body.student-app-body.endpoint-dashboard .content-body .student-dashboard-hero .student-dashboard-label {
+        color: #2563EB !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-actions .btn-primary {
+        color: #FFFFFF !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-actions .btn-outline-primary {
+        color: #1D4ED8 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stats-grid {
+        overflow: visible;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stat-tile {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        justify-content: flex-end;
+        overflow: hidden;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stat-icon {
+        width: 54px;
+        height: 54px;
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #FFFFFF !important;
+        font-size: 0 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stat-icon svg {
+        width: 28px;
+        height: 28px;
+        display: block;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2.2;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stat-tile strong,
+      .student-app-body.endpoint-dashboard .content-body .student-stat-label {
+        position: static !important;
+        display: block !important;
+        transform: none !important;
+        text-shadow: none !important;
+        font-family: Inter, "Segoe UI", Arial, sans-serif !important;
+        letter-spacing: 0 !important;
+        unicode-bidi: isolate;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stat-tile strong {
+        color: #FFFFFF !important;
+        line-height: 1 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-stat-label {
+        margin-top: 10px;
+        color: rgba(255, 255, 255, 0.94) !important;
+        font-size: 18px;
+        font-weight: 850;
+        line-height: 1.3;
+      }
     </style>
 
     <section class="student-dashboard-hero">
       <div>
-        <div class="student-dashboard-label">TỔNG QUAN HỌC SINH</div>
-        <h1>Chào mừng, {{ current_user.username }} 👋</h1>
-        <p>Trọng tâm của nền tảng là hướng nghiệp: khám phá bản thân, xem thư viện nghề, chọn lộ trình học tập và gửi câu hỏi cho giáo viên. Tâm lý và kỹ năng sống được gộp thành nhóm hỗ trợ học đường để dùng khi cần.</p>
+        <div class="student-dashboard-label">HƯỚNG NGHIỆP HỌC SINH</div>
+        <h1 class="student-dashboard-title">Chào mừng, {{ current_user.username }}</h1>
+        <p class="student-dashboard-copy">Khám phá bản thân, xem thư viện nghề và chọn lộ trình học phù hợp.</p>
         <div class="student-dashboard-actions">
-          <a class="btn btn-primary" href="{{ url_for('student_self_discovery') }}">Khám phá hướng nghiệp</a>
+          <a class="btn btn-primary" href="{{ url_for('student_self_discovery') }}">Bắt đầu hướng nghiệp</a>
           <a class="btn btn-outline-primary" href="{{ url_for('student_career_library') }}">Thư viện nghề</a>
-          <a class="btn btn-outline-primary" href="{{ url_for('support_tools') }}">Hỗ trợ học đường</a>
         </div>
       </div>
 
@@ -547,26 +714,44 @@
 
     <section class="student-stats-grid" aria-label="Thống kê học sinh">
       <article class="student-stat-tile" style="background: var(--color-career);">
-        <div class="student-stat-icon">HN</div>
+        <div class="student-stat-icon" data-fallback="HN" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" aria-label="Hướng nghiệp"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2.1 5-4.9 2.1 2.1-5 4.9-2.1Z"></path></svg>
+        </div>
         <strong>{{ explored_career_count|default(0) }}</strong>
-        <span>Nghề đã khám phá</span>
+        <span class="student-stat-label">Nghề đã khám phá</span>
       </article>
       <article class="student-stat-tile" style="background: var(--color-psy);">
-        <div class="student-stat-icon">TL</div>
+        <div class="student-stat-icon" data-fallback="BH" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" aria-label="Bài hỗ trợ"><path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="m3 6 1 1 2-2"></path><path d="m3 12 1 1 2-2"></path><path d="m3 18 1 1 2-2"></path></svg>
+        </div>
         <strong>{{ completed_quiz_count|default(0) }}</strong>
-        <span>Bài hỗ trợ đã làm</span>
+        <span class="student-stat-label">Bài hỗ trợ đã làm</span>
       </article>
       <article class="student-stat-tile" style="background: var(--color-chat);">
-        <div class="student-stat-icon">CH</div>
+        <div class="student-stat-icon" data-fallback="CH" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" aria-label="Chat hỗ trợ"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6a8 8 0 1 1 18-5Z"></path><path d="M8 11h8"></path><path d="M8 15h5"></path></svg>
+        </div>
         <strong>{{ expert_chat_count|default(0) }}</strong>
-        <span>Lần chat hỗ trợ</span>
+        <span class="student-stat-label">Lần chat hỗ trợ</span>
       </article>
       <article class="student-stat-tile" style="background: var(--color-skill);">
-        <div class="student-stat-icon">NK</div>
+        <div class="student-stat-icon" data-fallback="NK" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" aria-label="Nhật ký cảm xúc"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"></path><path d="M8 4v13a3 3 0 0 0 3 3"></path><path d="M10 9c.9-1.2 3.1-1.2 4 0 1.1 1.5-.2 3.3-2 4.5-1.8-1.2-3.1-3-2-4.5Z"></path></svg>
+        </div>
         <strong>{{ emotion_entry_count|default(0) }}</strong>
-        <span>Nhật ký cảm xúc</span>
+        <span class="student-stat-label">Nhật ký cảm xúc</span>
       </article>
     </section>
+
+    <script>
+      document.querySelectorAll('.student-stat-icon').forEach((icon) => {
+        if (!icon.querySelector('svg')) {
+          console.warn('Missing dashboard stat icon, using fallback:', icon.dataset.fallback || icon.textContent.trim());
+          icon.textContent = icon.dataset.fallback || '?';
+          icon.style.fontSize = '16px';
+        }
+      });
+    </script>
 
     <style>
       .legacy-feature-grid {
@@ -574,120 +759,261 @@
       }
 
       .student-focus-section {
-        margin-top: 34px;
-        padding: 34px;
-        border-radius: 30px;
-        background: linear-gradient(135deg, #111827 0%, #312E81 48%, #581C87 100%);
-        box-shadow: 0 28px 76px rgba(0, 0, 0, 0.32);
+        margin-top: 42px;
+        scroll-margin-top: 110px;
+        padding: 42px 34px;
+        border: 1px solid #E2E8F0;
+        border-radius: 28px;
+        background: #FFFFFF;
+        color: #111827;
+        box-shadow: 0 22px 58px rgba(15, 23, 42, 0.12);
       }
 
       .student-focus-head {
-        margin-bottom: 22px;
+        margin-bottom: 26px;
         text-align: center;
       }
 
+      .student-focus-head .student-dashboard-label {
+        color: #2563EB !important;
+      }
+
       .student-focus-head h2 {
-        margin: 8px 0;
-        color: #fff;
-        font-size: clamp(28px, 3vw, 44px);
+        margin: 8px 0 6px;
+        color: #111827;
+        font-size: clamp(26px, 2.6vw, 38px);
         font-weight: 900;
+        line-height: 1.12;
       }
 
       .student-focus-head p {
         margin: 0 auto;
-        max-width: 760px;
-        color: rgba(255, 255, 255, 0.82);
-        font-weight: 750;
+        max-width: 620px;
+        color: #4B5563;
+        font-size: 16px;
+        font-weight: 650;
+        line-height: 1.55;
       }
 
       .student-focus-grid {
         display: grid;
-        grid-template-columns: 1.35fr 1fr;
-        gap: 18px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
       }
 
       .student-focus-card {
         display: block;
-        min-height: 230px;
-        padding: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 24px;
-        color: #fff;
+        min-height: 236px;
+        padding: 22px;
+        border: 0;
+        border-radius: 22px;
+        color: #FFFFFF;
         text-decoration: none;
-        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.26);
+        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14);
         transition: transform 180ms ease, box-shadow 180ms ease;
       }
 
       .student-focus-card:hover {
-        color: #fff;
+        color: #FFFFFF;
         transform: translateY(-5px);
-        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.34);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
       }
 
       .student-focus-card.primary {
-        grid-row: span 2;
-        min-height: 478px;
-        background:
-          radial-gradient(circle at 12% 0%, rgba(34, 211, 238, 0.18), transparent 24rem),
-          linear-gradient(135deg, #1D4ED8 0%, #0891B2 48%, #312E81 100%);
+        background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
       }
 
       .student-focus-card.support {
-        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
+        background: linear-gradient(135deg, #EA580C 0%, #B91C1C 100%);
       }
 
       .student-focus-card.community {
-        background: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%);
+        background: linear-gradient(135deg, #16A34A 0%, #047857 100%);
       }
 
       .student-focus-card.inbox {
-        background: linear-gradient(135deg, #4F46E5 0%, #1E1B4B 100%);
+        background: linear-gradient(135deg, #7C3AED 0%, #4338CA 100%);
       }
 
       .student-focus-icon {
-        width: 58px;
-        height: 58px;
+        width: 52px;
+        height: 52px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 18px;
+        margin-bottom: 16px;
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.2);
         color: #fff;
         font-weight: 900;
       }
 
+      .student-focus-card.support .student-focus-icon {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .student-focus-card.community .student-focus-icon {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .student-focus-card.inbox .student-focus-icon {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
       .student-focus-card h3 {
-        color: #fff;
-        font-size: 1.45rem;
+        margin-bottom: 10px;
+        color: #FFFFFF;
+        font-size: 1.22rem;
         font-weight: 900;
       }
 
       .student-focus-card.primary h3 {
-        font-size: clamp(30px, 4vw, 54px);
+        font-size: 1.22rem;
       }
 
       .student-focus-card p {
-        color: rgba(255, 255, 255, 0.84);
-        line-height: 1.65;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.55;
       }
 
       .student-focus-link {
         display: inline-flex;
         margin-top: 16px;
-        color: #FEF08A;
+        color: #FFFFFF;
         font-weight: 900;
       }
 
       @media (max-width: 991.98px) {
         .student-focus-grid {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .student-focus-card.primary {
           grid-row: auto;
-          min-height: 280px;
+          min-height: 236px;
         }
+      }
+
+      @media (max-width: 575.98px) {
+        .student-focus-section {
+          padding: 28px 18px;
+        }
+
+        .student-focus-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .student-app-body .student-focus-section,
+      body.student-app-body .student-focus-section {
+        border-color: #E2E8F0 !important;
+        background: #FFFFFF !important;
+        color: #111827 !important;
+      }
+
+      .student-app-body .student-focus-section :is(h1, h2, h3, h4, h5, h6, strong, b, .fw-bold, .font-black, .student-focus-head h2),
+      body.student-app-body .student-focus-section :is(h1, h2, h3, h4, h5, h6, strong, b, .fw-bold, .font-black, .student-focus-head h2) {
+        color: #111827 !important;
+      }
+
+      .student-app-body .student-focus-section :is(p, span, small, em, .student-focus-head p, .section-subtitle),
+      body.student-app-body .student-focus-section :is(p, span, small, em, .student-focus-head p, .section-subtitle) {
+        color: #4B5563 !important;
+      }
+
+      .student-app-body .student-focus-section .student-dashboard-label,
+      body.student-app-body .student-focus-section .student-dashboard-label {
+        color: #2563EB !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card,
+      body.student-app-body .student-focus-section .student-focus-card {
+        border-color: transparent !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14) !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card.primary,
+      body.student-app-body .student-focus-section .student-focus-card.primary {
+        background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%) !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card.support,
+      body.student-app-body .student-focus-section .student-focus-card.support {
+        background: linear-gradient(135deg, #EA580C 0%, #B91C1C 100%) !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card.community,
+      body.student-app-body .student-focus-section .student-focus-card.community {
+        background: linear-gradient(135deg, #16A34A 0%, #047857 100%) !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card.inbox,
+      body.student-app-body .student-focus-section .student-focus-card.inbox {
+        background: linear-gradient(135deg, #7C3AED 0%, #4338CA 100%) !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card :is(h3, p, span),
+      body.student-app-body .student-focus-section .student-focus-card :is(h3, p, span) {
+        color: #FFFFFF !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-card p,
+      body.student-app-body .student-focus-section .student-focus-card p {
+        color: rgba(255, 255, 255, 0.9) !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-link,
+      body.student-app-body .student-focus-section .student-focus-link {
+        color: #FFFFFF !important;
+      }
+
+      .student-app-body .student-focus-section .student-focus-icon,
+      .student-app-body .student-focus-section .student-focus-icon *,
+      body.student-app-body .student-focus-section .student-focus-icon,
+      body.student-app-body .student-focus-section .student-focus-icon * {
+        color: #FFFFFF !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section,
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section {
+        background: #FFFFFF !important;
+        color: #111827 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section :is(h2, h3, strong, b, .student-focus-head h2),
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section :is(h2, h3, strong, b, .student-focus-head h2) {
+        color: #111827 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section :is(p, small, em, .student-focus-head p),
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section :is(p, small, em, .student-focus-head p) {
+        color: #4B5563 !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section .student-dashboard-label,
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section .student-dashboard-label,
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-link,
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-link {
+        color: #2563EB !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-card :is(h3, p, span, .student-focus-link),
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-card :is(h3, p, span, .student-focus-link) {
+        color: #FFFFFF !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-card p,
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-card p {
+        color: rgba(255, 255, 255, 0.9) !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-icon,
+      .student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-icon *,
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-icon,
+      body.student-app-body.endpoint-dashboard .content-body .student-focus-section .student-focus-icon * {
+        color: #FFFFFF !important;
       }
     </style>
 
@@ -695,32 +1021,32 @@
       <div class="student-focus-head">
         <div class="student-dashboard-label">CHỨC NĂNG CHÍNH</div>
         <h2>Hướng nghiệp là trung tâm</h2>
-        <p>Tâm lý và kỹ năng sống được gom thành một nhóm hỗ trợ phụ để giao diện gọn, rõ trọng tâm hơn.</p>
+        <p>Chọn nhanh khu vực bạn muốn dùng hôm nay.</p>
       </div>
 
       <div class="student-focus-grid">
         <a class="student-focus-card primary" href="{{ url_for('student_self_discovery') }}">
           <span class="student-focus-icon">HN</span>
           <h3>Hướng nghiệp</h3>
-          <p>Khám phá bản thân, xem thư viện nghề nghiệp, chọn lộ trình học tập và gửi câu hỏi cho giáo viên. Đây là khu vực chính của nền tảng.</p>
-          <span class="student-focus-link">Vào khu hướng nghiệp →</span>
+          <p>Khám phá bản thân, nghề nghiệp và lộ trình học.</p>
+          <span class="student-focus-link">Bắt đầu →</span>
         </a>
         <a class="student-focus-card support" href="{{ url_for('support_tools') }}">
           <span class="student-focus-icon">HT</span>
           <h3>Tâm lý & kỹ năng sống</h3>
-          <p>Gộp trắc nghiệm tâm lý, chat chuyên gia, nhật ký cảm xúc và bài học kỹ năng sống vào một khu hỗ trợ học đường.</p>
-          <span class="student-focus-link">Mở nhóm hỗ trợ →</span>
+          <p>Trắc nghiệm, nhật ký cảm xúc và bài học kỹ năng.</p>
+          <span class="student-focus-link">Mở hỗ trợ →</span>
         </a>
         <a class="student-focus-card community" href="{{ url_for('student_forum') }}">
           <span class="student-focus-icon">CD</span>
           <h3>Cộng đồng</h3>
-          <p>Không gian chia sẻ, hỏi đáp và kết nối giữa học sinh.</p>
+          <p>Chia sẻ, hỏi đáp và kết nối với học sinh khác.</p>
           <span class="student-focus-link">Vào diễn đàn →</span>
         </a>
         <a class="student-focus-card inbox" href="{{ url_for('student_inbox') }}">
           <span class="student-focus-icon">HS</span>
           <h3>Hộp thư hướng nghiệp</h3>
-          <p>Theo dõi câu hỏi đã gửi và phản hồi từ giáo viên.</p>
+          <p>Theo dõi câu hỏi và phản hồi từ giáo viên.</p>
           <span class="student-focus-link">Xem hộp thư →</span>
         </a>
       </div>
