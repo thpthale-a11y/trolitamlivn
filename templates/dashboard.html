@@ -247,6 +247,18 @@
         letter-spacing: 0.04em;
       }
 
+      .student-dashboard-slogan {
+        display: inline-flex;
+        margin-top: 12px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.1);
+        color: #1D4ED8;
+        font-size: 16px;
+        font-weight: 850;
+        line-height: 1.35;
+      }
+
       .student-dashboard-hero h1 {
         max-width: 760px;
         margin: 18px 0 14px;
@@ -544,6 +556,19 @@
         letter-spacing: 0.08em !important;
       }
 
+      .student-dashboard-slogan {
+        display: inline-flex !important;
+        margin-top: 12px !important;
+        padding: 8px 14px !important;
+        border: 1px solid #BFDBFE !important;
+        border-radius: 999px !important;
+        background: #EFF6FF !important;
+        color: #1D4ED8 !important;
+        font-size: 16px !important;
+        font-weight: 850 !important;
+        line-height: 1.35 !important;
+      }
+
       .student-dashboard-hero h1 {
         max-width: 620px !important;
         margin: 12px 0 14px !important;
@@ -623,6 +648,11 @@
         color: #2563EB !important;
       }
 
+      .student-app-body.endpoint-dashboard .content-body .student-dashboard-hero .student-dashboard-slogan,
+      body.student-app-body.endpoint-dashboard .content-body .student-dashboard-hero .student-dashboard-slogan {
+        color: #1D4ED8 !important;
+      }
+
       .student-app-body.endpoint-dashboard .content-body .student-dashboard-actions .btn-primary {
         color: #FFFFFF !important;
       }
@@ -695,6 +725,7 @@
     <section class="student-dashboard-hero">
       <div>
         <div class="student-dashboard-label">HƯỚNG NGHIỆP HỌC SINH</div>
+        <div class="student-dashboard-slogan">Khám phá bản thân – Kiến tạo tương lai</div>
         <h1 class="student-dashboard-title">Chào mừng, {{ current_user.username }}</h1>
         <p class="student-dashboard-copy">Khám phá bản thân, xem thư viện nghề và chọn lộ trình học phù hợp.</p>
         <div class="student-dashboard-actions">
