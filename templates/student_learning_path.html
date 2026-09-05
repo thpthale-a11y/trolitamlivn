@@ -12,7 +12,27 @@
       'Truyền thông': 'media',
       'Tâm lý học': 'psychology',
       'Kỹ thuật cơ khí': 'engineering',
-      'Du lịch khách sạn': 'travel'
+      'Du lịch khách sạn': 'travel',
+      'An toàn thông tin': 'security',
+      'Kỹ sư AI': 'ai',
+      'Quản trị mạng': 'network',
+      'Phát triển game': 'game',
+      'Kỹ sư phần mềm': 'software',
+      'Marketing số': 'digital-marketing',
+      'Tài chính - Kế toán': 'finance',
+      'Quản trị nhân sự': 'hr',
+      'Logistics': 'logistics',
+      'Luật': 'law',
+      'Kiến trúc sư': 'architecture',
+      'Thiết kế đồ họa': 'graphic-design',
+      'Sản xuất phim': 'film',
+      'Báo chí': 'journalism',
+      'Điều dưỡng': 'nursing',
+      'Dược sĩ': 'pharmacy',
+      'Công nghệ sinh học': 'biotech',
+      'Kỹ thuật ô tô': 'automotive',
+      'Điện - điện tử': 'electronics',
+      'Nông nghiệp công nghệ cao': 'agritech'
     } %}
     <div class="career-topbar">
       <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">← Trang chủ</a>
@@ -23,7 +43,6 @@
     {% if not selected_path %}
       <section class="learning-select-head">
         <h3>Bạn muốn trở thành gì?</h3>
-        <p>Chọn ngành nghề bạn hướng tới để nhận lộ trình học tập phù hợp từ bây giờ đến tương lai.</p>
       </section>
 
       <div class="learning-career-grid">

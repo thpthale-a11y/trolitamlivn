@@ -6,3 +6,6 @@ instance/*.db
 *.sqlite
 *.sqlite3
 .env
+*.log
+taikhoan.txt
+ui_check_screenshots/
