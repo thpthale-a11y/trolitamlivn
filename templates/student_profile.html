@@ -1,50 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Hồ sơ học sinh{% endblock %}
 {% block content %}
-  <style>
-    .student-profile-avatar-tools {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .student-profile-avatar-tools .btn {
-      margin-top: 0 !important;
-    }
-
-    .student-profile-missing {
-      border-color: rgba(239, 68, 68, 0.42) !important;
-      background: rgba(127, 29, 29, 0.22) !important;
-      color: #FEE2E2 !important;
-    }
-
-    .student-profile-missing strong,
-    .student-profile-missing li {
-      color: #FEE2E2 !important;
-    }
-
-    .student-profile-missing ul {
-      margin: 8px 0 0;
-      padding-left: 18px;
-    }
-
-    .student-app-body.endpoint-student_profile .profile-field-missing {
-      border-color: #F87171 !important;
-      box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16) !important;
-    }
-
-    .student-app-body.endpoint-student_profile .profile-field-warning {
-      display: block;
-      margin-top: 6px;
-      color: #FCA5A5 !important;
-      font-size: 0.86rem;
-      font-weight: 700;
-    }
-  </style>
-
-  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+<div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
     <div>
       <p class="text-primary fw-semibold mb-1">Hệ thống</p>
       <h2 class="section-title">Hồ sơ học sinh</h2>

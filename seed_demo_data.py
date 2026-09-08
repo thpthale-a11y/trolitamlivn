@@ -262,58 +262,59 @@ def seed_forum(student):
 def build_learning_payload(career_name, focus_subject, practice_task, skill_names):
     stages = [
         {
-            'year_label': 'Lớp 10',
+            'year_label': 'Lớp 6',
             'subtitle': '',
-            'title': 'Xây nền tảng',
-            'status': 'Chưa hoàn thành',
+            'title': 'Làm quen bản thân',
+            'status': 'Đang bắt đầu',
             'is_open': True,
             'tasks': [
-                {'title': f'Học tốt {focus_subject}', 'subtitle': f'Môn học nền tảng cho {career_name}', 'type': 'Môn học', 'done': False},
-                {'title': 'Rèn thói quen tự học', 'subtitle': 'Ghi chú, đặt mục tiêu tuần, tự đánh giá', 'type': 'Kỹ năng', 'done': False},
-                {'title': practice_task, 'subtitle': 'Dự án nhỏ để hiểu nghề thực tế', 'type': 'Thực hành', 'done': False},
+                {'title': f'Học đều {focus_subject}', 'subtitle': f'Giữ nền tảng học tập ổn định để hiểu mình có hợp {career_name} không', 'type': 'Môn học', 'done': False},
+                {'title': 'Ghi lại sở thích và điểm mạnh', 'subtitle': 'Mỗi tuần viết 3 điều mình làm tốt hoặc thấy hứng thú', 'type': 'Khám phá', 'done': False},
+                {'title': f'Tìm hiểu nghề {career_name} ở mức đơn giản', 'subtitle': 'Xem video, đọc bài ngắn hoặc hỏi thầy cô', 'type': 'Quan sát', 'done': False},
             ],
         },
         {
-            'year_label': 'Lớp 11',
+            'year_label': 'Lớp 7',
             'subtitle': 'Đang học',
-            'title': 'Phát triển kỹ năng',
+            'title': 'Thử hoạt động nhỏ',
             'status': 'Đang làm',
             'is_open': True,
             'tasks': [
-                {'title': f'Học chuyên sâu về {career_name}', 'subtitle': 'Tài liệu cơ bản, khóa học ngắn, bài tập thực hành', 'type': 'Kỹ năng', 'done': False},
-                {'title': f'Duy trì điểm tốt ở {focus_subject}', 'subtitle': 'Chuẩn bị nền tảng xét tuyển', 'type': 'Môn học', 'done': False},
-                {'title': 'Làm 1 sản phẩm hoàn chỉnh', 'subtitle': 'Có thể đưa vào portfolio cá nhân', 'type': 'Thực hành', 'done': False},
-                {'title': 'Tham gia CLB hoặc hoạt động liên quan', 'subtitle': 'Trải nghiệm làm việc nhóm', 'type': 'Hoạt động', 'done': False},
+                {'title': 'Rèn thói quen tự học', 'subtitle': 'Ghi chú, đặt mục tiêu tuần và tự đánh giá việc học', 'type': 'Kỹ năng', 'done': False},
+                {'title': practice_task, 'subtitle': 'Hoạt động nhỏ để cảm nhận nghề qua việc làm thật', 'type': 'Thực hành', 'done': False},
+                {'title': 'Tham gia CLB hoặc nhóm học tập', 'subtitle': 'Tập làm việc nhóm và trình bày ý tưởng', 'type': 'Hoạt động', 'done': False},
             ],
         },
         {
-            'year_label': 'Lớp 12',
+            'year_label': 'Lớp 8',
             'subtitle': '',
-            'title': 'Chuẩn bị thi & hồ sơ',
+            'title': 'Trải nghiệm định hướng',
             'status': 'Sắp tới',
             'is_open': False,
             'tasks': [
-                {'title': 'Chọn tổ hợp xét tuyển phù hợp', 'subtitle': 'So sánh trường, ngành và điều kiện đầu vào', 'type': 'Môn học', 'done': False},
-                {'title': 'Hoàn thiện portfolio/hồ sơ', 'subtitle': 'Lưu lại sản phẩm, chứng chỉ và hoạt động nổi bật', 'type': 'Thực hành', 'done': False},
+                {'title': f'Duy trì môn học liên quan: {focus_subject}', 'subtitle': 'Theo dõi môn mình mạnh và môn cần cải thiện', 'type': 'Môn học', 'done': False},
+                {'title': 'Hỏi thầy cô hoặc người có kinh nghiệm', 'subtitle': 'Chuẩn bị 3 câu hỏi về nghề mình quan tâm', 'type': 'Trao đổi', 'done': False},
+                {'title': 'Hoàn thành một sản phẩm nhỏ', 'subtitle': 'Lưu lại kết quả để xem mình có thật sự thích không', 'type': 'Thực hành', 'done': False},
             ],
         },
         {
-            'year_label': 'Đại học',
+            'year_label': 'Lớp 9',
             'subtitle': '',
-            'title': 'Chuyên sâu & thực tập',
+            'title': 'Chọn hướng sau THCS',
             'status': 'Tương lai',
             'is_open': False,
             'tasks': [
-                {'title': 'Học kiến thức chuyên ngành', 'subtitle': 'Xây nền tảng nghề nghiệp dài hạn', 'type': 'Kỹ năng', 'done': False},
-                {'title': 'Tìm thực tập hoặc dự án thực tế', 'subtitle': 'Làm quen môi trường nghề nghiệp', 'type': 'Hoạt động', 'done': False},
+                {'title': 'Tìm hiểu lựa chọn sau lớp 9', 'subtitle': 'THPT, lớp/chương trình phù hợp hoặc hướng học nghề nếu cần', 'type': 'Định hướng', 'done': False},
+                {'title': 'Lập kế hoạch học tập 3 tháng', 'subtitle': 'Chọn môn cần ưu tiên và mục tiêu điểm số thực tế', 'type': 'Kế hoạch', 'done': False},
+                {'title': 'Trao đổi với phụ huynh và giáo viên', 'subtitle': 'Chốt hướng đi dựa trên năng lực, sở thích và điều kiện gia đình', 'type': 'Trao đổi', 'done': False},
             ],
         },
     ]
     skills = [
-        {'name': skill_names[0], 'level': 'Trung cấp', 'percent': 60, 'color': 'purple'},
-        {'name': skill_names[1], 'level': 'Khá tốt', 'percent': 75, 'color': 'green'},
-        {'name': 'Tiếng Anh', 'level': 'Cơ bản', 'percent': 45, 'color': 'yellow'},
-        {'name': 'Làm việc nhóm', 'level': 'Đang rèn', 'percent': 40, 'color': 'pink'},
+        {'name': 'Tự nhận thức', 'level': 'Đang làm quen', 'percent': 35, 'color': 'purple'},
+        {'name': skill_names[0], 'level': 'Đang rèn', 'percent': 45, 'color': 'green'},
+        {'name': 'Tiếng Anh cơ bản', 'level': 'Cần duy trì', 'percent': 40, 'color': 'yellow'},
+        {'name': 'Làm việc nhóm', 'level': 'Đang rèn', 'percent': 42, 'color': 'pink'},
     ]
     return stages, skills
 

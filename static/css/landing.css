@@ -1,0 +1,304 @@
+/* ===== 1. Base ===== */
+:root {
+  --landing-blue: #2563EB;
+  --landing-sky: #0EA5E9;
+  --landing-ink: #111827;
+  --landing-soft: #374151;
+  --landing-gold: #D4A017;
+  --landing-orange: #EA580C;
+  --landing-green: #16A34A;
+  --landing-violet: #7C3AED;
+  --landing-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background: #F7F9FC;
+  color: var(--landing-ink);
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ===== 2. Header ===== */
+header.sticky {
+  border-bottom: 1px solid rgba(216, 222, 233, 0.95);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+}
+
+header nav {
+  min-height: 76px;
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #EAF2FF;
+  color: var(--landing-blue);
+  font-weight: 900;
+}
+
+header a {
+  color: var(--landing-ink);
+}
+
+header a:hover {
+  color: var(--landing-blue);
+}
+
+.landing-menu-toggle {
+  display: none;
+  color: var(--landing-ink);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+/* ===== 3. Hero ===== */
+.landing-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(212, 160, 23, 0.18), transparent 26rem),
+    linear-gradient(135deg, #FFFFFF 0%, #EEF6FF 48%, #FFF7ED 100%);
+}
+
+.landing-hero-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+  min-height: calc(100vh - 76px);
+  padding-top: 56px;
+  padding-bottom: 80px;
+}
+
+.landing-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #FEF3C7;
+  color: #78350F;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.landing-hero h1 {
+  margin: 18px 0 10px;
+  color: var(--landing-ink);
+  font-size: clamp(3rem, 8vw, 6.8rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.96;
+}
+
+.landing-hero h1 .hot,
+.landing-hero .hero-subline strong {
+  color: var(--landing-gold);
+}
+
+.landing-hero .warm {
+  color: var(--landing-ink);
+}
+
+.hero-subline {
+  color: var(--landing-blue);
+  font-size: clamp(1.35rem, 3vw, 2.35rem);
+  font-weight: 900;
+}
+
+.landing-hero p {
+  max-width: 680px;
+  margin-top: 18px;
+  color: var(--landing-soft);
+  font-size: clamp(1rem, 2vw, 1.22rem);
+  line-height: 1.75;
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.landing-actions a:first-child {
+  background: linear-gradient(135deg, var(--landing-blue), var(--landing-sky));
+  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.25);
+}
+
+.landing-actions a:last-child {
+  border-color: #BFD0EA;
+  color: var(--landing-ink);
+}
+
+.landing-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.landing-hero-stat {
+  padding: 16px;
+  border: 1px solid #DCE6F6;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--landing-ink);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.09);
+}
+
+.landing-hero-stat .stat-icon {
+  color: var(--landing-gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.landing-hero-stat strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.landing-hero-stat span:last-child {
+  color: var(--landing-soft);
+  font-weight: 700;
+}
+
+.landing-photo-frame {
+  background: #fff !important;
+  box-shadow: var(--landing-shadow) !important;
+}
+
+.landing-hero-photo {
+  aspect-ratio: 4 / 5;
+}
+
+.landing-hero-wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 80px;
+  color: #FFFFFF;
+}
+
+/* ===== 4. Sections & Cards ===== */
+.landing-path-section,
+.landing-feature-light,
+main > section.bg-white {
+  background: #fff !important;
+}
+
+.landing-path-card,
+.landing-feature-light article,
+main > section.bg-white article {
+  border: 1px solid #DCE6F6 !important;
+  background: #fff !important;
+  color: var(--landing-ink);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.landing-path-card:hover,
+.landing-feature-light article:hover,
+main > section.bg-white article:hover {
+  box-shadow: var(--landing-shadow);
+}
+
+.path-icon,
+.landing-feature-light article > div:first-child {
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--landing-blue), var(--landing-sky)) !important;
+  color: #fff;
+  font-weight: 900;
+}
+
+.landing-path-card:nth-child(2) .path-icon,
+.landing-feature-light article:nth-child(2) > div:first-child {
+  background: linear-gradient(135deg, #111827, #374151) !important;
+}
+
+.landing-path-card:nth-child(3) .path-icon,
+.landing-feature-light article:nth-child(3) > div:first-child {
+  background: linear-gradient(135deg, var(--landing-gold), var(--landing-orange)) !important;
+}
+
+.landing-path-card h3,
+.landing-feature-light article h3,
+main > section.bg-white article h3,
+main > section.bg-white article .font-black {
+  color: var(--landing-ink) !important;
+}
+
+.landing-path-card p,
+.landing-feature-light article p,
+main > section.bg-white article p {
+  color: var(--landing-soft) !important;
+}
+
+.landing-feature-light a,
+.landing-path-section .text-primary,
+.landing-feature-light .text-primary,
+main > section.bg-white .text-primary {
+  color: var(--landing-blue) !important;
+}
+
+main > section.bg-white .text-yellow-400 {
+  color: var(--landing-gold) !important;
+}
+
+main > section.bg-white:last-of-type > div {
+  background: linear-gradient(135deg, var(--landing-blue), var(--landing-sky)) !important;
+  box-shadow: 0 24px 60px rgba(37, 99, 235, 0.22) !important;
+}
+
+/* ===== 5. Footer & Responsive ===== */
+footer {
+  background: #111827 !important;
+}
+
+footer a,
+footer span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+footer a:hover {
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .landing-hero-inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .landing-hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-menu-toggle {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-hero-inner {
+    padding-top: 34px;
+    padding-bottom: 62px;
+  }
+}

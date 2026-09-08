@@ -19,7 +19,7 @@
         <article class="life-card">
           <div class="life-thumb">
             {% if lesson.thumbnail_url %}
-              <img src="{{ lesson.thumbnail_url }}" alt="{{ lesson.title }}">
+              <img src="{{ lesson.thumbnail_url }}" alt="{{ lesson.title }}" loading="lazy" decoding="async">
             {% else %}
               <span>▶</span>
             {% endif %}

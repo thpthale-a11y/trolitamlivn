@@ -23,7 +23,7 @@
         <a class="life-card life-card-link" href="{{ url_for('student_life_skill_detail', lesson_id=lesson.id) }}">
           <div class="life-thumb">
             {% if lesson.thumbnail_url %}
-              <img src="{{ lesson.thumbnail_url }}" alt="{{ lesson.title }}">
+              <img src="{{ lesson.thumbnail_url }}" alt="{{ lesson.title }}" loading="lazy" decoding="async">
             {% else %}
               <span>▶</span>
             {% endif %}

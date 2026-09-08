@@ -9,3 +9,4 @@ instance/*.db
 *.log
 taikhoan.txt
 ui_check_screenshots/
+/nenwwebsite.png

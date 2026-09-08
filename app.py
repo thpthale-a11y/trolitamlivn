@@ -9,12 +9,12 @@ from datetime import datetime
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 
-from flask import Flask, render_template, redirect, url_for, flash, request, send_file
+from flask import Flask, render_template, redirect, url_for, flash, request, send_file, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
-from sqlalchemy import Boolean, DateTime, text
+from sqlalchemy import Boolean, DateTime, func, text
 from wtforms import StringField, PasswordField, SubmitField, SelectField, HiddenField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from flask_bcrypt import Bcrypt
@@ -38,6 +38,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROFILE_UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads', 'profiles')
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 app.config['ENABLE_SOCKETIO'] = os.environ.get('ENABLE_SOCKETIO', '').lower() in {'1', 'true', 'yes'}
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60 * 24 * 30
+app.config['ASSET_VERSION'] = os.environ.get('ASSET_VERSION', '20260908-perf')
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -49,6 +51,17 @@ socketio_async_mode = os.environ.get('SOCKETIO_ASYNC_MODE')
 if socketio_async_mode:
     socketio_options['async_mode'] = socketio_async_mode
 socketio = SocketIO(app, **socketio_options) if SocketIO and app.config['ENABLE_SOCKETIO'] else None
+
+
+@app.after_request
+def add_cache_headers(response):
+    if request.endpoint == 'static':
+        response.cache_control.public = True
+        response.cache_control.max_age = 60 * 60 * 24 * 30
+        response.cache_control.immutable = True
+    elif response.content_type and response.content_type.startswith('text/html'):
+        response.cache_control.no_cache = True
+    return response
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -582,6 +595,57 @@ def career_question_count(test_id):
     return CareerQuestion.query.filter_by(test_id=test_id).count()
 
 
+def grouped_count(model, key_column, ids, *extra_filters):
+    if not ids:
+        return {}
+    rows = (
+        db.session.query(key_column, func.count(model.id))
+        .filter(key_column.in_(ids), *extra_filters)
+        .group_by(key_column)
+        .all()
+    )
+    return {key: count for key, count in rows}
+
+
+def latest_submissions_by_topic(topic_ids, student_id):
+    if not topic_ids:
+        return {}
+    latest_rows = (
+        db.session.query(PsychologySubmission.topic_id, func.max(PsychologySubmission.id).label('submission_id'))
+        .filter(PsychologySubmission.topic_id.in_(topic_ids), PsychologySubmission.student_id == student_id)
+        .group_by(PsychologySubmission.topic_id)
+        .subquery()
+    )
+    submissions = PsychologySubmission.query.join(latest_rows, PsychologySubmission.id == latest_rows.c.submission_id).all()
+    return {submission.topic_id: submission for submission in submissions}
+
+
+def latest_career_submissions_by_test(test_ids, student_id):
+    if not test_ids:
+        return {}
+    latest_rows = (
+        db.session.query(CareerSubmission.test_id, func.max(CareerSubmission.id).label('submission_id'))
+        .filter(CareerSubmission.test_id.in_(test_ids), CareerSubmission.student_id == student_id)
+        .group_by(CareerSubmission.test_id)
+        .subquery()
+    )
+    submissions = CareerSubmission.query.join(latest_rows, CareerSubmission.id == latest_rows.c.submission_id).all()
+    return {submission.test_id: submission for submission in submissions}
+
+
+def latest_messages_by_conversation(conversation_ids):
+    if not conversation_ids:
+        return {}
+    latest_rows = (
+        db.session.query(ChatMessage.conversation_id, func.max(ChatMessage.id).label('message_id'))
+        .filter(ChatMessage.conversation_id.in_(conversation_ids))
+        .group_by(ChatMessage.conversation_id)
+        .subquery()
+    )
+    messages = ChatMessage.query.join(latest_rows, ChatMessage.id == latest_rows.c.message_id).all()
+    return {message.conversation_id: message for message in messages}
+
+
 def career_job_to_dict(job):
     try:
         skills = json.loads(job.skills_json or '[]')
@@ -635,58 +699,59 @@ def collect_career_job_form():
 def default_learning_path_payload(title='Lập trình viên'):
     stages = [
         {
-            'year_label': 'Lớp 10',
+            'year_label': 'Lớp 6',
             'subtitle': '',
-            'title': 'Xây nền tảng',
-            'status': 'Chưa hoàn thành',
+            'title': 'Làm quen bản thân',
+            'status': 'Đang bắt đầu',
             'is_open': True,
             'tasks': [
-                {'title': 'Học tốt Toán, Vật lý, Tin học', 'subtitle': 'Môn học nền tảng cho lập trình', 'type': 'Môn học', 'done': False},
-                {'title': 'Làm quen với tư duy logic', 'subtitle': 'Giải bài tập thuật toán cơ bản', 'type': 'Kỹ năng', 'done': False},
-                {'title': 'Thử viết chương trình đơn giản', 'subtitle': 'Python hoặc Scratch', 'type': 'Thực hành', 'done': False},
+                {'title': 'Học đều Toán, Tin học, Tiếng Anh', 'subtitle': 'Giữ nền tảng học tập ổn định ở đầu cấp THCS', 'type': 'Môn học', 'done': False},
+                {'title': 'Ghi lại sở thích và điểm mạnh', 'subtitle': 'Mỗi tuần viết 3 điều mình làm tốt hoặc thấy hứng thú', 'type': 'Khám phá', 'done': False},
+                {'title': 'Tìm hiểu nghề lập trình viên ở mức đơn giản', 'subtitle': 'Xem video, đọc bài ngắn hoặc hỏi thầy cô', 'type': 'Quan sát', 'done': False},
             ],
         },
         {
-            'year_label': 'Lớp 11',
+            'year_label': 'Lớp 7',
             'subtitle': 'Đang học',
-            'title': 'Phát triển kỹ năng',
+            'title': 'Thử hoạt động nhỏ',
             'status': 'Đang làm',
             'is_open': True,
             'tasks': [
-                {'title': 'Học Python cơ bản đến nâng cao', 'subtitle': 'Biến, vòng lặp, hàm, OOP', 'type': 'Kỹ năng', 'done': False},
-                {'title': 'Duy trì điểm Toán trên 8.0', 'subtitle': 'Nền tảng cho CNTT đại học', 'type': 'Môn học', 'done': False},
-                {'title': 'Làm 1 dự án nhỏ hoàn chỉnh', 'subtitle': 'Web đơn giản hoặc app console', 'type': 'Thực hành', 'done': False},
-                {'title': 'Tham gia câu lạc bộ Tin học', 'subtitle': 'Trải nghiệm làm việc nhóm', 'type': 'Hoạt động', 'done': False},
+                {'title': 'Rèn tư duy logic qua bài tập vui', 'subtitle': 'Câu đố, Scratch, bài toán thực tế hoặc trò chơi tư duy', 'type': 'Kỹ năng', 'done': False},
+                {'title': 'Làm một sản phẩm mini', 'subtitle': 'Ví dụ: thiệp số, trò chơi nhỏ hoặc trang giới thiệu bản thân', 'type': 'Thực hành', 'done': False},
+                {'title': 'Tham gia CLB hoặc nhóm học tập', 'subtitle': 'Tập làm việc nhóm và trình bày ý tưởng', 'type': 'Hoạt động', 'done': False},
             ],
         },
         {
-            'year_label': 'Lớp 12',
+            'year_label': 'Lớp 8',
             'subtitle': '',
-            'title': 'Chuẩn bị thi & hồ sơ',
+            'title': 'Trải nghiệm định hướng',
             'status': 'Sắp tới',
             'is_open': False,
             'tasks': [
-                {'title': 'Chọn tổ hợp xét tuyển phù hợp', 'subtitle': 'CNTT, khoa học máy tính, kỹ thuật phần mềm', 'type': 'Môn học', 'done': False},
-                {'title': 'Hoàn thiện portfolio dự án', 'subtitle': 'Lưu lại sản phẩm đã làm', 'type': 'Thực hành', 'done': False},
+                {'title': 'Duy trì môn học liên quan', 'subtitle': 'Theo dõi môn mình mạnh và môn cần cải thiện', 'type': 'Môn học', 'done': False},
+                {'title': 'Hỏi thầy cô hoặc người có kinh nghiệm', 'subtitle': 'Chuẩn bị 3 câu hỏi về nghề mình quan tâm', 'type': 'Trao đổi', 'done': False},
+                {'title': 'Hoàn thành một dự án nhỏ hơn', 'subtitle': 'Lưu lại sản phẩm để xem mình có thật sự thích không', 'type': 'Thực hành', 'done': False},
             ],
         },
         {
-            'year_label': 'Đại học',
+            'year_label': 'Lớp 9',
             'subtitle': '',
-            'title': 'Chuyên sâu & thực tập',
+            'title': 'Chọn hướng sau THCS',
             'status': 'Tương lai',
             'is_open': False,
             'tasks': [
-                {'title': 'Học cấu trúc dữ liệu và thuật toán', 'subtitle': 'Nền tảng đi làm lâu dài', 'type': 'Kỹ năng', 'done': False},
-                {'title': 'Tìm thực tập năm 3', 'subtitle': 'Làm quen môi trường công ty', 'type': 'Hoạt động', 'done': False},
+                {'title': 'Tìm hiểu lựa chọn sau lớp 9', 'subtitle': 'THPT, lớp/chương trình phù hợp hoặc hướng học nghề nếu cần', 'type': 'Định hướng', 'done': False},
+                {'title': 'Lập kế hoạch học tập 3 tháng', 'subtitle': 'Chọn môn cần ưu tiên và mục tiêu điểm số thực tế', 'type': 'Kế hoạch', 'done': False},
+                {'title': 'Trao đổi với phụ huynh và giáo viên', 'subtitle': 'Chốt hướng đi dựa trên năng lực, sở thích và điều kiện gia đình', 'type': 'Trao đổi', 'done': False},
             ],
         },
     ]
     skills = [
-        {'name': 'Lập trình Python', 'level': 'Trung cấp', 'percent': 60, 'color': 'purple'},
-        {'name': 'Toán tư duy', 'level': 'Khá tốt', 'percent': 75, 'color': 'green'},
-        {'name': 'Tiếng Anh', 'level': 'Cơ bản', 'percent': 45, 'color': 'yellow'},
-        {'name': 'Làm việc nhóm', 'level': 'Đang rèn', 'percent': 40, 'color': 'pink'},
+        {'name': 'Tự nhận thức', 'level': 'Đang làm quen', 'percent': 35, 'color': 'purple'},
+        {'name': 'Tư duy logic', 'level': 'Đang rèn', 'percent': 45, 'color': 'green'},
+        {'name': 'Tiếng Anh cơ bản', 'level': 'Cần duy trì', 'percent': 40, 'color': 'yellow'},
+        {'name': 'Làm việc nhóm', 'level': 'Đang rèn', 'percent': 42, 'color': 'pink'},
     ]
     return json.dumps(stages, ensure_ascii=False, indent=2), json.dumps(skills, ensure_ascii=False, indent=2)
 
@@ -987,21 +1052,28 @@ def recent_emotion_entries(student_id, limit=8):
 
 
 def get_or_create_student_profile(student_id):
+    cached_profile = getattr(g, 'nav_student_profile', None)
+    if cached_profile and cached_profile.student_id == student_id:
+        return cached_profile
     profile = StudentProfile.query.filter_by(student_id=student_id).first()
     if profile:
+        g.nav_student_profile = profile
         return profile
     profile = StudentProfile(student_id=student_id)
     db.session.add(profile)
     db.session.commit()
+    g.nav_student_profile = profile
     return profile
 
 
 @app.context_processor
 def inject_nav_student_profile():
     if current_user.is_authenticated and current_user.role == 'student':
-        return {
-            'nav_student_profile': StudentProfile.query.filter_by(student_id=current_user.id).first()
-        }
+        profile = getattr(g, 'nav_student_profile', None)
+        if profile is None:
+            profile = StudentProfile.query.filter_by(student_id=current_user.id).first()
+            g.nav_student_profile = profile
+        return {'nav_student_profile': profile}
     return {'nav_student_profile': None}
 
 
@@ -1548,11 +1620,9 @@ def teacher_quizzes():
     topics = PsychologyTopic.query.filter(
         (PsychologyTopic.teacher_id == current_user.id) | (PsychologyTopic.is_published == True)
     ).order_by(PsychologyTopic.teacher_id != current_user.id, PsychologyTopic.updated_at.desc()).all()
-    question_counts = {topic.id: topic_question_count(topic.id) for topic in topics}
-    submission_counts = {
-        topic.id: PsychologySubmission.query.filter_by(topic_id=topic.id).count()
-        for topic in topics
-    }
+    topic_ids = [topic.id for topic in topics]
+    question_counts = grouped_count(PsychologyQuestion, PsychologyQuestion.topic_id, topic_ids)
+    submission_counts = grouped_count(PsychologySubmission, PsychologySubmission.topic_id, topic_ids)
     return render_template(
         'teacher_quizzes.html',
         topics=topics,
@@ -1649,13 +1719,9 @@ def student_quizzes():
     if not role_required('student'):
         return redirect(url_for('dashboard'))
     topics = PsychologyTopic.query.filter_by(is_published=True).order_by(PsychologyTopic.updated_at.desc()).all()
-    question_counts = {topic.id: topic_question_count(topic.id) for topic in topics}
-    latest_submissions = {}
-    for topic in topics:
-        latest_submissions[topic.id] = PsychologySubmission.query.filter_by(
-            topic_id=topic.id,
-            student_id=current_user.id,
-        ).order_by(PsychologySubmission.created_at.desc()).first()
+    topic_ids = [topic.id for topic in topics]
+    question_counts = grouped_count(PsychologyQuestion, PsychologyQuestion.topic_id, topic_ids)
+    latest_submissions = latest_submissions_by_topic(topic_ids, current_user.id)
     return render_template(
         'student_quizzes.html',
         topics=topics,
@@ -1739,13 +1805,9 @@ def student_self_discovery():
     if not role_required('student'):
         return redirect(url_for('dashboard'))
     tests = CareerTest.query.filter_by(is_published=True).order_by(CareerTest.updated_at.desc()).limit(5).all()
-    question_counts = {test.id: career_question_count(test.id) for test in tests}
-    latest_submissions = {}
-    for test in tests:
-        latest_submissions[test.id] = CareerSubmission.query.filter_by(
-            test_id=test.id,
-            student_id=current_user.id,
-        ).order_by(CareerSubmission.created_at.desc()).first()
+    test_ids = [test.id for test in tests]
+    question_counts = grouped_count(CareerQuestion, CareerQuestion.test_id, test_ids)
+    latest_submissions = latest_career_submissions_by_test(test_ids, current_user.id)
     entry_count = EmotionEntry.query.filter_by(student_id=current_user.id).count()
     test_count = CareerSubmission.query.filter_by(student_id=current_user.id).count()
     discovery_percent = min(100, 18 + entry_count * 3 + test_count * 18)
@@ -2123,11 +2185,9 @@ def teacher_career_tests():
     if not role_required('teacher'):
         return redirect(url_for('dashboard'))
     tests = CareerTest.query.filter_by(teacher_id=current_user.id).order_by(CareerTest.updated_at.desc()).all()
-    question_counts = {test.id: career_question_count(test.id) for test in tests}
-    submission_counts = {
-        test.id: CareerSubmission.query.filter_by(test_id=test.id).count()
-        for test in tests
-    }
+    test_ids = [test.id for test in tests]
+    question_counts = grouped_count(CareerQuestion, CareerQuestion.test_id, test_ids)
+    submission_counts = grouped_count(CareerSubmission, CareerSubmission.test_id, test_ids)
     return render_template(
         'teacher_career_tests.html',
         tests=tests,
@@ -2314,10 +2374,13 @@ def teacher_life_skills():
     if not role_required('teacher'):
         return redirect(url_for('dashboard'))
     lessons = LifeSkillLesson.query.filter_by(teacher_id=current_user.id).order_by(LifeSkillLesson.updated_at.desc()).all()
-    completion_counts = {
-        lesson.id: LifeSkillProgress.query.filter_by(lesson_id=lesson.id, is_completed=True).count()
-        for lesson in lessons
-    }
+    lesson_ids = [lesson.id for lesson in lessons]
+    completion_counts = grouped_count(
+        LifeSkillProgress,
+        LifeSkillProgress.lesson_id,
+        lesson_ids,
+        LifeSkillProgress.is_completed == True,
+    )
     return render_template('teacher_life_skills.html', lessons=lessons, completion_counts=completion_counts)
 
 
@@ -2374,7 +2437,13 @@ def student_life_skills():
     active_category = request.args.get('category', 'Tất cả')
     if active_category != 'Tất cả':
         lessons = [lesson for lesson in lessons if lesson.skill_category == active_category]
-    progress_items = LifeSkillProgress.query.filter_by(student_id=current_user.id).all()
+    lesson_ids = [lesson.id for lesson in lessons]
+    progress_items = (
+        LifeSkillProgress.query
+        .filter(LifeSkillProgress.student_id == current_user.id, LifeSkillProgress.lesson_id.in_(lesson_ids))
+        .all()
+        if lesson_ids else []
+    )
     progress_by_lesson = {item.lesson_id: item for item in progress_items}
     return render_template(
         'student_life_skills.html',
@@ -2516,11 +2585,7 @@ def teacher_chat_list():
     student_ids = sorted({conversation.student_id for conversation in conversations})
     students = User.query.filter(User.id.in_(student_ids)).all() if student_ids else []
     students_by_id = {student.id: student for student in students}
-    latest_messages = {}
-    for conversation in conversations:
-        latest_messages[conversation.id] = ChatMessage.query.filter_by(
-            conversation_id=conversation.id,
-        ).order_by(ChatMessage.created_at.desc()).first()
+    latest_messages = latest_messages_by_conversation([conversation.id for conversation in conversations])
     return render_template(
         'teacher_chat_list.html',
         conversations=conversations,
@@ -2581,11 +2646,7 @@ def teacher_parent_chat_list():
     parents_by_id = {parent.id: parent for parent in conversation_parents}
     all_parents = User.query.filter_by(role='parent', is_active=True).order_by(User.username.asc()).all()
     conversations_by_parent = {conversation.student_id: conversation for conversation in conversations}
-    latest_messages = {}
-    for conversation in conversations:
-        latest_messages[conversation.id] = ChatMessage.query.filter_by(
-            conversation_id=conversation.id,
-        ).order_by(ChatMessage.created_at.desc()).first()
+    latest_messages = latest_messages_by_conversation([conversation.id for conversation in conversations])
     return render_template(
         'teacher_parent_chat_list.html',
         conversations=conversations,
