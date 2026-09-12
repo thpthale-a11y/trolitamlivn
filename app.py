@@ -1825,6 +1825,22 @@ def student_self_discovery():
     )
 
 
+@app.route('/student/career-game')
+@login_required
+def student_career_game():
+    if not role_required('student', 'teacher', 'admin', 'parent'):
+        return redirect(url_for('dashboard'))
+    return render_template('student_career_game.html')
+
+
+@app.route('/student/learning-discovery')
+@login_required
+def student_learning_discovery():
+    if not role_required('student', 'teacher', 'admin', 'parent'):
+        return redirect(url_for('dashboard'))
+    return render_template('student_learning_discovery.html')
+
+
 @app.route('/student/career/tests/<int:test_id>', methods=['GET', 'POST'])
 @login_required
 def student_career_test_take(test_id):
@@ -2883,6 +2899,6 @@ import_current_data_if_requested()
 
 if __name__ == '__main__':
     if socketio:
-        socketio.run(app, debug=True)
+        socketio.run(app, debug=True, use_reloader=False, port=int(os.environ.get('PORT', 5001)), allow_unsafe_werkzeug=True)
     else:
-        app.run(debug=True)
+        app.run(debug=True, use_reloader=False, port=int(os.environ.get('PORT', 5001)))

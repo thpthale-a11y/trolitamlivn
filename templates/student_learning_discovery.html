@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Khám Phá Hướng Học - AI Hướng Tương Lai</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#2563EB',
+                            lightBlue: '#EFF6FF',
+                            green: '#10B981',
+                            purple: '#8B5CF6',
+                            dark: '#0F172A',
+                            slate: '#475569'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #1E293B; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+        
+        .nav-item-active {
+            background-color: #EFF6FF;
+            color: #2563EB;
+            border-right: 4px solid #2563EB;
+            font-weight: 600;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .roadmap-line {
+            position: absolute;
+            left: 50%;
+            width: 3px;
+            background: linear-gradient(180deg, #3B82F6 0%, #10B981 100%);
+            top: 40px;
+            bottom: 40px;
+            z-index: 0;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-compass text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">AI Hướng Tương Lai</span>
+                            <span class="text-xs text-slate-400">| THCS Lớp 6-9</span>
+                        </div>
+                        <h1 class="text-lg font-bold text-slate-800 leading-tight">🎓 KHÁM PHÁ HƯỚNG HỌC</h1>
+                    </div>
+                </div>
+
+                <!-- Right Quick Stats & Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="navModule.navigateTo('page8')" class="hidden sm:flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm transition">
+                        <i class="fa-solid fa-heart text-rose-500"></i>
+                        <span>Đã lưu</span>
+                        <span id="saved-routes-count" class="bg-rose-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold">0</span>
+                    </button>
+                    <button onclick="navModule.navigateTo('page9')" class="hidden sm:flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-sm font-medium transition">
+                        <i class="fa-solid fa-bullseye text-blue-600"></i>
+                        <span>Mục tiêu</span>
+                        <span id="goals-count" class="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full font-bold">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="md:hidden text-slate-600 p-2 rounded-lg hover:bg-slate-100" aria-label="Menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow flex flex-col md:flex-row gap-6 w-full">
+        
+        <!-- Sidebar Navigation (Desktop & Mobile Drawer) -->
+        <aside id="sidebar-menu" class="w-full md:w-72 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm shrink-0 self-start sticky top-20 hidden md:block">
+            <div class="px-3 py-2 border-b border-slate-100 mb-2">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Danh mục khám phá</p>
+            </div>
+            <nav class="space-y-1" id="nav-items-container">
+                <!-- Navigation items dynamically rendered or styled -->
+            </nav>
+            
+            <div class="mt-6 p-3 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-indigo-100 text-xs text-slate-600 space-y-2">
+                <div class="flex items-center space-x-1.5 text-indigo-700 font-semibold">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Tự do & Khách quan</span>
+                </div>
+                <p>Module này hoạt động độc lập. Mọi lựa chọn do chính em trải nghiệm và suy ngẫm.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Render Container -->
+        <main class="flex-1 min-w-0" id="app-main-content">
+            <!-- Dynamic Content Will Be Rendered Here -->
+        </main>
+    </div>
+
+    <!-- Global Modal Dialog Container -->
+    <div id="app-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden animate-fade-in" aria-hidden="true">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 id="modal-title" class="font-bold text-slate-800 text-lg">Chi tiết</h3>
+                <button onclick="uiHelpers.closeModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-4">
+                <!-- Content injected dynamically -->
+            </div>
+            <div id="modal-footer" class="px-6 py-3 border-t border-slate-100 bg-slate-50 flex justify-end space-x-3">
+                <button onclick="uiHelpers.closeModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-300">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-3 translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-message" class="text-sm font-medium">Thông báo</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+            <p class="font-semibold text-slate-700">🤖 AI HƯỚNG TƯƠNG LAI — MODULE 🎓 KHÁM PHÁ HƯỚNG HỌC (THCS LỚP 6 - 9)</p>
+            <p>Hệ thống hỗ trợ tự định hướng học tập theo Chương trình Giáo dục Phổ thông 2018.</p>
+            <p class="text-slate-400 text-[11px]">DEMO DATA – DỮ LIỆU MINH HỌA VÀ TƯ VẤN THAM KHẢO HƯỚNG NGHIỆP THCS.</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * ISOLATED MODULE DATABASE - MODULE KHÁM PHÁ HƯỚNG HỌC
+         * Strictly independent from studentProfile or external modules.
+         */
+        const learningPathDB = {
+            pages: [
+                { id: 'page1', title: 'Bản đồ con đường', icon: 'fa-map-location-dot', subtitle: 'Tổng quan các ngả đường sau THCS' },
+                { id: 'page2', title: 'Sau THCS chọn gì?', icon: 'fa-shoe-prints', subtitle: 'Bộ lọc & Ma trận quyết định' },
+                { id: 'page3', title: 'Môn học & Năng lực', icon: 'fa-book-open-reader', subtitle: 'Tổ hợp môn GDPT 2018' },
+                { id: 'page4', title: 'GD Nghề nghiệp', icon: 'fa-screwdriver-wrench', subtitle: 'Mô hình 9+ & Học nghề' },
+                { id: 'page5', title: 'Khám phá GDTX', icon: 'fa-school-flag', subtitle: 'Giáo dục thường xuyên linh hoạt' },
+                { id: 'page6', title: 'Sau THPT đi đâu?', icon: 'fa-graduation-cap', subtitle: 'Định hướng tiếp nối tương lai' },
+                { id: 'page7', title: 'AI So sánh các hướng', icon: 'fa-robot', subtitle: 'Đối chiếu đa chiều & Hỏi đáp' },
+                { id: 'page8', title: 'Hướng em quan tâm', icon: 'fa-heart', subtitle: 'Danh sách lưu & Suy ngẫm' },
+                { id: 'page9', title: 'Mục tiêu của tôi', icon: 'fa-bullseye', subtitle: 'Xây dựng mục tiêu SMART' },
+                { id: 'page10', title: 'Kế hoạch 30 ngày', icon: 'fa-calendar-check', subtitle: 'Lộ trình hành động cụ thể' }
+            ],
+
+            learningRoutes: [
+                {
+                    id: 'route_thpt_public',
+                    category: 'THPT',
+                    name: 'THPT Công lập',
+                    tagline: 'Học văn hóa tập trung chuẩn quốc gia',
+                    description: 'Con đường học tập phổ thông truyền thống thông qua kỳ thi tuyển sinh Lớp 10 của Sở GD&ĐT.',
+                    duration: '3 năm (Lớp 10, 11, 12)',
+                    degree: 'Bằng Tốt nghiệp THPT',
+                    suitableFor: 'Học sinh có lực học khá - giỏi, mong muốn thi Đại học hoặc nghiên cứu chuyên sâu.',
+                    pros: ['Kiến thức văn hóa nền tảng vững vàng', 'Học phí theo quy định nhà nước', 'Môi trường thi đua học tập cao'],
+                    cons: ['Áp lực thi tuyển sinh Lớp 10 cao', 'Thiếu thời gian thực hành nghề nghiệp sớm'],
+                    gdpt2018Note: 'Được chọn tổ hợp môn học theo định hướng nghề nghiệp (KHTN, KHXH, Công nghệ/Nghệ thuật).'
+                },
+                {
+                    id: 'route_thpt_private',
+                    category: 'THPT',
+                    name: 'THPT Tư thục / Ngỗi Trường Chất Lượng Cao',
+                    tagline: 'Môi trường học tập linh hoạt & kỹ năng mềm',
+                    description: 'Chương trình học kết hợp văn hóa THPT với ngoại ngữ, kỹ năng sống và mô hình giáo dục hiện đại.',
+                    duration: '3 năm (Lớp 10, 11, 12)',
+                    degree: 'Bằng Tốt nghiệp THPT',
+                    suitableFor: 'Học sinh muốn môi trường năng động, phát triển toàn diện kỹ năng, tiếng Anh.',
+                    pros: ['Cơ sở vật chất hiện đại', 'Chú trọng tiếng Anh, kỹ năng mềm, ngoại khóa', 'Xét tuyển hồ sơ/học bạ linh hoạt'],
+                    cons: ['Học phí cao hơn trường công lập', 'Yêu cầu tính tự lập và chủ động tốt'],
+                    gdpt2018Note: 'Linh hoạt các môn tự chọn và tăng cường hoạt động trải nghiệm hướng nghiệp.'
+                },
+                {
+                    id: 'route_gdtx',
+                    category: 'GDTX',
+                    name: 'Trung tâm GDTX / GDNN-GDTX',
+                    tagline: 'Giảm tải môn học văn hóa - Tăng thực hành',
+                    description: 'Chương trình Giáo dục thường xuyên cấp THPT, giảm bớt số môn văn hóa bắt buộc, có thể học kết hợp lấy bằng Nghề.',
+                    duration: '3 năm',
+                    degree: 'Bằng Tốt nghiệp THPT (Bình đẳng với THPT Công lập)',
+                    suitableFor: 'Học sinh muốn giảm áp lực thi cử văn hóa, muốn vừa học văn hóa vừa học nghề.',
+                    pros: ['Chương trình gọn nhẹ hơn', 'Được học song song trung cấp nghề', 'Giá trị bằng tốt nghiệp THPT tương đương'],
+                    cons: ['Cần tính tự giác học tập cao', 'Môi trường học tập khác biệt so với THPT'],
+                    gdpt2018Note: 'Chương trình GDTX cấp THPT thiết kế theo đúng định hướng GDPT 2018.'
+                },
+                {
+                    id: 'route_vocational_9plus',
+                    category: 'Nghề',
+                    name: 'Trường Trung cấp / Mô hình 9+',
+                    tagline: 'Vừa học nghề vừa học văn hóa THPT',
+                    description: 'Tốt nghiệp THCS vào thẳng học nghề kết hợp hoàn thành chương trình văn hóa THPT.',
+                    duration: '2 - 3 năm',
+                    degree: 'Bằng Trung cấp Nghề + Bằng/Chứng nhận Văn hóa THPT',
+                    suitableFor: 'Học sinh thích thực hành, muốn có nghề nghiệp sớm và tự chủ tài chính từ 18 tuổi.',
+                    pros: ['Được miễn 100% học phí học nghề (theo Nghị định nhà nước)', 'Có bằng nghề ở tuổi 18', 'Được liên thông lên Cao đẳng/Đại học'],
+                    cons: ['Lịch học song song văn hóa và nghề khá bận rộn', 'Cần xác định sớm lĩnh vực yêu thích'],
+                    gdpt2018Note: 'Định hướng luồng Giáo dục Nghề nghiệp trọng tâm của Bộ GD&ĐT và Lao động.'
+                }
+            ],
+
+            subjectsGDPT2018: {
+                mandatory: ['Ngữ văn', 'Toán', 'Ngoại ngữ 1', 'Giáo dục quốc phòng và an ninh', 'Giáo dục thể chất', 'Hoạt động trải nghiệm, hướng nghiệp', 'Nội dung giáo dục của địa phương'],
+                groups: [
+                    {
+                        name: 'Môn Khoa học Tự nhiên',
+                        motto: 'Logic - Khám phá - Phân tích',
+                        subjects: ['Vật lý', 'Hóa học', 'Sinh học'],
+                        fieldMatches: ['Kỹ thuật', 'Công nghệ', 'Y Dược', 'Nông lâm ngư', 'Nghiên cứu']
+                    },
+                    {
+                        name: 'Môn Khoa học Xã hội',
+                        motto: 'Thấu hiểu - Giao tiếp - Văn hóa',
+                        subjects: ['Lịch sử', 'Địa lý', 'Giáo dục kinh tế và pháp luật'],
+                        fieldMatches: ['Sư phạm', 'Luật', 'Báo chí', 'Du lịch', 'Quản trị', 'Xã hội']
+                    },
+                    {
+                        name: 'Môn Công nghệ & Nghệ thuật',
+                        motto: 'Sáng tạo - Ứng dụng - Thực hành',
+                        subjects: ['Công nghệ', 'Tin học', 'Âm nhạc', 'Mỹ thuật'],
+                        fieldMatches: ['CNTT', 'Thiết kế đồ họa', 'Kiến trúc', 'Truyền thông', 'Nghệ thuật']
+                    }
+                ]
+            },
+
+            coreCompetencies: [
+                { id: 'comp1', title: 'Tự chủ & Tự học', desc: 'Khả năng chủ động lập kế hoạch và hoàn thành bài tập không cần nhắc nhở.' },
+                { id: 'comp2', title: 'Giao tiếp & Hợp tác', desc: 'Biết lắng nghe, chia sẻ và làm việc nhóm hiệu quả với bạn bè.' },
+                { id: 'comp3', title: 'Giải quyết vấn đề & Sáng tạo', desc: 'Tìm giải pháp mới cho bài toán hoặc tình huống thực tế.' },
+                { id: 'comp4', title: 'Năng lực Số (Tin học)', desc: 'Sử dụng máy tính, internet an toàn và ứng dụng AI hỗ trợ học tập.' }
+            ],
+
+            vocationalFields: [
+                { title: 'Công nghệ thông tin & Lập trình', level: 'Trung cấp / 9+', output: 'Kỹ thuật viên phần mềm, Quản trị mạng, Thiết kế Web' },
+                { title: 'Kỹ thuật ô tô & Cơ khí', level: 'Trung cấp / 9+', output: 'Kỹ thuật viên sửa chữa ô tô, Bảo trì máy công nghiệp' },
+                { title: 'Du lịch - Khách sạn - Bếp', level: 'Trung cấp / 9+', output: 'Đầu bếp, Quản lý nhà hàng, Hướng dẫn viên' },
+                { title: 'Chăm sóc sức khỏe & Đa khoa', level: 'Trung cấp / 9+', output: 'Điều dưỡng viên, Dược sĩ trung cấp, Y sĩ' },
+                { title: 'Thiết kế đồ họa & Truyền thông', level: 'Trung cấp / 9+', output: 'Chuyên viên thiết kế, Dựng video, Truyền thông số' }
+            ]
+        };
+
+        /**
+         * LOCALSTORAGE MANAGER WITH ISOLATED NAMESPACE
+         * Absolute zero interaction with studentProfile or other external modules.
+         */
+        const storageManager = {
+            PREFIX: 'learningPath_',
+            
+            get(key, defaultValue = []) {
+                try {
+                    const item = localStorage.getItem(this.PREFIX + key);
+                    return item ? JSON.parse(item) : defaultValue;
+                } catch (e) {
+                    console.error('Error reading localStorage', e);
+                    return defaultValue;
+                }
+            },
+
+            set(key, value) {
+                try {
+                    localStorage.setItem(this.PREFIX + key, JSON.stringify(value));
+                } catch (e) {
+                    console.error('Error saving localStorage', e);
+                }
+            },
+
+            // Isolated Data Handlers
+            getSavedRoutes() { return this.get('SavedRoutes', []); },
+            saveRoute(routeId, note = '', rating = 5) {
+                const routes = this.getSavedRoutes();
+                const existingIndex = routes.findIndex(r => r.id === routeId);
+                const routeData = { id: routeId, note, rating, savedAt: new Date().toLocaleDateString('vi-VN') };
+                
+                if (existingIndex > -1) {
+                    routes[existingIndex] = routeData;
+                } else {
+                    routes.push(routeData);
+                }
+                this.set('SavedRoutes', routes);
+                uiHelpers.updateCounts();
+            },
+            removeSavedRoute(routeId) {
+                let routes = this.getSavedRoutes().filter(r => r.id !== routeId);
+                this.set('SavedRoutes', routes);
+                uiHelpers.updateCounts();
+            },
+
+            getGoals() { return this.get('Goals', []); },
+            addGoal(goal) {
+                const goals = this.getGoals();
+                goals.push({ ...goal, id: 'goal_' + Date.now(), createdAt: new Date().toLocaleDateString('vi-VN'), completed: false });
+                this.set('Goals', goals);
+                uiHelpers.updateCounts();
+            },
+            toggleGoal(goalId) {
+                const goals = this.getGoals().map(g => g.id === goalId ? { ...g, completed: !g.completed } : g);
+                this.set('Goals', goals);
+            },
+            deleteGoal(goalId) {
+                const goals = this.getGoals().filter(g => g.id !== goalId);
+                this.set('Goals', goals);
+                uiHelpers.updateCounts();
+            },
+
+            getPlanProgress() { return this.get('Plans', {}); },
+            toggleTask(taskId) {
+                const plans = this.getPlanProgress();
+                plans[taskId] = !plans[taskId];
+                this.set('Plans', plans);
+            }
+        };
+
+        const uiHelpers = {
+            showToast(msg, iconClass = 'fa-circle-check text-emerald-400') {
+                const toast = document.getElementById('toast-notification');
+                document.getElementById('toast-message').innerText = msg;
+                document.getElementById('toast-icon').className = `fa-solid ${iconClass}`;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3000);
+            },
+
+            openModal(title, htmlContent) {
+                document.getElementById('modal-title').innerText = title;
+                document.getElementById('modal-body').innerHTML = htmlContent;
+                document.getElementById('app-modal').classList.remove('hidden');
+            },
+
+            closeModal() {
+                document.getElementById('app-modal').classList.add('hidden');
+            },
+
+            updateCounts() {
+                const saved = storageManager.getSavedRoutes().length;
+                const goals = storageManager.getGoals().length;
+                document.getElementById('saved-routes-count').innerText = saved;
+                document.getElementById('goals-count').innerText = goals;
+            }
+        };
+
+        const navModule = {
+            currentPage: 'page1',
+
+            init() {
+                this.renderSidebar();
+                this.navigateTo('page1');
+                uiHelpers.updateCounts();
+
+                // Mobile drawer toggle
+                document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                    const sidebar = document.getElementById('sidebar-menu');
+                    sidebar.classList.toggle('hidden');
+                });
+            },
+
+            renderSidebar() {
+                const container = document.getElementById('nav-items-container');
+                container.innerHTML = learningPathDB.pages.map((p, idx) => `
+                    <button onclick="navModule.navigateTo('${p.id}')" id="nav-btn-${p.id}" class="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition flex items-center justify-between group">
+                        <div class="flex items-center space-x-3 truncate">
+                            <span class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 group-hover:text-blue-600 text-slate-500 flex items-center justify-center text-xs transition">
+                                <i class="fa-solid ${p.icon}"></i>
+                            </span>
+                            <span class="truncate">${idx + 1}. ${p.title}</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:text-blue-500"></i>
+                    </button>
+                `).join('');
+            },
+
+            navigateTo(pageId) {
+                this.currentPage = pageId;
+                
+                // Update active sidebar state
+                learningPathDB.pages.forEach(p => {
+                    const btn = document.getElementById(`nav-btn-${p.id}`);
+                    if (btn) {
+                        if (p.id === pageId) {
+                            btn.className = "w-full text-left px-3 py-2.5 rounded-xl text-sm font-bold bg-blue-50 text-blue-600 border-l-4 border-blue-600 flex items-center justify-between";
+                        } else {
+                            btn.className = "w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition flex items-center justify-between group";
+                        }
+                    }
+                });
+
+                // Hide mobile menu on selection
+                if (window.innerWidth < 768) {
+                    document.getElementById('sidebar-menu').classList.add('hidden');
+                }
+
+                // Render specific page
+                const main = document.getElementById('app-main-content');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                switch(pageId) {
+                    case 'page1': main.innerHTML = pagesRenderers.renderPage1(); break;
+                    case 'page2': main.innerHTML = pagesRenderers.renderPage2(); break;
+                    case 'page3': main.innerHTML = pagesRenderers.renderPage3(); break;
+                    case 'page4': main.innerHTML = pagesRenderers.renderPage4(); break;
+                    case 'page5': main.innerHTML = pagesRenderers.renderPage5(); break;
+                    case 'page6': main.innerHTML = pagesRenderers.renderPage6(); break;
+                    case 'page7': main.innerHTML = pagesRenderers.renderPage7(); pagesRenderers.initPage7Events(); break;
+                    case 'page8': main.innerHTML = pagesRenderers.renderPage8(); break;
+                    case 'page9': main.innerHTML = pagesRenderers.renderPage9(); break;
+                    case 'page10': main.innerHTML = pagesRenderers.renderPage10(); break;
+                    default: main.innerHTML = pagesRenderers.renderPage1();
+                }
+            }
+        };
+
+        const pagesRenderers = {
+
+            // Helper Header Breadcrumb
+            getHeaderHtml(title, desc, nextNav = null) {
+                return `
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm mb-6 animate-fade-in">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <div class="flex items-center space-x-2 text-xs font-semibold text-blue-600 mb-1">
+                                    <span>🎓 Module Khám Phá Hướng Học</span>
+                                    <span>•</span>
+                                    <span>GDPT 2018</span>
+                                </div>
+                                <h2 class="text-2xl font-bold text-slate-800">${title}</h2>
+                                <p class="text-sm text-slate-500 mt-1">${desc}</p>
+                            </div>
+                            ${nextNav ? `
+                                <button onclick="navModule.navigateTo('${nextNav.id}')" class="shrink-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 shadow-sm">
+                                    <span>${nextNav.label}</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            },
+
+            // TRANG 1: BẢN ĐỒ CON ĐƯỜNG HỌC TẬP
+            renderPage1() {
+                const routes = learningPathDB.learningRoutes;
+                return `
+                    ${this.getHeaderHtml('🗺️ BẢN ĐỒ CON ĐƯỜNG HỌC TẬP', 'Tổng quan toàn cảnh các ngả đường phân luồng học sinh sau tốt nghiệp THCS.', { id: 'page2', label: 'Bước tiếp: Tự lọc hướng học' })}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <!-- Step Indicator -->
+                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                            <div class="relative z-10 space-y-2">
+                                <span class="bg-white/20 text-white text-xs px-2.5 py-1 rounded-full font-semibold">Điểm mốc quan trọng</span>
+                                <h3 class="text-xl font-bold">Cột mốc Tốt nghiệp THCS (Lớp 9)</h3>
+                                <p class="text-blue-100 text-sm max-w-2xl">Em đứng trước 4 ngả đường chính. Mọi con đường đều dẫn đến sự phát triển bản thân và cơ hội nghề nghiệp bình đẳng trong tương lai.</p>
+                            </div>
+                        </div>
+
+                        <!-- Roadmap Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${routes.map(r => {
+                                const isSaved = storageManager.getSavedRoutes().some(s => s.id === r.id);
+                                return `
+                                    <div class="bg-white rounded-2xl p-5 border border-slate-200 hover:border-blue-400 transition shadow-sm flex flex-col justify-between">
+                                        <div class="space-y-3">
+                                            <div class="flex justify-between items-start">
+                                                <span class="px-2.5 py-1 rounded-lg text-xs font-bold ${r.category === 'THPT' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}">
+                                                    ${r.category}
+                                                </span>
+                                                <button onclick="pagesRenderers.toggleSaveRoute('${r.id}')" class="text-slate-400 hover:text-rose-500 transition p-1" title="Lưu hướng này">
+                                                    <i class="fa-${isSaved ? 'solid text-rose-500' : 'regular'} fa-heart text-lg"></i>
+                                                </button>
+                                            </div>
+                                            <h4 class="font-bold text-slate-800 text-lg">${r.name}</h4>
+                                            <p class="text-xs text-blue-600 font-medium">${r.tagline}</p>
+                                            <p class="text-sm text-slate-600 leading-relaxed">${r.description}</p>
+                                            
+                                            <div class="bg-slate-50 p-3 rounded-xl space-y-1 text-xs text-slate-500">
+                                                <div><strong class="text-slate-700">Thời gian:</strong> ${r.duration}</div>
+                                                <div><strong class="text-slate-700">Văn bằng:</strong> ${r.degree}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                                            <button onclick="pagesRenderers.showRouteDetail('${r.id}')" class="text-xs font-semibold text-blue-600 hover:text-blue-800">
+                                                Xem ưu điểm & yêu cầu <i class="fa-solid fa-chevron-right ml-1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            // TRANG 2: SAU THCS TÔI CÓ THỂ CHỌN GÌ?
+            renderPage2() {
+                return `
+                    ${this.getHeaderHtml('👣 SAU THCS TÔI CÓ THỂ CHỌN GÌ?', 'Bộ lọc hỗ trợ học sinh tự đánh giá điều kiện mong muốn.', { id: 'page3', label: 'Bước tiếp: Tìm hiểu môn học' })}
+                    
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6 animate-fade-in">
+                        <div class="border-b border-slate-100 pb-4">
+                            <h3 class="font-bold text-slate-800 text-lg flex items-center space-x-2">
+                                <i class="fa-solid fa-sliders text-blue-600"></i>
+                                <span>Bộ lọc tìm kiếm mong muốn của em</span>
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-1">Chọn các ưu tiên cá nhân để xem gợi ý con đường tham khảo.</p>
+                        </div>
+
+                        <!-- Interactive Filter -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-2">1. Phong cách học tập</label>
+                                <select id="filter-style" onchange="pagesRenderers.filterRoutes()" class="w-full text-sm border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                    <option value="all">-- Tất cả phong cách --</option>
+                                    <option value="academic">Lý thuyết & Thi cử văn hóa</option>
+                                    <option value="practical">Thực hành & Luyện nghề sớm</option>
+                                    <option value="flexible">Linh hoạt & Giảm áp lực</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-2">2. Mục tiêu ngắn hạn (18 tuổi)</label>
+                                <select id="filter-goal" onchange="pagesRenderers.filterRoutes()" class="w-full text-sm border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                    <option value="all">-- Tất cả mục tiêu --</option>
+                                    <option value="university">Chuẩn bị xét tuyển Đại học</option>
+                                    <option value="job">Có tay nghề & Đi làm ngay</option>
+                                    <option value="both">Song song Văn hóa & Nghề</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-2">3. Mức độ áp lực mong muốn</label>
+                                <select id="filter-pressure" onchange="pagesRenderers.filterRoutes()" class="w-full text-sm border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                    <option value="all">-- Tất cả --</option>
+                                    <option value="high">Sẵn sàng vượt áp lực thi cử</option>
+                                    <option value="balanced">Cân bằng hợp lý</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Results List -->
+                        <div class="mt-6 pt-4 border-t border-slate-100">
+                            <h4 class="font-bold text-sm text-slate-700 mb-3">Con đường gợi ý phù hợp với mong muốn trên:</h4>
+                            <div id="filter-results-container" class="space-y-3">
+                                <!-- Filtered content dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            filterRoutes() {
+                const style = document.getElementById('filter-style').value;
+                const container = document.getElementById('filter-results-container');
+                
+                let matches = learningPathDB.learningRoutes;
+
+                if (style === 'academic') {
+                    matches = matches.filter(r => r.category === 'THPT');
+                } else if (style === 'practical') {
+                    matches = matches.filter(r => r.category === 'Nghề');
+                } else if (style === 'flexible') {
+                    matches = matches.filter(r => r.category === 'GDTX' || r.id === 'route_thpt_private');
+                }
+
+                container.innerHTML = matches.map(m => `
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div>
+                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-700">${m.category}</span>
+                            <h5 class="font-bold text-slate-800 text-base mt-1">${m.name}</h5>
+                            <p class="text-xs text-slate-500">${m.suitableFor}</p>
+                        </div>
+                        <button onclick="pagesRenderers.showRouteDetail('${m.id}')" class="px-3 py-1.5 bg-white border border-blue-500 text-blue-600 hover:bg-blue-50 text-xs font-bold rounded-lg shrink-0">
+                            Chi tiết hướng này
+                        </button>
+                    </div>
+                `).join('');
+            },
+
+            // TRANG 3: MÔN HỌC & NĂNG LỰC
+            renderPage3() {
+                const subjects = learningPathDB.subjectsGDPT2018;
+                const comps = learningPathDB.coreCompetencies;
+
+                return `
+                    ${this.getHeaderHtml('📚 MÔN HỌC & NĂNG LỰC CẦN PHÁT TRIỂN', 'Tìm hiểu cấu trúc môn học lớp 10 (GDPT 2018) và các năng lực học sinh THCS cần rèn luyện.', { id: 'page4', label: 'Bước tiếp: Giáo dục nghề nghiệp' })}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <!-- Mandatory Subjects -->
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                            <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center space-x-2">
+                                <i class="fa-solid fa-square-check text-blue-600"></i>
+                                <span>1. Môn học bắt buộc ở Lớp 10 (Ai cũng học)</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                ${subjects.mandatory.map(s => `
+                                    <span class="bg-blue-50 text-blue-700 border border-blue-100 px-3 py-1.5 rounded-xl text-xs font-semibold">${s}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Elective Subject Groups -->
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-800 text-lg flex items-center space-x-2">
+                                <i class="fa-solid fa-layer-group text-purple-600"></i>
+                                <span>2. Nhóm môn tự chọn (Chọn 4 môn theo định hướng)</span>
+                            </h3>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                ${subjects.groups.map(g => `
+                                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                        <h4 class="font-bold text-slate-800 text-sm">${g.name}</h4>
+                                        <p class="text-xs text-purple-600 font-medium">${g.motto}</p>
+                                        <div class="space-y-1">
+                                            ${g.subjects.map(sub => `<div class="text-xs text-slate-700 bg-white px-2 py-1 rounded border border-slate-100">• ${sub}</div>`).join('')}
+                                        </div>
+                                        <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-200">
+                                            <strong>Gợi ý ngành nghề:</strong> ${g.fieldMatches.join(', ')}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Competency Checklist -->
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-800 text-lg flex items-center space-x-2">
+                                <i class="fa-solid fa-star text-amber-500"></i>
+                                <span>3. Năng lực cốt lõi học sinh THCS cần rèn luyện</span>
+                            </h3>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                ${comps.map(c => `
+                                    <div class="p-3 bg-amber-50/50 rounded-xl border border-amber-100 flex items-start space-x-3">
+                                        <i class="fa-solid fa-circle-check text-amber-500 mt-1"></i>
+                                        <div>
+                                            <h5 class="font-bold text-slate-800 text-xs">${c.title}</h5>
+                                            <p class="text-xs text-slate-600 mt-0.5">${c.desc}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // TRANG 4: GIÁO DỤC NGHỀ NGHIỆP
+            renderPage4() {
+                const vf = learningPathDB.vocationalFields;
+                return `
+                    ${this.getHeaderHtml('🛠️ KHÁM PHÁ GIÁO DỤC NGHỀ NGHIỆP', 'Mô hình học nghề sớm dành cho học sinh tốt nghiệp THCS.', { id: 'page5', label: 'Bước tiếp: Khám phá GDTX' })}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-md">
+                            <span class="bg-white/20 text-white text-xs px-2.5 py-1 rounded-full font-bold">Mô hình 9+ Trung cấp</span>
+                            <h3 class="text-xl font-bold mt-2">Học Nghề Sớm — Nhận Bằng Trung Cấp Ở Tuổi 18</h3>
+                            <p class="text-emerald-100 text-sm mt-1">Lựa chọn học sinh vừa được học văn hóa phổ thông, vừa được đào tạo kỹ năng nghề bài bản.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${vf.map(v => `
+                                <div class="bg-white p-5 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-0.5 rounded-md border border-emerald-100">${v.level}</span>
+                                        <i class="fa-solid fa-wrench text-slate-300"></i>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-base">${v.title}</h4>
+                                    <p class="text-xs text-slate-500"><strong>Cơ hội việc làm:</strong> ${v.output}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            // TRANG 5: KHÁM PHÁ GDTX
+            renderPage5() {
+                return `
+                    ${this.getHeaderHtml('🏫 KHÁM PHÁ GIÁO DỤC THƯỜNG XUYÊN (GDTX)', 'Giải mã ngộ nhận và hiểu đúng về cơ hội học tập tại các trung tâm GDNN-GDTX.', { id: 'page6', label: 'Bước tiếp: Sau THPT đi đâu?' })}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <!-- Myth Busting -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-800 text-lg text-rose-600">❌ Ngộ nhận thường gặp & ✅ Thực tế về GDTX</h3>
+                            
+                            <div class="space-y-3">
+                                <div class="p-4 bg-slate-50 rounded-xl space-y-1">
+                                    <p class="text-xs font-bold text-rose-600">❌ Ngộ nhận: "Bằng GDTX không có giá trị thi Đại học."</p>
+                                    <p class="text-xs text-slate-700">✅ <strong>Thực tế:</strong> Học sinh GDTX nhận bằng Tốt nghiệp THPT do Bộ GD&ĐT cấp, hoàn toàn bình đẳng và đủ điều kiện đăng ký xét tuyển vào TẤT CẢ các trường Đại học trên toàn quốc.</p>
+                                </div>
+                                <div class="p-4 bg-slate-50 rounded-xl space-y-1">
+                                    <p class="text-xs font-bold text-rose-600">❌ Ngộ nhận: "GDTX chỉ dành cho học sinh kém."</p>
+                                    <p class="text-xs text-slate-700">✅ <strong>Thực tế:</strong> Nhiều học sinh chủ động chọn GDTX để giảm bớt môn thi không cần thiết, tập trung thời gian học chứng chỉ nghề hoặc tiếng Anh.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // TRANG 6: SAU THPT TÔI CÓ THỂ ĐI ĐÂU?
+            renderPage6() {
+                return `
+                    ${this.getHeaderHtml('🎓 SAU THPT TÔI CÓ THỂ ĐI ĐÂU?', 'Định hướng tiếp nối sau khi hoàn thành bậc Phổ thông hoặc Trung cấp.', { id: 'page7', label: 'Bước tiếp: AI So sánh các hướng' })}
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">🏛️</div>
+                            <h4 class="font-bold text-slate-800 text-base">Đại học Học thuật</h4>
+                            <p class="text-xs text-slate-600">Đào tạo chuyên sâu lý thuyết, nghiên cứu, quản lý và chuyên môn cao (4-5 năm).</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">🏫</div>
+                            <h4 class="font-bold text-slate-800 text-base">Cao đẳng Thực hành</h4>
+                            <p class="text-xs text-slate-600">Tập trung kỹ năng nghề nghiệp thực tế, ra trường làm việc ngay sau 2-3 năm.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">✈️</div>
+                            <h4 class="font-bold text-slate-800 text-base">Du học & Liên kết</h4>
+                            <p class="text-xs text-slate-600">Trải nghiệm môi trường quốc tế, yêu cầu ngoại ngữ và tài chính tốt.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">💼</div>
+                            <h4 class="font-bold text-slate-800 text-base">Khởi nghiệp / Đi làm</h4>
+                            <p class="text-xs text-slate-600">Gia nhập thị trường lao động sớm với bằng nghề Trung cấp hoặc các khóa đào tạo ngắn hạn.</p>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // TRANG 7: AI GIÚP TÔI SO SÁNH CÁC HƯỚNG
+            renderPage7() {
+                const routes = learningPathDB.learningRoutes;
+                return `
+                    ${this.getHeaderHtml('🤖 AI GIÚP TÔI SO SÁNH CÁC HƯỚNG', 'Công cụ đối chiếu khách quan giữa 2 con đường học tập.', { id: 'page8', label: 'Xem hướng đã lưu' })}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <!-- Dual Selector -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-800 text-base">Chọn 2 hướng học để đối chiếu:</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Hướng thứ nhất:</label>
+                                    <select id="compare-route-1" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm bg-slate-50">
+                                        ${routes.map(r => `<option value="${r.id}">${r.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Hướng thứ hai:</label>
+                                    <select id="compare-route-2" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm bg-slate-50">
+                                        ${routes.map((r, i) => `<option value="${r.id}" ${i === 3 ? 'selected' : ''}>${r.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                            <button onclick="pagesRenderers.executeComparison()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm transition">
+                                <i class="fa-solid fa-code-compare mr-2"></i> Tiến hành so sánh đối chiếu
+                            </button>
+                        </div>
+
+                        <!-- Comparison Table Output -->
+                        <div id="comparison-result-area" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hidden">
+                            <!-- Comparison Table injected dynamically -->
+                        </div>
+
+                        <!-- Objective AI Chat Simulated Assistant -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <div class="flex items-center space-x-2 text-indigo-600 font-bold text-sm">
+                                <i class="fa-solid fa-robot"></i>
+                                <span>Trợ lý AI Hướng Học (Tư vấn gợi mở & Khách quan)</span>
+                            </div>
+                            <div id="ai-chat-box" class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs text-slate-700 space-y-2 max-h-48 overflow-y-auto">
+                                <p class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-2xs"><strong>AI:</strong> Mời em đặt câu hỏi về các con đường học tập sau THCS. AI sẽ giải thích ưu điểm và yêu cầu của từng hướng mà không quyết định thay em.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="text" id="ai-user-input" placeholder="Ví dụ: Học xong trung cấp 9+ có thể thi Đại học không?" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs outline-none focus:border-blue-500">
+                                <button onclick="pagesRenderers.sendAiQuestion()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700">Hỏi AI</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            initPage7Events() {
+                this.executeComparison();
+            },
+
+            executeComparison() {
+                const id1 = document.getElementById('compare-route-1').value;
+                const id2 = document.getElementById('compare-route-2').value;
+                const r1 = learningPathDB.learningRoutes.find(r => r.id === id1);
+                const r2 = learningPathDB.learningRoutes.find(r => r.id === id2);
+
+                const container = document.getElementById('comparison-result-area');
+                container.classList.remove('hidden');
+
+                container.innerHTML = `
+                    <h4 class="font-bold text-slate-800 text-base mb-4">Kết quả so sánh chi tiết</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700">
+                                    <th class="p-3 rounded-l-xl">Tiêu chí</th>
+                                    <th class="p-3 text-blue-700 font-bold">${r1.name}</th>
+                                    <th class="p-3 text-emerald-700 font-bold rounded-r-xl">${r2.name}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-600">Thời gian</td>
+                                    <td class="p-3 text-slate-700">${r1.duration}</td>
+                                    <td class="p-3 text-slate-700">${r2.duration}</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-600">Văn bằng đạt được</td>
+                                    <td class="p-3 text-slate-700">${r1.degree}</td>
+                                    <td class="p-3 text-slate-700">${r2.degree}</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-600">Ưu điểm chính</td>
+                                    <td class="p-3 text-slate-700">${r1.pros.join(', ')}</td>
+                                    <td class="p-3 text-slate-700">${r2.pros.join(', ')}</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-600">Điểm cần lưu ý</td>
+                                    <td class="p-3 text-slate-700">${r1.cons.join(', ')}</td>
+                                    <td class="p-3 text-slate-700">${r2.cons.join(', ')}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            },
+
+            sendAiQuestion() {
+                const input = document.getElementById('ai-user-input');
+                const chatBox = document.getElementById('ai-chat-box');
+                const val = input.value.trim();
+                if (!val) return;
+
+                // Render User Question
+                chatBox.innerHTML += `<p class="bg-blue-50 p-2.5 rounded-lg border border-blue-100 text-right"><strong>Em:</strong> ${val}</p>`;
+                input.value = '';
+
+                // Objective AI response rules (Strictly compliant with prompt guidelines)
+                setTimeout(() => {
+                    let aiReply = "Em có thể tìm hiểu thêm thông tin chi tiết từ đề án tuyển sinh chính thức. Mỗi con đường đều có ưu điểm riêng phù hợp với từng định hướng cá nhân.";
+                    
+                    if (val.toLowerCase().includes('đại học') || val.toLowerCase().includes('thi')) {
+                        aiReply = "Theo quy định của Bộ GD&ĐT, học sinh hoàn thành chương trình văn hóa THPT (dù học ở THPT Công lập, Tư thục hay GDTX) hoặc đã có bằng Trung cấp kết hợp đủ khối lượng văn hóa đều ĐỦ ĐIỀU KIỆN dự thi/xét tuyển Đại học. Em có thể so sánh thêm về khối lượng ôn tập của từng hướng.";
+                    } else if (val.toLowerCase().includes('nghề') || val.toLowerCase().includes('yếu')) {
+                        aiReply = "Học nghề là một con đường thực tiễn giúp phát triển kỹ năng sớm và tự chủ tài chính từ 18 tuổi. Đây không phải là lựa chọn dành cho học sinh yếu, mà là lựa chọn chủ động của những em thích thực hành và muốn có nghề nghiệp nhanh chóng.";
+                    }
+
+                    chatBox.innerHTML += `<p class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-2xs"><strong>AI:</strong> ${aiReply}</p>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 500);
+            },
+
+            // TRANG 8: HƯỚNG HỌC EM ĐANG QUAN TÂM
+            renderPage8() {
+                const saved = storageManager.getSavedRoutes();
+                const allRoutes = learningPathDB.learningRoutes;
+
+                return `
+                    ${this.getHeaderHtml('❤️ HƯỚNG HỌC EM ĐANG QUAN TÂM', 'Danh sách các con đường em đã lưu cùng ghi chú suy ngẫm cá nhân.', { id: 'page9', label: 'Bước tiếp: Đặt mục tiêu SMART' })}
+                    
+                    <div class="space-y-4 animate-fade-in">
+                        ${saved.length === 0 ? `
+                            <div class="bg-white p-8 rounded-2xl border border-slate-200 text-center space-y-3">
+                                <i class="fa-regular fa-heart text-4xl text-slate-300"></i>
+                                <h4 class="font-bold text-slate-700">Chưa có hướng học nào được lưu</h4>
+                                <p class="text-xs text-slate-500">Hãy duyệt Bản đồ con đường (Trang 1) và bấm biểu tượng trái tim để lưu các hướng em quan tâm.</p>
+                                <button onclick="navModule.navigateTo('page1')" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold">Khám phá bản đồ ngay</button>
+                            </div>
+                        ` : `
+                            <div class="grid grid-cols-1 gap-4">
+                                ${saved.map(s => {
+                                    const r = allRoutes.find(item => item.id === s.id);
+                                    if (!r) return '';
+                                    return `
+                                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-700">${r.category}</span>
+                                                    <h4 class="font-bold text-slate-800 text-lg mt-1">${r.name}</h4>
+                                                </div>
+                                                <button onclick="storageManager.removeSavedRoute('${s.id}'); navModule.navigateTo('page8');" class="text-slate-400 hover:text-rose-500 p-1">
+                                                    <i class="fa-solid fa-trash text-sm"></i>
+                                                </button>
+                                            </div>
+                                            <p class="text-xs text-slate-600">${r.description}</p>
+                                            <div class="bg-slate-50 p-3 rounded-xl">
+                                                <p class="text-xs font-bold text-slate-700">Ghi chú cá nhân của em:</p>
+                                                <p class="text-xs text-slate-500 italic mt-0.5">${s.note || 'Chưa có ghi chú riêng.'}</p>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `}
+                    </div>
+                `;
+            },
+
+            // TRANG 9: MỤC TIÊU CỦA TÔI
+            renderPage9() {
+                const goals = storageManager.getGoals();
+
+                return `
+                    ${this.getHeaderHtml('🎯 MỤC TIÊU CỦA TÔI', 'Thiết lập mục tiêu học tập & định hướng theo mô hình SMART.', { id: 'page10', label: 'Bước tiếp: Lập kế hoạch 30 ngày' })}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <!-- Goal Form -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-800 text-base">Thêm mục tiêu mới</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Tên mục tiêu (Ví dụ: Tăng điểm Toán HK2 lên 8.0)</label>
+                                    <input type="text" id="goal-title" class="w-full border border-slate-200 rounded-xl p-2.5 text-xs outline-none focus:border-blue-500" placeholder="Nhập tên mục tiêu...">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Thời hạn hoàn thành</label>
+                                    <input type="date" id="goal-target-date" class="w-full border border-slate-200 rounded-xl p-2.5 text-xs outline-none focus:border-blue-500">
+                                </div>
+                            </div>
+                            <button onclick="pagesRenderers.addNewGoal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+                                <i class="fa-solid fa-plus mr-1"></i> Lưu mục tiêu
+                            </button>
+                        </div>
+
+                        <!-- Goals List -->
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-800 text-sm">Danh sách mục tiêu đã đặt:</h4>
+                            ${goals.length === 0 ? '<p class="text-xs text-slate-400 italic">Chưa có mục tiêu nào được tạo.</p>' : ''}
+                            ${goals.map(g => `
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" ${g.completed ? 'checked' : ''} onchange="storageManager.toggleGoal('${g.id}'); navModule.navigateTo('page9');" class="w-4 h-4 text-blue-600 rounded">
+                                        <div>
+                                            <p class="text-xs font-bold ${g.completed ? 'line-through text-slate-400' : 'text-slate-800'}">${g.title}</p>
+                                            <p class="text-[11px] text-slate-400">Hạn chót: ${g.targetDate || 'Không có'} • Tạo ngày: ${g.createdAt}</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="storageManager.deleteGoal('${g.id}'); navModule.navigateTo('page9');" class="text-slate-400 hover:text-rose-500 text-xs">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            addNewGoal() {
+                const title = document.getElementById('goal-title').value.trim();
+                const targetDate = document.getElementById('goal-target-date').value;
+
+                if (!title) {
+                    uiHelpers.showToast('Vui lòng nhập tên mục tiêu!', 'fa-circle-exclamation text-amber-400');
+                    return;
+                }
+
+                storageManager.addGoal({ title, targetDate });
+                uiHelpers.showToast('Đã thêm mục tiêu thành công!');
+                navModule.navigateTo('page9');
+            },
+
+            // TRANG 10: KẾ HOẠCH 30 NGÀY
+            renderPage10() {
+                const plans = storageManager.getPlanProgress();
+                const tasks = [
+                    { id: 't1', week: 1, text: 'Tìm hiểu danh sách các trường THPT/Trung cấp/GDTX tại địa phương' },
+                    { id: 't2', week: 1, text: 'Trao đổi cùng cha mẹ về nguyện vọng và điều kiện gia đình' },
+                    { id: 't3', week: 2, text: 'Rà soát lực học các môn Lớp 9 hiện tại và lập kế hoạch bù đắp kiến thức' },
+                    { id: 't4', week: 2, text: 'Tham gia 1 buổi tư vấn hướng nghiệp hoặc ngày hội mở của trường trung cấp/THPT' },
+                    { id: 't5', week: 3, text: 'Tìm hiểu nhóm môn tự chọn GDPT 2018 dự kiến sẽ đăng ký ở Lớp 10' },
+                    { id: 't6', week: 4, text: 'Hoàn thành hồ sơ nguyện vọng và đặt mục tiêu điểm số thi tốt nghiệp THCS' }
+                ];
+
+                const completedCount = tasks.filter(t => plans[t.id]).length;
+                const percent = Math.round((completedCount / tasks.length) * 100);
+
+                return `
+                    ${this.getHeaderHtml('📅 KẾ HOẠCH 30 NGÀY', 'Lộ trình từng bước giúp học sinh THCS chủ động chuẩn bị cho giai đoạn chuyển cấp.')}
+                    
+                    <div class="space-y-6 animate-fade-in">
+                        <!-- Progress Card -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-800 text-sm">Tiến độ hoàn thành kế hoạch 30 ngày</span>
+                                <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">${percent}%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                                <div class="bg-blue-600 h-full transition-all duration-500" style="width: ${percent}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tasks List -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-800 text-base">Danh sách nhiệm vụ 30 ngày:</h3>
+                            <div class="space-y-3">
+                                ${tasks.map(t => `
+                                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                                        <div class="flex items-center space-x-3">
+                                            <input type="checkbox" ${plans[t.id] ? 'checked' : ''} onchange="storageManager.toggleTask('${t.id}'); navModule.navigateTo('page10');" class="w-4 h-4 text-blue-600 rounded">
+                                            <div>
+                                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-600">Tuần ${t.week}</span>
+                                                <p class="text-xs font-medium text-slate-800 mt-1 ${plans[t.id] ? 'line-through text-slate-400' : ''}">${t.text}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // Common Route Detail Modal Trigger
+            showRouteDetail(routeId) {
+                const r = learningPathDB.learningRoutes.find(item => item.id === routeId);
+                if (!r) return;
+
+                const content = `
+                    <div class="space-y-4 text-xs text-slate-700">
+                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                            <p class="font-bold text-blue-800 text-sm">${r.name}</p>
+                            <p class="text-blue-600 font-medium">${r.tagline}</p>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800">Đối tượng phù hợp nhất:</strong>
+                            <p class="mt-0.5">${r.suitableFor}</p>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800 text-emerald-700">Ưu điểm nổi bật:</strong>
+                            <ul class="list-disc list-inside mt-1 space-y-0.5">
+                                ${r.pros.map(p => `<li>${p}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800 text-amber-700">Điểm cần cân nhắc:</strong>
+                            <ul class="list-disc list-inside mt-1 space-y-0.5">
+                                ${r.cons.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="pt-2 border-t border-slate-100">
+                            <strong class="text-indigo-600">Lưu ý GDPT 2018:</strong> ${r.gdpt2018Note}
+                        </div>
+                    </div>
+                `;
+
+                uiHelpers.openModal(`Chi tiết hướng: ${r.name}`, content);
+            },
+
+            toggleSaveRoute(routeId) {
+                const isSaved = storageManager.getSavedRoutes().some(s => s.id === routeId);
+                if (isSaved) {
+                    storageManager.removeSavedRoute(routeId);
+                    uiHelpers.showToast('Đã bỏ lưu hướng học.');
+                } else {
+                    storageManager.saveRoute(routeId);
+                    uiHelpers.showToast('Đã lưu hướng học thành công!');
+                }
+                navModule.navigateTo(navModule.currentPage);
+            }
+        };
+
+        window.onload = function() {
+            navModule.init();
+        };
+    </script>
+</body>
+</html>

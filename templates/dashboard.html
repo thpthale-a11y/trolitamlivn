@@ -1,302 +1,345 @@
 {% extends "layout.html" %}
-{% block title %}Dashboard{% endblock %}
+
+{% block title %}Dashboard - SelfPath AI{% endblock %}
+
 {% block content %}
   {% if current_user.role == 'student' %}
-<section class="student-dashboard-hero">
+    <!-- Student Hero Section -->
+    <section class="student-dashboard-hero">
       <div>
-        <div class="student-dashboard-label">HƯỚNG NGHIỆP HỌC SINH</div>
+        <span class="badge text-bg-primary mb-2 px-3 py-2">
+          <i class="bi bi-stars me-1"></i> HƯỚNG NGHIỆP HỌC SINH
+        </span>
         <div class="student-dashboard-slogan">Khám phá bản thân – Kiến tạo tương lai</div>
-        <h1 class="student-dashboard-title">Chào mừng, {{ current_user.username }}</h1>
-        <p class="student-dashboard-copy">Khám phá bản thân, xem thư viện nghề và chọn lộ trình học phù hợp.</p>
+        <h1 class="student-dashboard-title">Chào mừng, {{ current_user.username }}! 👋</h1>
+        <p class="student-dashboard-copy">
+          Hôm nay bạn muốn khám phá nghề nghiệp, thực hiện trắc nghiệm tâm lý hay rèn luyện kỹ năng mới?
+        </p>
         <div class="student-dashboard-actions">
-          <a class="btn btn-primary" href="{{ url_for('student_self_discovery') }}">Bắt đầu hướng nghiệp</a>
-          <a class="btn btn-outline-primary" href="{{ url_for('student_career_library') }}">Thư viện nghề</a>
+          <a class="btn btn-primary btn-lg shadow-sm" href="{{ url_for('student_self_discovery') }}">
+            <i class="bi bi-compass-fill me-1"></i> Bắt đầu khám phá
+          </a>
+          <a class="btn btn-outline-primary btn-lg" href="{{ url_for('student_career_library') }}">
+            <i class="bi bi-journal-bookmark-fill me-1"></i> Thư viện nghề nghiệp
+          </a>
         </div>
       </div>
 
       <div class="student-dashboard-visual">
         <div class="student-dashboard-visual-card">
           <div class="dashboard-photo-single">
-            <img src="{{ url_for('static', filename='images/anh2.webp', v=config.ASSET_VERSION) }}" alt="Minh họa hướng nghiệp" loading="eager" decoding="async" fetchpriority="high">
+            <img src="{{ url_for('static', filename='images/anh2.webp', v=config.ASSET_VERSION) }}" alt="Minh họa hướng nghiệp" loading="eager" decoding="async">
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Student Stats Counter Grid -->
     <section class="student-stats-grid" aria-label="Thống kê học sinh">
       <article class="student-stat-tile stat-career">
-        <div class="student-stat-icon" data-fallback="HN" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img" aria-label="Hướng nghiệp"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2.1 5-4.9 2.1 2.1-5 4.9-2.1Z"></path></svg>
+        <div class="student-stat-icon">
+          <i class="bi bi-briefcase-fill fs-4"></i>
         </div>
         <strong>{{ explored_career_count|default(0) }}</strong>
-        <span class="student-stat-label">Nghề đã khám phá</span>
+        <span>Nghề đã khám phá</span>
       </article>
+
       <article class="student-stat-tile stat-quiz">
-        <div class="student-stat-icon" data-fallback="BH" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img" aria-label="Bài hỗ trợ"><path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="m3 6 1 1 2-2"></path><path d="m3 12 1 1 2-2"></path><path d="m3 18 1 1 2-2"></path></svg>
+        <div class="student-stat-icon">
+          <i class="bi bi-patch-check-fill fs-4"></i>
         </div>
         <strong>{{ completed_quiz_count|default(0) }}</strong>
-        <span class="student-stat-label">Bài hỗ trợ đã làm</span>
+        <span>Bài trắc nghiệm đã làm</span>
       </article>
+
       <article class="student-stat-tile stat-chat">
-        <div class="student-stat-icon" data-fallback="CH" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img" aria-label="Chat hỗ trợ"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6a8 8 0 1 1 18-5Z"></path><path d="M8 11h8"></path><path d="M8 15h5"></path></svg>
+        <div class="student-stat-icon">
+          <i class="bi bi-chat-dots-fill fs-4"></i>
         </div>
         <strong>{{ expert_chat_count|default(0) }}</strong>
-        <span class="student-stat-label">Lần chat hỗ trợ</span>
+        <span>Lần chat tư vấn AI/GV</span>
       </article>
+
       <article class="student-stat-tile stat-journal">
-        <div class="student-stat-icon" data-fallback="NK" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img" aria-label="Nhật ký cảm xúc"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"></path><path d="M8 4v13a3 3 0 0 0 3 3"></path><path d="M10 9c.9-1.2 3.1-1.2 4 0 1.1 1.5-.2 3.3-2 4.5-1.8-1.2-3.1-3-2-4.5Z"></path></svg>
+        <div class="student-stat-icon">
+          <i class="bi bi-emoji-smile-fill fs-4"></i>
         </div>
         <strong>{{ emotion_entry_count|default(0) }}</strong>
-        <span class="student-stat-label">Nhật ký cảm xúc</span>
+        <span>Nhật ký cảm xúc</span>
       </article>
     </section>
 
-    <script>
-      document.querySelectorAll('.student-stat-icon').forEach((icon) => {
-        if (!icon.querySelector('svg')) {
-          console.warn('Missing dashboard stat icon, using fallback:', icon.dataset.fallback || icon.textContent.trim());
-          icon.textContent = icon.dataset.fallback || '?';
-          icon.style.fontSize = '16px';
-        }
-      });
-    </script>
-<section class="student-focus-section">
+    <!-- Main Features Focus Grid -->
+    <section class="student-focus-section">
       <div class="student-focus-head">
-        <div class="student-dashboard-label">CHỨC NĂNG CHÍNH</div>
-        <h2>Hướng nghiệp là trung tâm</h2>
-        <p>Chọn nhanh khu vực bạn muốn dùng hôm nay.</p>
+        <span class="badge text-bg-info mb-2">KHU VỰC CHÍNH</span>
+        <h2>Hướng nghiệp & Định hướng bản thân</h2>
+        <p class="text-muted">Lựa chọn khu vực bạn muốn học tập và trải nghiệm hôm nay</p>
       </div>
 
       <div class="student-focus-grid">
-        <a class="student-focus-card primary" href="{{ url_for('student_self_discovery') }}">
-          <span class="student-focus-icon">HN</span>
+        <a class="student-focus-card primary" href="{{ url_for('student_career_game') }}">
+          <span class="student-focus-icon"><i class="bi bi-controller"></i></span>
+          <h3>Game Chọn Nghề</h3>
+          <p>Trải nghiệm 5 chặng thử thách game tìm kiếm nghề nghiệp phù hợp.</p>
+          <span class="student-focus-link">Chơi ngay <i class="bi bi-arrow-right"></i></span>
+        </a>
+
+        <a class="student-focus-card support" href="{{ url_for('student_learning_discovery') }}">
+          <span class="student-focus-icon"><i class="bi bi-compass-fill"></i></span>
+          <h3>Khám Phá Hướng Học</h3>
+          <p>Phân luồng THPT, GDTX, Trung cấp 9+ và tổ hợp môn GDPT 2018.</p>
+          <span class="student-focus-link">Khám phá <i class="bi bi-arrow-right"></i></span>
+        </a>
+
+        <a class="student-focus-card community" href="{{ url_for('student_self_discovery') }}">
+          <span class="student-focus-icon"><i class="bi bi-person-bounding-box"></i></span>
           <h3>Hướng nghiệp</h3>
-          <p>Khám phá bản thân, nghề nghiệp và lộ trình học.</p>
-          <span class="student-focus-link">Bắt đầu →</span>
+          <p>Khám phá nghề nghiệp, tính cách Holland/MBTI và lộ trình học tập.</p>
+          <span class="student-focus-link">Bắt đầu <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-focus-card support" href="{{ url_for('support_tools') }}">
-          <span class="student-focus-icon">HT</span>
-          <h3>Tâm lý & kỹ năng sống</h3>
-          <p>Trắc nghiệm, nhật ký cảm xúc và bài học kỹ năng.</p>
-          <span class="student-focus-link">Mở hỗ trợ →</span>
+          <span class="student-focus-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+          <h3>Tâm lý & Kỹ năng</h3>
+          <p>Trắc nghiệm cảm xúc, quản lý stress và các bài học kỹ năng sống.</p>
+          <span class="student-focus-link">Mở công cụ <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-focus-card community" href="{{ url_for('student_forum') }}">
-          <span class="student-focus-icon">CD</span>
+          <span class="student-focus-icon"><i class="bi bi-people-fill"></i></span>
           <h3>Cộng đồng</h3>
-          <p>Chia sẻ, hỏi đáp và kết nối với học sinh khác.</p>
-          <span class="student-focus-link">Vào diễn đàn →</span>
+          <p>Diễn đàn thảo luận, đặt câu hỏi ẩn danh và chia sẻ kinh nghiệm.</p>
+          <span class="student-focus-link">Vào diễn đàn <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-focus-card inbox" href="{{ url_for('student_inbox') }}">
-          <span class="student-focus-icon">HS</span>
+          <span class="student-focus-icon"><i class="bi bi-envelope-open-fill"></i></span>
           <h3>Hộp thư hướng nghiệp</h3>
-          <p>Theo dõi câu hỏi và phản hồi từ giáo viên.</p>
-          <span class="student-focus-link">Xem hộp thư →</span>
+          <p>Theo dõi các câu hỏi và lời khuyên trực tiếp từ giáo viên tư vấn.</p>
+          <span class="student-focus-link">Xem hộp thư <i class="bi bi-arrow-right"></i></span>
         </a>
       </div>
     </section>
 
-    <section class="student-feature-section-restored legacy-feature-grid">
+    <!-- Detailed Modules Grid -->
+    <section class="student-feature-section-restored">
       <div class="student-feature-head">
-        <div class="student-dashboard-label">CHỨC NĂNG CHÍNH</div>
-        <h2>Tất cả những gì bạn cần</h2>
-        <p>6 khu vực chức năng dành riêng cho học sinh</p>
+        <span class="badge text-bg-secondary mb-2">TẤT CẢ TÍNH NĂNG</span>
+        <h2>Công cụ đồng hành cùng bạn</h2>
+        <p class="text-muted">6 khu vực hỗ trợ toàn diện cho hành trình học đường</p>
       </div>
 
       <div class="student-feature-grid-modern">
         <a class="student-feature-modern accent-psy" href="{{ url_for('student_quizzes') }}">
-          <span class="student-feature-icon-modern" style="background: var(--color-psy-light); color: var(--color-psy-text);">🧠</span>
+          <span class="student-feature-icon-modern"><i class="bi bi-cpu-fill"></i></span>
           <h3>Trắc nghiệm tâm lý</h3>
-          <p>MBTI, DISC, Holland — khám phá tính cách và thế mạnh của bản thân</p>
-          <span class="student-feature-link">Làm ngay →</span>
+          <p>MBTI, DISC, Holland — khám phá điểm mạnh & phong cách học tập</p>
+          <span class="student-feature-link">Làm trắc nghiệm <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-feature-modern accent-chat" href="{{ url_for('student_chat_rooms') }}">
-          <span class="student-feature-icon-modern" style="background: var(--color-chat-light); color: var(--color-chat-text);">💬</span>
-          <h3>Chat chuyên gia</h3>
-          <p>Kết nối trực tiếp với chuyên gia tâm lý và hướng nghiệp</p>
-          <span class="student-feature-link">Chat ngay →</span>
+          <span class="student-feature-icon-modern"><i class="bi bi-robot"></i></span>
+          <h3>Chat AI Kbot & Chuyên gia</h3>
+          <p>Trò chuyện 24/7 với Kbot AI hoặc giáo viên tư vấn tâm lý</p>
+          <span class="student-feature-link">Chat ngay <i class="bi bi-arrow-right"></i></span>
         </a>
-        <a class="student-feature-modern accent-career" href="{{ url_for('student_self_discovery') }}">
-          <span class="student-feature-icon-modern" style="background: var(--color-career-light); color: var(--color-career-text);">🧭</span>
-          <h3>Hướng nghiệp</h3>
-          <p>Thư viện ngành nghề, lộ trình học tập và cơ hội tương lai</p>
-          <span class="student-feature-link">Khám phá →</span>
+
+        <a class="student-feature-modern accent-career" href="{{ url_for('student_career_library') }}">
+          <span class="student-feature-icon-modern"><i class="bi bi-journal-text"></i></span>
+          <h3>Thư viện nghề nghiệp</h3>
+          <p>Tra cứu thu nhập, kỹ năng và lộ trình thăng tiến từng ngành</p>
+          <span class="student-feature-link">Tra cứu nghề <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-feature-modern accent-skill" href="{{ url_for('student_life_skills') }}">
-          <span class="student-feature-icon-modern" style="background: var(--color-skill-light); color: var(--color-skill-text);">📖</span>
+          <span class="student-feature-icon-modern"><i class="bi bi-book-half"></i></span>
           <h3>Bài học kỹ năng sống</h3>
-          <p>Các bài học thực tế về kỹ năng mềm, quản lý cảm xúc</p>
-          <span class="student-feature-link">Học ngay →</span>
+          <p>Video ngắn & hướng dẫn thực hành kỹ năng mềm, giao tiếp, tự chủ</p>
+          <span class="student-feature-link">Học ngay <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-feature-modern accent-mood" href="{{ url_for('emotion_journal') }}">
-          <span class="student-feature-icon-modern" style="background: var(--color-mood-light); color: var(--color-mood-text);">♡</span>
+          <span class="student-feature-icon-modern"><i class="bi bi-emoji-wink-fill"></i></span>
           <h3>Nhật ký cảm xúc</h3>
-          <p>Ghi lại tâm trạng hàng ngày, theo dõi sức khỏe tinh thần</p>
-          <span class="student-feature-link">Ghi hôm nay →</span>
+          <p>Ghi lại cảm xúc hàng ngày và theo dõi diễn biến tâm trạng</p>
+          <span class="student-feature-link">Ghi nhật ký <i class="bi bi-arrow-right"></i></span>
         </a>
+
         <a class="student-feature-modern accent-community" href="{{ url_for('student_forum') }}">
-          <span class="student-feature-icon-modern" style="background: var(--color-community-light); color: var(--color-community-text);">👥</span>
-          <h3>Cộng đồng & diễn đàn</h3>
-          <p>Chia sẻ, hỏi đáp và kết nối với bạn bè cùng chí hướng</p>
-          <span class="student-feature-link">Vào diễn đàn →</span>
+          <span class="student-feature-icon-modern"><i class="bi bi-chat-square-quote-fill"></i></span>
+          <h3>Diễn đàn học sinh</h3>
+          <p>Đăng bài, chia sẻ góc nhìn và thảo luận học tập lành mạnh</p>
+          <span class="student-feature-link">Ghé thăm <i class="bi bi-arrow-right"></i></span>
         </a>
       </div>
     </section>
+
   {% else %}
-    <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <!-- Teacher, Parent & Admin View Header -->
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4 p-4 bg-white rounded-4 shadow-sm border">
       <div>
-        <h2 class="section-title">Xin chào, {{ current_user.username }}</h2>
+        <span class="badge text-bg-primary mb-1">
+          {% if current_user.role == 'parent' %}Không gian Phụ huynh
+          {% elif current_user.role == 'teacher' %}Giao diện Giáo viên
+          {% elif current_user.role == 'admin' %}Bảng Điều Khiển Admin
+          {% endif %}
+        </span>
+        <h2 class="section-title mb-0">Xin chào, {{ current_user.username }} 👋</h2>
       </div>
-      <div class="d-flex gap-2 align-items-start">
+      <div class="d-flex gap-2">
         {% if current_user.role == 'admin' %}
-          <a class="btn btn-primary" href="{{ url_for('create_teacher') }}">Tạo giáo viên</a>
-        {% endif %}
-        {% if current_user.role == 'teacher' %}
-          <a class="btn btn-outline-primary" href="{{ url_for('contact_admin') }}">Liên hệ quản trị</a>
+          <a class="btn btn-primary" href="{{ url_for('create_teacher') }}"><i class="bi bi-person-plus-fill me-1"></i> Tạo giáo viên</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('admin_users') }}"><i class="bi bi-people-fill me-1"></i> Quản lý users</a>
+        {% elif current_user.role == 'teacher' %}
+          <a class="btn btn-primary" href="{{ url_for('teacher_students') }}"><i class="bi bi-people-fill me-1"></i> Danh sách học sinh</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('contact_admin') }}"><i class="bi bi-headset me-1"></i> Liên hệ Admin</a>
         {% endif %}
       </div>
     </div>
 
+    <!-- Stat Metric Badges -->
     <div class="row g-3 mb-4">
       <div class="col-md-4">
-        <div class="stat-card">
-          <div class="stat-label">Vai trò</div>
-          <p class="stat-value text-capitalize">{{ current_user.role }}</p>
+        <div class="stat-card p-4">
+          <div class="stat-label text-muted small fw-bold">VAI TRÒ TÀI KHOẢN</div>
+          <p class="stat-value text-capitalize text-primary mb-0 fs-3">
+            {% if current_user.role == 'parent' %}Phụ huynh
+            {% elif current_user.role == 'teacher' %}Giáo viên
+            {% elif current_user.role == 'admin' %}Quản trị hệ thống
+            {% else %}{{ current_user.role }}{% endif %}
+          </p>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="stat-card">
-          <div class="stat-label">Mã tài khoản</div>
-          <p class="stat-value">{{ current_user.account_id or '—' }}</p>
+        <div class="stat-card p-4">
+          <div class="stat-label text-muted small fw-bold">MÃ TÀI KHOẢN</div>
+          <p class="stat-value text-dark mb-0 fs-3">#{{ current_user.account_id or '—' }}</p>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="stat-card">
-          <div class="stat-label">Trạng thái</div>
-          <p class="stat-value">{{ 'Active' if current_user.is_active else 'Revoked' }}</p>
+        <div class="stat-card p-4">
+          <div class="stat-label text-muted small fw-bold">TRẠNG THÁI HOẠT ĐỘNG</div>
+          <p class="stat-value mb-0 fs-3">
+            {% if current_user.is_active %}
+              <span class="badge text-bg-success"><i class="bi bi-check-circle-fill me-1"></i> Đang kích hoạt</span>
+            {% else %}
+              <span class="badge text-bg-danger"><i class="bi bi-x-circle-fill me-1"></i> Tạm khóa</span>
+            {% endif %}
+          </p>
         </div>
       </div>
     </div>
 
     {% if current_user.role == 'admin' %}
       <div class="mb-4">
-        <h5 class="fw-bold mb-3">Quản trị nhanh</h5>
+        <h5 class="fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Quản trị nhanh</h5>
         <div class="row g-3">
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('admin_users') }}" class="feature-card"><div class="feature-kicker">Users</div><div class="feature-title">Quản lý người dùng</div></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('admin_stats') }}" class="feature-card"><div class="feature-kicker">Reports</div><div class="feature-title">Thống kê hệ thống</div></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('admin_chat') }}" class="feature-card"><div class="feature-kicker">Messages</div><div class="feature-title">Tin nhắn quản trị</div></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('create_teacher') }}" class="feature-card"><div class="feature-kicker">Teachers</div><div class="feature-title">Tạo giáo viên</div></a></div>
+          <div class="col-md-6 col-xl-3">
+            <a href="{{ url_for('admin_users') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-people-fill me-1"></i> USERS</div>
+              <div class="feature-title mb-2">Quản lý người dùng</div>
+              <span class="small opacity-75">Xem danh sách, phân quyền, khóa/mở tài khoản</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <a href="{{ url_for('admin_stats') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-pie-chart-fill me-1"></i> REPORTS</div>
+              <div class="feature-title mb-2">Thống kê hệ thống</div>
+              <span class="small opacity-75">Xem biểu đồ số lượng học sinh & giáo viên</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <a href="{{ url_for('admin_chat') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-chat-quote-fill me-1"></i> MESSAGES</div>
+              <div class="feature-title mb-2">Tin nhắn hỗ trợ</div>
+              <span class="small opacity-75">Phản hồi thắc mắc từ giáo viên & học sinh</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <a href="{{ url_for('create_teacher') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-person-plus-fill me-1"></i> TEACHERS</div>
+              <div class="feature-title mb-2">Cấp tài khoản GV</div>
+              <span class="small opacity-75">Tạo tài khoản Giáo viên mới vào trường</span>
+            </a>
+          </div>
         </div>
       </div>
+
     {% elif current_user.role == 'parent' %}
-<div class="parent-dashboard">
-        <section class="parent-hero">
-          <div>
-            <span class="parent-kicker">✦ Không gian phụ huynh</span>
-            <h1>Xin chào, {{ current_user.username }}.</h1>
-            <p>Một góc yên bình để gia đình lắng nghe, đồng hành và kết nối với giáo viên — như một chiếc đèn nhỏ thắp sáng hành trình trưởng thành của con.</p>
-            <div class="parent-actions">
-              {% if parent_teachers %}
-                <a class="parent-btn-primary" href="{{ url_for('parent_teacher_chat', teacher_id=parent_teachers[0].id) }}">Nhắn giáo viên ngay →</a>
-              {% endif %}
-              <a class="parent-btn-soft" href="#parent-teachers">Xem danh sách giáo viên</a>
-            </div>
+      <div class="parent-dashboard bg-white p-4 rounded-4 shadow-sm border">
+        <div class="row align-items-center g-4 mb-4">
+          <div class="col-lg-8">
+            <span class="badge text-bg-warning mb-2 px-3 py-2"><i class="bi bi-heart-fill me-1"></i> ĐỒNG HÀNH CÙNG CON</span>
+            <h2 class="fw-extrabold">Kết nối trực tiếp với Giáo viên chủ nhiệm</h2>
+            <p class="text-muted">Trao đổi tình hình học tập, sức khỏe tinh thần và định hướng tương lai của con một cách nhanh chóng.</p>
           </div>
-          <div class="parent-visual" aria-hidden="true">
-            <div class="parent-dream-card">
-              <span class="parent-mini-badge one"><i style="background:#F59E0B;"></i>Lắng nghe</span>
-              <span class="parent-mini-badge two"><i style="background:#7C3AED;"></i>Đồng hành</span>
-              <span class="parent-mini-badge three"><i style="background:#0D9488;"></i>Kết nối</span>
-              <svg class="parent-illustration" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="parentGlow" x1="96" y1="38" x2="260" y2="210" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#7C3AED"/>
-                    <stop offset="1" stop-color="#EC4899"/>
-                  </linearGradient>
-                  <linearGradient id="parentBridge" x1="80" y1="164" x2="278" y2="164" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#C4B5FD"/>
-                    <stop offset="1" stop-color="#99F6E4"/>
-                  </linearGradient>
-                </defs>
-                <circle cx="184" cy="128" r="68" fill="url(#parentGlow)" opacity="0.94"/>
-                <circle cx="184" cy="128" r="88" stroke="#FFFFFF" stroke-width="12" opacity="0.38"/>
-                <path d="M74 182C116 144 150 144 184 176C219 209 257 203 294 164" stroke="url(#parentBridge)" stroke-width="16" stroke-linecap="round"/>
-                <path d="M98 183C133 157 159 158 184 181C213 207 242 198 270 172" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.88"/>
-                <rect x="122" y="98" width="50" height="60" rx="14" fill="#FFFFFF"/>
-                <path d="M116 106L147 78L178 106" stroke="#F97316" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="141" y="128" width="15" height="30" rx="5" fill="#7C3AED" opacity="0.82"/>
-                <circle cx="226" cy="108" r="17" fill="#FFFFFF"/>
-                <path d="M213 132C218 122 234 122 240 132L247 154H206L213 132Z" fill="#FFFFFF"/>
-                <circle cx="139" cy="119" r="13" fill="#FDE68A"/>
-                <path d="M128 139C133 131 145 131 150 139L157 158H122L128 139Z" fill="#FDE68A"/>
-                <circle cx="251" cy="150" r="11" fill="#99F6E4"/>
-                <path d="M242 166C246 160 255 160 260 166L266 181H236L242 166Z" fill="#99F6E4"/>
-                <circle cx="90" cy="90" r="5" fill="#F59E0B"/>
-                <circle cx="282" cy="78" r="6" fill="#0D9488"/>
-                <circle cx="286" cy="202" r="4" fill="#7C3AED"/>
-                <path d="M199 76C212 68 230 70 240 83" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
-                <path d="M119 202H247" stroke="#1E1B4B" stroke-width="5" stroke-linecap="round" opacity="0.14"/>
-              </svg>
-            </div>
+          <div class="col-lg-4 text-lg-end">
+            {% if parent_teachers %}
+              <a class="btn btn-primary btn-lg shadow-sm" href="{{ url_for('parent_teacher_chat', teacher_id=parent_teachers[0].id) }}">
+                <i class="bi bi-chat-heart-fill me-1"></i> Nhắn giáo viên ngay
+              </a>
+            {% endif %}
           </div>
-        </section>
+        </div>
 
-        <section class="parent-stat-grid" aria-label="Tổng quan phụ huynh">
-          <article class="parent-stat"><span>Vai trò</span><strong>Phụ huynh</strong></article>
-          <article class="parent-stat"><span>Mã tài khoản</span><strong>{{ current_user.account_id or '—' }}</strong></article>
-          <article class="parent-stat"><span>Giáo viên có thể liên hệ</span><strong>{{ parent_teachers|length }}</strong></article>
-        </section>
-
-        <section class="parent-main-grid" id="parent-teachers">
-          <div class="parent-panel">
-            <div class="parent-panel-head">
-              <div>
-                <h2>Chat với giáo viên</h2>
-                <p>Chọn giáo viên để trao đổi tình hình học tập, cảm xúc và những điều cần phối hợp với gia đình.</p>
-              </div>
-              <span class="parent-kicker">Realtime</span>
-            </div>
-            <div class="parent-teacher-list">
-              {% for teacher in parent_teachers %}
-                <a href="{{ url_for('parent_teacher_chat', teacher_id=teacher.id) }}" class="parent-teacher-card">
-                  <div class="parent-teacher-top">
-                    <span class="parent-teacher-avatar">{{ teacher.username[:1]|upper }}</span>
-                    <div>
-                      <div class="parent-teacher-name">{{ teacher.username }}</div>
-                      <div class="parent-teacher-email">{{ teacher.email }}</div>
+        <div class="parent-panel mt-4">
+          <h4 class="fw-bold mb-3"><i class="bi bi-person-workspace text-primary me-2"></i> Danh sách giáo viên tư vấn</h4>
+          <div class="row g-3">
+            {% for teacher in parent_teachers %}
+              <div class="col-md-6">
+                <div class="card p-3 shadow-sm rounded-4 border">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="student-avatar-nav" style="width:48px; height:48px; font-size:1.2rem;">
+                      {{ teacher.username[:1]|upper }}
                     </div>
+                    <div>
+                      <h5 class="fw-bold mb-0">{{ teacher.username }}</h5>
+                      <small class="text-muted">{{ teacher.email }}</small>
+                    </div>
+                    <a href="{{ url_for('parent_teacher_chat', teacher_id=teacher.id) }}" class="btn btn-outline-primary btn-sm ms-auto">
+                      Nhắn tin <i class="bi bi-arrow-right"></i>
+                    </a>
                   </div>
-                  <span class="parent-teacher-action">Mở phòng chat <span>→</span></span>
-                </a>
-              {% else %}
-                <div class="parent-empty">
-                  <h3>Chưa có giáo viên</h3>
-                  <p class="text-muted mb-0">Khi nhà trường thêm tài khoản giáo viên, danh sách liên hệ sẽ xuất hiện tại đây.</p>
                 </div>
-              {% endfor %}
-            </div>
+              </div>
+            {% else %}
+              <div class="col-12">
+                <div class="alert alert-light text-center py-4 border rounded-4">
+                  <i class="bi bi-info-circle fs-3 text-muted"></i>
+                  <p class="mb-0 mt-2 text-muted">Chưa có thông tin giáo viên phụ trách. Danh sách sẽ cập nhật khi nhà trường phân công.</p>
+                </div>
+              </div>
+            {% endfor %}
           </div>
-
-          <aside class="parent-panel parent-side-card">
-            <h3>Nhịp cầu hôm nay</h3>
-            <ul class="parent-note-list">
-              <li><span>🌱</span><div><b>Hỏi nhẹ nhàng.</b><br>“Hôm nay ở trường có điều gì làm con nhớ nhất?”</div></li>
-              <li><span>🕯️</span><div><b>Giữ bình tĩnh.</b><br>Khi con căng thẳng, sự yên ổn của phụ huynh là điểm tựa đầu tiên.</div></li>
-              <li><span>💌</span><div><b>Kết nối sớm.</b><br>Nếu thấy dấu hiệu bất thường, hãy nhắn giáo viên để cùng theo dõi.</div></li>
-            </ul>
-          </aside>
-        </section>
+        </div>
       </div>
+
     {% elif current_user.role == 'teacher' %}
-      <div>
-        <h5 class="fw-bold mb-3">Khu vực chức năng</h5>
+      <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
+        <h4 class="fw-bold mb-3"><i class="bi bi-grid-fill text-primary me-2"></i> Quản lý & Giảng dạy</h4>
         <div class="row g-3">
-          <div class="col-md-6 col-xl-6"><a href="{{ url_for('teacher_career_tests') }}" class="feature-card"><div class="feature-kicker">Trọng tâm chính</div><div class="feature-title">Hướng nghiệp</div><p class="section-subtitle mb-0">Quản lý bài khám phá, nghề nghiệp, lộ trình học tập và câu hỏi học sinh.</p></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('support_tools') }}" class="feature-card"><div class="feature-kicker">Nhóm hỗ trợ</div><div class="feature-title">Tâm lý & kỹ năng sống</div><p class="section-subtitle mb-0">Gộp trắc nghiệm, bài học kỹ năng và chat hỗ trợ.</p></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('student_forum') }}" class="feature-card"><div class="feature-kicker">Community</div><div class="feature-title">Cộng đồng</div></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_profile') }}" class="feature-card"><div class="feature-kicker">System</div><div class="feature-title">Hồ sơ giáo viên</div></a></div>
+          <div class="col-md-6 col-xl-6">
+            <a href="{{ url_for('teacher_career_tests') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-compass-fill me-1"></i> HƯỚNG NGHIỆP</div>
+              <div class="feature-title mb-2">Quản lý trắc nghiệm & Nghề nghiệp</div>
+              <p class="small opacity-75 mb-0">Tạo bài test định hướng, cập nhật thông tin ngành nghề và lộ trình học tập cho học sinh.</p>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <a href="{{ url_for('teacher_students') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-people-fill me-1"></i> QUẢN LÝ</div>
+              <div class="feature-title mb-2">Danh sách Học sinh</div>
+              <p class="small opacity-75 mb-0">Xem hồ sơ học sinh và báo cáo kết quả đánh giá.</p>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <a href="{{ url_for('teacher_parent_chat_list') }}" class="feature-card p-4 text-decoration-none">
+              <div class="feature-kicker mb-1"><i class="bi bi-chat-heart-fill me-1"></i> LIÊN LẠC</div>
+              <div class="feature-title mb-2">Chat Phụ huynh</div>
+              <p class="small opacity-75 mb-0">Trao đổi trực tiếp với gia đình học sinh.</p>
+            </a>
+          </div>
         </div>
       </div>
     {% endif %}

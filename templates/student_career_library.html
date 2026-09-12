@@ -1,158 +1,220 @@
 {% extends "layout.html" %}
-{% block title %}Thư viện nghề nghiệp{% endblock %}
+{% block title %}Thư viện nghề nghiệp - SelfPath AI{% endblock %}
+
 {% block content %}
-  <div class="career-mobile-page">
-    <div class="career-topbar">
-      <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-secondary">← Khám phá</a>
-      <h2 class="section-title mb-0">Thư viện nghề</h2>
-      <a href="{{ url_for('student_inbox') }}" class="btn btn-outline-secondary">Hộp thư</a>
-    </div>
+<div class="career-library-container max-w-5xl mx-auto">
 
-    <input id="career-search" class="form-control career-search" placeholder="Tìm nghề, kỹ năng, lĩnh vực...">
-
-    <div class="career-filter-strip" id="career-filters">
-      {% for field in fields %}
-        <button type="button" class="career-filter-pill {% if loop.first %}active{% endif %}" data-field="{{ field }}">{{ field }}</button>
-      {% endfor %}
+  <!-- Header Bar -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
+    <div>
+      <span class="badge text-bg-primary px-3 py-2 mb-1"><i class="bi bi-briefcase-fill me-1"></i> THƯ VIỆN NGÀNH NGHỀ</span>
+      <h2 class="section-title mb-0">Tra cứu & Khám phá Nghề nghiệp</h2>
+      <p class="text-muted small mb-0">Tìm hiểu yêu cầu công việc, mức lương, kỹ năng và nhu cầu thị trường</p>
     </div>
-
-    <div class="career-section-head">
-      <h5>Nghề nổi bật</h5>
-      <span>Giáo viên đề xuất</span>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-left"></i> Khám phá</a>
+      <a href="{{ url_for('student_inbox') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-envelope"></i> Hộp thư</a>
     </div>
-    <div class="career-featured-strip">
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-4">
+    <div class="input-group shadow-sm rounded-4 overflow-hidden">
+      <span class="input-group-text bg-white border-end-0 px-3 fs-5 text-primary"><i class="bi bi-search"></i></span>
+      <input id="career-search" class="form-control form-control-lg border-start-0 ps-0" placeholder="Tìm kiếm tên nghề, kỹ năng (ví dụ: Lập trình, Thiết kế, Marketing)...">
+    </div>
+  </div>
+
+  <!-- Field Filters Pill Strip -->
+  <div class="mb-4 d-flex flex-wrap gap-2" id="career-filters">
+    {% for field in fields %}
+      <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 career-filter-pill {% if loop.first %}active{% endif %}" data-field="{{ field }}">
+        {{ field }}
+      </button>
+    {% endfor %}
+  </div>
+
+  <!-- Featured Jobs Section -->
+  <div class="mb-4">
+    <h5 class="fw-bold mb-3"><i class="bi bi-star-fill text-warning me-2"></i> Nghề nghiệp nổi bật được đề xuất</h5>
+    <div class="row g-3">
       {% for job in jobs if job.featured %}
-        <button type="button" class="career-job-card {{ job.color }}" data-field="{{ job.field }}" data-job='{{ job|tojson|forceescape }}'>
-          <div class="career-job-icon">{{ job.icon }}</div>
-          <strong>{{ job.name }}</strong>
-          <span>{{ job.field }} · {{ job.demand }}</span>
-          <div class="career-chip-row">
-            {% for skill in job.skills[:2] %}
-              <small>{{ skill }}</small>
-            {% endfor %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card p-3 rounded-4 border shadow-sm h-100 career-job-card cursor-pointer" data-field="{{ job.field }}" data-job='{{ job|tojson|forceescape }}'>
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="student-avatar-nav bg-primary text-white fs-4" style="width:44px; height:44px;">
+                {{ job.icon or '◇' }}
+              </div>
+              <div>
+                <h6 class="fw-bold mb-0 text-dark">{{ job.name }}</h6>
+                <small class="text-primary fw-semibold">{{ job.field }}</small>
+              </div>
+            </div>
+            <p class="text-muted small mb-2 text-truncate-2" style="min-height: 40px;">{{ job.summary }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+              <span class="badge text-bg-light text-dark"><i class="bi bi-graph-up-arrow text-success me-1"></i> {{ job.demand }}</span>
+              <span class="text-primary small fw-bold">Chi tiết <i class="bi bi-arrow-right"></i></span>
+            </div>
           </div>
-        </button>
+        </div>
       {% else %}
-        <div class="career-empty">Chưa có nghề nổi bật. Giáo viên sẽ đánh dấu khi upload nghề.</div>
+        <div class="col-12">
+          <div class="alert alert-light border rounded-4 text-center py-3 text-muted">Chưa có bài viết nghề nổi bật.</div>
+        </div>
       {% endfor %}
     </div>
+  </div>
 
-    <div class="career-section-head border-top pt-3">
-      <h5>Danh sách nghề</h5>
-      <span>{{ jobs|length }} nghề</span>
+  <!-- All Jobs List Grid -->
+  <div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0"><i class="bi bi-grid-fill text-primary me-2"></i> Danh sách các ngành nghề ({{ jobs|length }})</h5>
     </div>
-    <div class="career-job-list">
+
+    <div class="d-grid gap-3" id="career-job-list">
       {% for job in jobs %}
-        <button type="button" class="career-job-row" data-field="{{ job.field }}" data-keywords="{{ (job.name ~ ' ' ~ job.field ~ ' ' ~ job.summary ~ ' ' ~ job.skills|join(' '))|lower }}" data-job='{{ job|tojson|forceescape }}'>
-          <span class="career-row-icon {{ job.color }}" data-field="{{ job.field }}">{{ job.icon }}</span>
-          <span class="career-row-body">
-            <strong>{{ job.name }}</strong>
-            <em>{{ job.summary }}</em>
-            <span class="career-chip-row">
-              {% for skill in job.skills[:2] %}
-                <small>{{ skill }}</small>
-              {% endfor %}
-            </span>
-          </span>
-          <span class="career-save" data-field="{{ job.field }}">♡</span>
-        </button>
-      {% else %}
-        <div class="career-empty">Chưa có nghề nào trong thư viện. Giáo viên cần upload nghề trước.</div>
-      {% endfor %}
-    </div>
-
-    <div class="career-sheet-backdrop" id="career-sheet">
-      <div class="career-sheet" id="career-sheet-panel">
-        <div class="career-sheet-head">
-          <span>Chi tiết nghề</span>
-          <button type="button" class="btn btn-outline-secondary" id="career-sheet-close">×</button>
-        </div>
-        <div class="d-flex gap-3 align-items-center mb-3">
-          <div class="career-row-icon purple" id="sheet-icon"></div>
-          <div>
-            <h4 class="mb-0" id="sheet-name"></h4>
-            <p class="mb-0 text-muted" id="sheet-field"></p>
+        <div class="card p-3 rounded-4 border shadow-sm career-job-row cursor-pointer" data-field="{{ job.field }}" data-keywords="{{ (job.name ~ ' ' ~ job.field ~ ' ' ~ job.summary ~ ' ' ~ job.skills|join(' '))|lower }}" data-job='{{ job|tojson|forceescape }}'>
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="student-avatar-nav bg-light text-primary fs-4 border" style="width:48px; height:48px;">
+                {{ job.icon or '◇' }}
+              </div>
+              <div>
+                <h5 class="fw-bold mb-1 text-dark">{{ job.name }}</h5>
+                <p class="text-muted small mb-1">{{ job.summary }}</p>
+                <div class="d-flex flex-wrap gap-1">
+                  <span class="badge text-bg-primary">{{ job.field }}</span>
+                  {% for skill in job.skills[:3] %}
+                    <span class="badge text-bg-light text-dark border">{{ skill }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="text-md-end ms-auto ms-md-0">
+              <span class="btn btn-outline-primary btn-sm rounded-pill"><i class="bi bi-eye"></i> Xem nghề</span>
+            </div>
           </div>
         </div>
-        <div class="career-chip-row mb-3" id="sheet-skills"></div>
-        <h6>Nghề này làm gì?</h6>
-        <p id="sheet-work"></p>
-        <div class="career-detail-grid">
-          <div><strong id="sheet-salary"></strong><span>Lương/tháng</span></div>
-          <div><strong id="sheet-study"></strong><span>Thời gian học</span></div>
-          <div><strong id="sheet-demand"></strong><span>Nhu cầu tuyển</span></div>
+      {% else %}
+        <div class="alert alert-light border rounded-4 text-center py-4 text-muted">
+          <i class="bi bi-folder2-open fs-2"></i>
+          <p class="mb-0 mt-2">Thư viện chưa có dữ liệu ngành nghề.</p>
         </div>
-        <h6>Cần kỹ năng gì?</h6>
-        <p id="sheet-personality"></p>
-        <button type="button" class="btn btn-outline-primary w-100" id="ask-job-toggle">✣ Hỏi thêm về nghề này ↗</button>
-        <form method="post" action="{{ url_for('student_career_ask') }}" class="career-ask-form mt-3" id="ask-job-form">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <input type="hidden" name="job_id" id="ask-job-id">
-          <label class="form-label fw-semibold">Câu hỏi gửi giáo viên</label>
-          <textarea name="question" class="form-control mb-2" rows="3" placeholder="Ví dụ: Nghề này cần học môn nào nhiều nhất?"></textarea>
-          <button type="submit" class="btn btn-primary w-100">Gửi câu hỏi</button>
-        </form>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Detail Modal Dialog -->
+  <div class="modal fade" id="careerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 rounded-4 shadow-lg">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold" id="sheet-name">Chi tiết ngành nghề</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="student-avatar-nav bg-primary text-white fs-3" id="sheet-icon" style="width:52px; height:52px;"></div>
+            <div>
+              <h4 class="fw-bold mb-0 text-dark" id="sheet-title-text"></h4>
+              <span class="badge text-bg-info" id="sheet-field"></span>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div class="p-3 bg-light rounded-4 text-center">
+                <small class="text-muted d-block fw-bold">MỨC LƯƠNG DỰ KIẾN</small>
+                <strong class="text-success fs-5" id="sheet-salary"></strong>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 bg-light rounded-4 text-center">
+                <small class="text-muted d-block fw-bold">THỜI GIAN ĐÀO TẠO</small>
+                <strong class="text-primary fs-5" id="sheet-study"></strong>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 bg-light rounded-4 text-center">
+                <small class="text-muted d-block fw-bold">NHU CẦU TUYỂN DỤNG</small>
+                <strong class="text-warning fs-5" id="sheet-demand"></strong>
+              </div>
+            </div>
+          </div>
+
+          <h6 class="fw-bold text-dark"><i class="bi bi-briefcase me-1"></i> Mô tả công việc:</h6>
+          <p class="text-secondary" id="sheet-work"></p>
+
+          <h6 class="fw-bold text-dark mt-3"><i class="bi bi-stars me-1"></i> Yêu cầu kỹ năng & Tính cách:</h6>
+          <p class="text-secondary mb-3" id="sheet-personality"></p>
+
+          <div class="mb-3">
+            <h6 class="fw-bold text-dark"><i class="bi bi-tags me-1"></i> Kỹ năng cần có:</h6>
+            <div class="d-flex flex-wrap gap-1" id="sheet-skills"></div>
+          </div>
+
+          <hr class="my-4">
+
+          <!-- Ask Teacher Form -->
+          <div class="bg-light p-3 rounded-4">
+            <h6 class="fw-bold mb-2"><i class="bi bi-chat-left-text-fill text-primary me-1"></i> Hỏi giáo viên tư vấn về nghề này</h6>
+            <form method="post" action="{{ url_for('student_career_ask') }}" id="ask-job-form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="job_id" id="ask-job-id">
+              <textarea name="question" class="form-control rounded-3 mb-2" rows="2" placeholder="Ví dụ: Thầy cô ơi, em cần chuẩn bị môn học nào để thi vào ngành này ạ?"></textarea>
+              <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-send-fill me-1"></i> Gửi câu hỏi</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <script>
-    const searchInput = document.getElementById('career-search');
-    const rows = Array.from(document.querySelectorAll('.career-job-row'));
-    const filters = Array.from(document.querySelectorAll('.career-filter-pill'));
-    const sheet = document.getElementById('career-sheet');
-    const sheetPanel = document.getElementById('career-sheet-panel');
-    const askForm = document.getElementById('ask-job-form');
-    let activeField = 'Tất cả';
+</div>
 
-    function filterJobs() {
-      const keyword = searchInput.value.trim().toLowerCase();
-      rows.forEach((row) => {
-        const fieldMatch = activeField === 'Tất cả' || row.dataset.field === activeField;
-        const keywordMatch = !keyword || row.dataset.keywords.includes(keyword);
-        row.style.display = fieldMatch && keywordMatch ? '' : 'none';
-      });
-    }
+<script>
+  const searchInput = document.getElementById('career-search');
+  const rows = Array.from(document.querySelectorAll('.career-job-row'));
+  const filters = Array.from(document.querySelectorAll('.career-filter-pill'));
+  let activeField = 'Tất cả';
 
-    filters.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeField = button.dataset.field;
-        filters.forEach((item) => item.classList.toggle('active', item === button));
-        filterJobs();
-      });
+  function filterJobs() {
+    const keyword = searchInput.value.trim().toLowerCase();
+    rows.forEach((row) => {
+      const fieldMatch = activeField === 'Tất cả' || row.dataset.field === activeField;
+      const keywordMatch = !keyword || row.dataset.keywords.includes(keyword);
+      row.style.display = fieldMatch && keywordMatch ? '' : 'none';
     });
-    searchInput.addEventListener('input', filterJobs);
+  }
 
-    function openJob(job) {
-      const sheetIcon = document.getElementById('sheet-icon');
-      const sheetSkills = document.getElementById('sheet-skills');
-      sheetIcon.textContent = job.icon;
-      sheetIcon.className = 'career-row-icon';
-      sheetIcon.dataset.field = job.field;
-      sheetPanel.dataset.field = job.field;
-      sheetSkills.dataset.field = job.field;
-      document.getElementById('sheet-name').textContent = job.name;
-      document.getElementById('sheet-field').textContent = job.field;
-      document.getElementById('sheet-work').textContent = job.work;
-      document.getElementById('sheet-salary').textContent = job.salary;
-      document.getElementById('sheet-study').textContent = job.study;
-      document.getElementById('sheet-demand').textContent = job.demand;
-      document.getElementById('sheet-personality').textContent = job.personality;
-      sheetSkills.innerHTML = job.skills.map((skill) => `<small>${skill}</small>`).join('');
-      document.getElementById('ask-job-id').value = job.id;
-      askForm.classList.remove('show');
-      sheet.classList.add('show');
-    }
+  filters.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeField = button.dataset.field;
+      filters.forEach((item) => item.classList.toggle('active', item === button));
+      filterJobs();
+    });
+  });
+  searchInput.addEventListener('input', filterJobs);
 
-    document.querySelectorAll('[data-job]').forEach((button) => {
-      button.addEventListener('click', () => openJob(JSON.parse(button.dataset.job)));
-    });
-    document.getElementById('ask-job-toggle').addEventListener('click', () => askForm.classList.toggle('show'));
-    document.getElementById('career-sheet-close').addEventListener('click', () => sheet.classList.remove('show'));
-    sheet.addEventListener('click', (event) => {
-      if (event.target === sheet) {
-        sheet.classList.remove('show');
-      }
-    });
-  </script>
+  function openJob(job) {
+    document.getElementById('sheet-icon').textContent = job.icon || '◇';
+    document.getElementById('sheet-name').textContent = job.name;
+    document.getElementById('sheet-title-text').textContent = job.name;
+    document.getElementById('sheet-field').textContent = job.field;
+    document.getElementById('sheet-work').textContent = job.work;
+    document.getElementById('sheet-salary').textContent = job.salary;
+    document.getElementById('sheet-study').textContent = job.study;
+    document.getElementById('sheet-demand').textContent = job.demand;
+    document.getElementById('sheet-personality').textContent = job.personality;
+    document.getElementById('sheet-skills').innerHTML = job.skills.map((skill) => `<span class="badge text-bg-primary">${skill}</span>`).join(' ');
+    document.getElementById('ask-job-id').value = job.id;
+
+    const modal = new bootstrap.Modal(document.getElementById('careerModal'));
+    modal.show();
+  }
+
+  document.querySelectorAll('[data-job]').forEach((button) => {
+    button.addEventListener('click', () => openJob(JSON.parse(button.dataset.job)));
+  });
+</script>
 {% endblock %}

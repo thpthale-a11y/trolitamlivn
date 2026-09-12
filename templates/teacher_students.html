@@ -1,66 +1,102 @@
 {% extends "layout.html" %}
-{% block title %}Quản lý học sinh{% endblock %}
+{% block title %}Quản lý học sinh - Giáo viên SelfPath AI{% endblock %}
+
 {% block content %}
-  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
-    <div>
-      <h2 class="section-title">Quản lý học sinh</h2>
-    </div>
-    <a href="{{ url_for('teacher_students_pdf') }}" class="btn btn-primary align-self-lg-start">Xuất PDF</a>
-  </div>
+<div class="teacher-students-container max-w-6xl mx-auto">
 
-  <div class="teacher-student-summary mb-3">
+  <!-- Header Bar -->
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4 pb-3 border-bottom">
     <div>
-      <strong>{{ rows|length }}</strong>
-      <span>Học sinh</span>
+      <span class="badge text-bg-primary px-3 py-2 mb-1"><i class="bi bi-people-fill me-1"></i> QUẢN LÝ LỚP HỌC</span>
+      <h2 class="section-title mb-0">Danh Sách Học Sinh Theo Dõi</h2>
+      <p class="text-muted small mb-0">Theo dõi thông tin tài khoản, trạng thái tâm lý và xuất báo cáo PDF cho lớp</p>
     </div>
     <div>
-      <strong>{{ rows|selectattr('is_active')|list|length }}</strong>
-      <span>Đã kích hoạt</span>
-    </div>
-    <div>
-      <strong>{{ rows|rejectattr('is_active')|list|length }}</strong>
-      <span>Chưa kích hoạt</span>
+      <a href="{{ url_for('teacher_students_pdf') }}" class="btn btn-primary shadow-sm">
+        <i class="bi bi-file-earmark-pdf-fill me-1"></i> Xuất Báo Cáo PDF
+      </a>
     </div>
   </div>
 
-  <div class="table-responsive teacher-student-table">
-    <table class="table table-hover align-middle mb-0">
-      <thead>
-        <tr>
-          <th>STT</th>
-          <th>Mã học sinh</th>
-          <th>Họ và tên</th>
-          <th>Trạng thái</th>
-          <th>Trạng thái tâm lí</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in rows %}
-          <tr>
-            <td class="fw-semibold">{{ row.stt }}</td>
-            <td><span class="badge text-bg-light border">{{ row.student_id }}</span></td>
-            <td class="fw-semibold">{{ row.full_name }}</td>
-            <td>
-              <span class="badge {{ 'text-bg-success' if row.is_active else 'text-bg-secondary' }}">
-                {{ row.account_status }}
-              </span>
-            </td>
-            <td>
-              <span class="psych-status psych-status-{{ row.psychology.class }}">
-                {% if row.psychology.percent is none %}
-                  {{ row.psychology.label }}
-                {% else %}
-                  {{ row.psychology.percent }}% · {{ row.psychology.label }}
-                {% endif %}
-              </span>
-            </td>
-          </tr>
-        {% else %}
-          <tr>
-            <td colspan="5" class="text-center text-muted py-4">Chưa có học sinh trong hệ thống.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Summary Tiles -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card p-4 border rounded-4 shadow-sm bg-white">
+        <span class="text-muted small fw-bold uppercase">TỔNG SỐ HỌC SINH</span>
+        <h2 class="fw-extrabold text-primary mb-0 fs-1">{{ rows|length }}</h2>
+        <small class="text-muted">học sinh trong danh sách</small>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 border rounded-4 shadow-sm bg-white">
+        <span class="text-muted small fw-bold uppercase">ĐÃ KÍCH HOẠT</span>
+        <h2 class="fw-extrabold text-success mb-0 fs-1">{{ rows|selectattr('is_active')|list|length }}</h2>
+        <small class="text-muted">tài khoản đang hoạt động</small>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 border rounded-4 shadow-sm bg-white">
+        <span class="text-muted small fw-bold uppercase">CHƯA KÍCH HOẠT</span>
+        <h2 class="fw-extrabold text-secondary mb-0 fs-1">{{ rows|rejectattr('is_active')|list|length }}</h2>
+        <small class="text-muted">tài khoản chưa hoạt động</small>
+      </div>
+    </div>
   </div>
+
+  <!-- Data Table Card -->
+  <div class="card border rounded-4 shadow-sm overflow-hidden bg-white">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light border-bottom">
+          <tr>
+            <th class="ps-4" style="width: 70px;">STT</th>
+            <th>Mã Học Sinh</th>
+            <th>Họ và Tên</th>
+            <th>Trạng Thái Tài Khoản</th>
+            <th class="pe-4">Trạng Thái Tâm Lý & Đánh Giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <td class="ps-4 fw-bold text-muted">{{ row.stt }}</td>
+              <td><span class="badge text-bg-light border text-dark fw-bold">#{{ row.student_id }}</span></td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="student-avatar-nav bg-primary text-white" style="width:34px; height:34px; font-size:0.85rem;">
+                    {{ row.full_name[:1]|upper }}
+                  </div>
+                  <span class="fw-bold text-dark">{{ row.full_name }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="badge {{ 'text-bg-success' if row.is_active else 'text-bg-secondary' }}">
+                  {{ row.account_status }}
+                </span>
+              </td>
+              <td class="pe-4">
+                <span class="badge text-bg-info px-3 py-2 fs-6">
+                  {% if row.psychology.percent is none %}
+                    <i class="bi bi-info-circle me-1"></i> {{ row.psychology.label }}
+                  {% else %}
+                    <i class="bi bi-heart-pulse-fill me-1"></i> {{ row.psychology.percent }}% · {{ row.psychology.label }}
+                  {% endif %}
+                </span>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="5" class="text-center text-muted py-5">
+                <i class="bi bi-person-x fs-2"></i>
+                <p class="mb-0 mt-2">Chưa có thông tin học sinh trong hệ thống.</p>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}

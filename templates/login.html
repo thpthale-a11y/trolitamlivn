@@ -1,82 +1,117 @@
 {% extends "layout.html" %}
 
-{% block title %}Đăng nhập{% endblock %}
+{% block title %}Đăng nhập - SelfPath AI{% endblock %}
 
 {% block content %}
-  <div class="mb-4">
-    <p class="text-primary fw-semibold mb-1">Chào mừng trở lại</p>
-    <h2 class="section-title">Đăng nhập</h2>
+<div class="auth-box">
+  <div class="text-center mb-4">
+    <div class="brand-icon-box mx-auto mb-3" style="width: 54px; height: 54px; font-size: 1.5rem;">
+      <i class="bi bi-compass-fill"></i>
+    </div>
+    <h2 class="section-title mb-1">Chào mừng trở lại</h2>
+    <p class="text-muted small">Chọn loại tài khoản và đăng nhập vào SelfPath AI</p>
   </div>
 
+  <!-- Role Selector Grid -->
   <div id="role-select" class="mb-4">
-    <label class="form-label fw-semibold">Loại tài khoản</label>
-    <div class="d-grid gap-2">
-      <button type="button" class="btn btn-outline-primary text-start" data-role="parent" data-label="Phụ huynh">Phụ huynh</button>
-      <button type="button" class="btn btn-outline-primary text-start" data-role="teacher" data-label="Giáo viên">Giáo viên</button>
-      <button type="button" class="btn btn-outline-primary text-start" data-role="student" data-label="Học sinh">Học sinh</button>
-      <button type="button" class="btn btn-outline-primary text-start" data-role="admin" data-label="Quản lí">Quản lí</button>
+    <label class="form-label fw-bold text-muted small uppercase">1. CHỌN VAI TRÒ CỦA BẠN</label>
+    <div class="row g-2 mt-1">
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center gap-1 rounded-4 text-center role-btn" data-role="student" data-label="Học sinh">
+          <i class="bi bi-mortarboard-fill fs-4"></i>
+          <span>Học sinh</span>
+        </button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center gap-1 rounded-4 text-center role-btn" data-role="parent" data-label="Phụ huynh">
+          <i class="bi bi-house-heart-fill fs-4"></i>
+          <span>Phụ huynh</span>
+        </button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center gap-1 rounded-4 text-center role-btn" data-role="teacher" data-label="Giáo viên">
+          <i class="bi bi-person-workspace fs-4"></i>
+          <span>Giáo viên</span>
+        </button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center gap-1 rounded-4 text-center role-btn" data-role="admin" data-label="Quản lý">
+          <i class="bi bi-shield-check fs-4"></i>
+          <span>Quản lý</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <h5 id="selected-role-title" class="mb-3">Chưa chọn loại tài khoản</h5>
+  <div class="alert alert-info border-0 rounded-4 py-2 px-3 mb-3 text-center" id="selected-role-title" style="display:none;">
+    <i class="bi bi-check-circle-fill me-1"></i> <span id="selected-role-text">Chưa chọn loại tài khoản</span>
+  </div>
 
+  <!-- Form -->
   <form method="post" id="main-login-form">
     {{ form.hidden_tag() }}
 
     <div class="mb-3">
-      {{ form.email.label(class_='form-label') }}
-      {{ form.email(class_='form-control') }}
-    </div>
-
-    <div class="mb-3">
-      {{ form.password.label(class_='form-label') }}
-      <div class="password-field">
-        {{ form.password(class_='form-control') }}
-        <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hiện mật khẩu">👁</button>
+      <label class="form-label fw-bold small">Email tài khoản</label>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0 rounded-start-4"><i class="bi bi-envelope text-muted"></i></span>
+        {{ form.email(class_='form-control border-start-0 rounded-end-4', placeholder='nhapemail@example.com') }}
       </div>
     </div>
 
-    <div id="role-error" class="text-danger mb-3" style="display:none;">Vui lòng chọn loại tài khoản trước khi đăng nhập.</div>
+    <div class="mb-3">
+      <label class="form-label fw-bold small">Mật khẩu</label>
+      <div class="password-field">
+        {{ form.password(class_='form-control rounded-4', placeholder='••••••••') }}
+        <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hiện mật khẩu">
+          <i class="bi bi-eye-fill"></i>
+        </button>
+      </div>
+    </div>
 
-    <div class="d-flex gap-2">
-      {{ form.submit(class_='btn btn-primary', id='submit-btn', disabled=true) }}
-      <a href="{{ url_for('register') }}" class="btn btn-outline-secondary">Đăng ký</a>
+    <div id="role-error" class="alert alert-danger border-0 rounded-4 py-2 px-3 small mb-3" style="display:none;">
+      <i class="bi bi-exclamation-triangle-fill me-1"></i> Vui lòng chọn loại tài khoản trước khi đăng nhập.
+    </div>
+
+    <div class="d-grid gap-2 mt-4">
+      {{ form.submit(class_='btn btn-primary btn-lg shadow-sm', id='submit-btn', disabled=true, value='Đăng nhập ngay') }}
+      <a href="{{ url_for('register') }}" class="btn btn-link text-decoration-none text-muted small">
+        Chưa có tài khoản? <span class="text-primary fw-bold">Đăng ký Học sinh / Phụ huynh</span>
+      </a>
     </div>
   </form>
+</div>
 
-  <script>
-    const buttons = document.querySelectorAll('[data-role]');
-    const roleInput = document.querySelector('input[name="role"]');
-    const selectedTitle = document.getElementById('selected-role-title');
-    const submitBtn = document.getElementById('submit-btn');
-    const roleError = document.getElementById('role-error');
-    const form = document.getElementById('main-login-form');
+<script>
+  const buttons = document.querySelectorAll('.role-btn');
+  const roleInput = document.querySelector('input[name="role"]');
+  const selectedTitle = document.getElementById('selected-role-title');
+  const selectedText = document.getElementById('selected-role-text');
+  const submitBtn = document.getElementById('submit-btn');
+  const roleError = document.getElementById('role-error');
+  const form = document.getElementById('main-login-form');
 
-    function setActive(button) {
-      buttons.forEach((item) => {
-        item.classList.remove('btn-primary');
-        item.classList.add('btn-outline-primary');
-        item.textContent = item.getAttribute('data-label');
-      });
-
-      button.classList.remove('btn-outline-primary');
-      button.classList.add('btn-primary');
-      button.textContent = 'Đã chọn: ' + button.getAttribute('data-label');
-    }
-
-    buttons.forEach((button) => button.addEventListener('click', () => {
-      roleInput.value = button.getAttribute('data-role');
-      setActive(button);
-      selectedTitle.textContent = 'Đăng nhập cho: ' + button.getAttribute('data-label');
-      submitBtn.disabled = false;
-      roleError.style.display = 'none';
-    }));
-
-    form.addEventListener('submit', (event) => {
-      if (!roleInput.value) {
-        event.preventDefault();
-        roleError.style.display = 'block';
-      }
+  buttons.forEach((button) => button.addEventListener('click', () => {
+    buttons.forEach((btn) => {
+      btn.classList.remove('btn-primary', 'shadow');
+      btn.classList.add('btn-outline-primary');
     });
-  </script>
+
+    button.classList.remove('btn-outline-primary');
+    button.classList.add('btn-primary', 'shadow');
+
+    roleInput.value = button.getAttribute('data-role');
+    selectedText.textContent = 'Đang đăng nhập với vai trò: ' + button.getAttribute('data-label');
+    selectedTitle.style.display = 'block';
+    submitBtn.disabled = false;
+    roleError.style.display = 'none';
+  }));
+
+  form.addEventListener('submit', (event) => {
+    if (!roleInput.value) {
+      event.preventDefault();
+      roleError.style.display = 'block';
+    }
+  });
+</script>
 {% endblock %}

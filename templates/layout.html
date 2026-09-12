@@ -1,86 +1,111 @@
 <!doctype html>
-
 <html lang="vi">
-
-  <head>
-
+<head>
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}SelfPath AI - Hỗ Trợ Tâm Lý & Định Hướng Nghề Nghiệp{% endblock %}</title>
 
-    <title>{% block title %}SelfPath AI{% endblock %}</title>
-
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Preconnect & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Framework Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     {% if current_user.is_authenticated and current_user.role == 'student' %}
       <link rel="preload" as="image" href="{{ url_for('static', filename='images/nenwwebsite.webp', v=config.ASSET_VERSION) }}" type="image/webp">
     {% endif %}
     <link href="{{ url_for('static', filename='css/app.css', v=config.ASSET_VERSION) }}" rel="stylesheet">
 </head>
 
-  <body class="{% if current_user.is_authenticated %}role-{{ current_user.role }} endpoint-{{ request.endpoint }}{% endif %}{% if current_user.is_authenticated and current_user.role == 'student' %} student-app-body{% elif current_user.is_authenticated and current_user.role == 'parent' %} parent-app-body{% elif current_user.is_authenticated and current_user.role == 'teacher' %} teacher-app-body{% elif current_user.is_authenticated and current_user.role == 'admin' %} admin-app-body{% endif %}">
-    <nav class="navbar navbar-expand-lg topbar">
+<body class="{% if current_user.is_authenticated %}role-{{ current_user.role }} endpoint-{{ request.endpoint }}{% endif %}{% if current_user.is_authenticated and current_user.role == 'student' %} student-app-body{% elif current_user.is_authenticated and current_user.role == 'parent' %} parent-app-body{% elif current_user.is_authenticated and current_user.role == 'teacher' %} teacher-app-body{% elif current_user.is_authenticated and current_user.role == 'admin' %} admin-app-body{% endif %}">
 
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg topbar">
       <div class="container-fluid px-3 px-lg-4">
 
-        <a class="navbar-brand d-flex align-items-center gap-3" href="{{ url_for('index') }}">
-
-          <span class="brand-title">
-            <span class="d-block fw-bold">SelfPath AI</span>
-          </span>
+        <!-- Brand Logo -->
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <div class="brand-icon-box">
+            <i class="bi bi-compass-fill"></i>
+          </div>
+          <span class="brand-title">SelfPath AI</span>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbarMenu" aria-controls="topbarMenu" aria-expanded="false" aria-label="Mở menu">
           <span class="navbar-toggler-icon"></span>
-
         </button>
 
         <div class="collapse navbar-collapse" id="topbarMenu">
-
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
 
             {% if current_user.is_authenticated %}
 
               {% if current_user.role == 'student' %}
-                <li class="nav-item"><a class="nav-link student-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">Trang chủ</a></li>
+                <li class="nav-item">
+                  <a class="nav-link student-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+                    <i class="bi bi-grid-1x2-fill me-1"></i> Trang chủ
+                  </a>
+                </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['career_home', 'student_self_discovery', 'student_career_test_take', 'student_career_library', 'student_career_ask', 'student_learning_path', 'student_inbox'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hướng nghiệp</a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ url_for('student_self_discovery') }}">Khám phá bản thân</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_career_library') }}">Thư viện nghề nghiệp</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_learning_path') }}">Lộ trình học tập</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_inbox') }}">Hộp thư hướng nghiệp</a></li>
+                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['career_home', 'student_self_discovery', 'student_career_test_take', 'student_career_library', 'student_career_ask', 'student_learning_path', 'student_inbox'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-briefcase-fill me-1"></i> Hướng nghiệp
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+                    <li><a class="dropdown-item" href="{{ url_for('student_career_game') }}"><i class="bi bi-controller me-2 text-danger"></i> Game Chọn Nghề</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_learning_discovery') }}"><i class="bi bi-compass-fill me-2 text-purple"></i> Khám Phá Hướng Học</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_self_discovery') }}"><i class="bi bi-person-bounding-box me-2 text-primary"></i> Khám phá bản thân</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_career_library') }}"><i class="bi bi-journal-bookmark-fill me-2 text-info"></i> Thư viện nghề nghiệp</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_learning_path') }}"><i class="bi bi-signpost-split-fill me-2 text-success"></i> Lộ trình học tập</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_inbox') }}"><i class="bi bi-envelope-open-fill me-2 text-warning"></i> Hộp thư hướng nghiệp</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['support_tools', 'psychology_quizzes', 'student_quizzes', 'student_quiz_take', 'student_quiz_result', 'student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'emotion_journal', 'student_life_skills', 'student_life_skill_detail'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hỗ trợ học đường</a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ url_for('support_tools') }}">Tổng quan hỗ trợ</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_quizzes') }}">Trắc nghiệm tâm lý</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_life_skills') }}">Kỹ năng sống</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_chat_rooms') }}">Chat chuyên gia</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('emotion_journal') }}">Nhật ký cảm xúc</a></li>
+                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['support_tools', 'psychology_quizzes', 'student_quizzes', 'student_quiz_take', 'student_quiz_result', 'student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'emotion_journal', 'student_life_skills', 'student_life_skill_detail'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-heart-pulse-fill me-1"></i> Hỗ trợ học đường
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+                    <li><a class="dropdown-item" href="{{ url_for('support_tools') }}"><i class="bi bi-grid-fill me-2 text-primary"></i> Tổng quan hỗ trợ</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_quizzes') }}"><i class="bi bi-clipboard2-check-fill me-2 text-purple"></i> Trắc nghiệm tâm lý</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_life_skills') }}"><i class="bi bi-lightbulb-fill me-2 text-warning"></i> Kỹ năng sống</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_chat_rooms') }}"><i class="bi bi-chat-dots-fill me-2 text-success"></i> Chat chuyên gia & AI</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('emotion_journal') }}"><i class="bi bi-emoji-smile-fill me-2 text-danger"></i> Nhật ký cảm xúc</a></li>
                   </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link student-nav-link {% if request.endpoint in ['student_forum', 'student_forum_react', 'student_forum_comment', 'student_forum_report'] %}active{% endif %}" href="{{ url_for('student_forum') }}">Cộng đồng</a></li>
+                <li class="nav-item">
+                  <a class="nav-link student-nav-link {% if request.endpoint in ['student_forum', 'student_forum_react', 'student_forum_comment', 'student_forum_report'] %}active{% endif %}" href="{{ url_for('student_forum') }}">
+                    <i class="bi bi-people-fill me-1"></i> Cộng đồng
+                  </a>
+                </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['student_profile', 'contact_admin'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hồ sơ</a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ url_for('student_profile') }}">Hồ sơ học sinh</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('contact_admin') }}">Liên hệ quản trị</a></li>
+                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['student_profile', 'contact_admin'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-1"></i> Hồ sơ
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+                    <li><a class="dropdown-item" href="{{ url_for('student_profile') }}"><i class="bi bi-person-lines-fill me-2 text-primary"></i> Hồ sơ học sinh</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('contact_admin') }}"><i class="bi bi-headset me-2 text-info"></i> Liên hệ quản trị</a></li>
                   </ul>
                 </li>
               {% elif current_user.role == 'parent' %}
-                <li class="nav-item"><a class="nav-link {% if request.endpoint == 'dashboard' %}active fw-semibold text-primary{% endif %}" href="{{ url_for('dashboard') }}">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link {% if request.endpoint in ['parent_teacher_chat_list', 'parent_teacher_chat'] %}active fw-semibold text-primary{% endif %}" href="{{ url_for('parent_teacher_chat_list') }}">Chat giáo viên</a></li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.endpoint == 'dashboard' %}active fw-bold text-primary{% endif %}" href="{{ url_for('dashboard') }}">
+                    <i class="bi bi-grid-1x2-fill me-1"></i> Trang chủ
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.endpoint in ['parent_teacher_chat_list', 'parent_teacher_chat'] %}active fw-bold text-primary{% endif %}" href="{{ url_for('parent_teacher_chat_list') }}">
+                    <i class="bi bi-chat-quote-fill me-1"></i> Chat giáo viên
+                  </a>
+                </li>
               {% endif %}
-              <li class="nav-item">
 
+              <!-- User Profile Indicator -->
+              <li class="nav-item ms-lg-2">
                 {% if current_user.role == 'student' %}
-                  <span class="nav-link d-flex align-items-center gap-2 text-muted">
+                  <span class="nav-link d-flex align-items-center gap-2 text-dark font-weight-bold">
                     <span class="student-avatar-nav">
                       {% if nav_student_profile and nav_student_profile.avatar_filename %}
                         <img src="{{ url_for('static', filename='uploads/profiles/' ~ nav_student_profile.avatar_filename) }}" alt="Avatar">
@@ -88,240 +113,212 @@
                         {{ current_user.username[:1]|upper }}
                       {% endif %}
                     </span>
-                    <span>{{ current_user.username }}</span>
+                    <span class="fw-bold">{{ current_user.username }}</span>
                   </span>
                 {% else %}
-                  <span class="nav-link text-muted">{{ current_user.username }} · {{ 'phụ huynh' if current_user.role == 'parent' else current_user.role }}</span>
+                  <span class="nav-link text-dark fw-semibold">
+                    <i class="bi bi-shield-check text-primary me-1"></i> {{ current_user.username }}
+                    <span class="badge text-bg-primary ms-1">
+                      {% if current_user.role == 'parent' %}Phụ huynh
+                      {% elif current_user.role == 'teacher' %}Giáo viên
+                      {% elif current_user.role == 'admin' %}Quản trị
+                      {% else %}{{ current_user.role }}{% endif %}
+                    </span>
+                  </span>
                 {% endif %}
               </li>
 
-              <li class="nav-item">
-
-                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('logout') }}">Đăng xuất</a>
+              <li class="nav-item ms-lg-1">
+                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('logout') }}">
+                  <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
+                </a>
               </li>
 
             {% else %}
 
-              <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Đăng nhập</a></li>
-              <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ url_for('register') }}">Đăng ký</a></li>
+              <li class="nav-item">
+                <a class="nav-link fw-semibold" href="{{ url_for('login') }}">
+                  <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
+                </a>
+              </li>
+              <li class="nav-item ms-lg-2">
+                <a class="btn btn-primary btn-sm shadow-sm" href="{{ url_for('register') }}">
+                  <i class="bi bi-person-plus-fill me-1"></i> Đăng ký ngay
+                </a>
+              </li>
             {% endif %}
 
           </ul>
-
         </div>
-
       </div>
-
     </nav>
 
-
-
+    <!-- Main Shell -->
     {% if current_user.is_authenticated %}
 
       <div class="app-shell">
 
+        <!-- Sidebar Navigation -->
         <aside class="sidebar">
 
           <div class="sidebar-section">
-
             <p class="sidebar-label">Tổng quan</p>
             <a class="sidebar-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
-              <span class="sidebar-icon">DB</span>
+              <span class="sidebar-icon"><i class="bi bi-speedometer2"></i></span>
               Dashboard
             </a>
+
             {% if current_user.role == 'teacher' %}
               <a class="sidebar-link {% if request.endpoint in ['teacher_students', 'teacher_students_pdf'] %}active{% endif %}" href="{{ url_for('teacher_students') }}">
-                <span class="sidebar-icon">QL</span>
+                <span class="sidebar-icon"><i class="bi bi-people"></i></span>
                 Quản lý học sinh
               </a>
               <a class="sidebar-link {% if request.endpoint in ['teacher_parent_chat_list', 'teacher_parent_chat_room'] %}active{% endif %}" href="{{ url_for('teacher_parent_chat_list') }}">
-                <span class="sidebar-icon">PH</span>
+                <span class="sidebar-icon"><i class="bi bi-chat-heart"></i></span>
                 Chat phụ huynh
               </a>
             {% endif %}
+
             {% if current_user.role in ['teacher', 'student'] %}
+              <a class="sidebar-link {% if request.endpoint == 'student_career_game' %}active{% endif %}" href="{{ url_for('student_career_game') }}">
+                <span class="sidebar-icon"><i class="bi bi-controller"></i></span>
+                Game Chọn Nghề
+              </a>
+              <a class="sidebar-link {% if request.endpoint == 'student_learning_discovery' %}active{% endif %}" href="{{ url_for('student_learning_discovery') }}">
+                <span class="sidebar-icon"><i class="bi bi-compass-fill"></i></span>
+                Khám Phá Hướng Học
+              </a>
               <a class="sidebar-link {% if request.endpoint in ['career_home', 'student_self_discovery', 'student_career_test_take', 'student_career_library', 'student_career_ask', 'student_learning_path', 'student_inbox', 'teacher_career_tests', 'teacher_career_test_new', 'teacher_career_test_edit', 'teacher_career_jobs', 'teacher_career_job_new', 'teacher_career_job_edit', 'teacher_career_inquiries', 'teacher_learning_paths', 'teacher_learning_path_new', 'teacher_learning_path_edit'] %}active{% endif %}" href="{{ url_for('teacher_career_tests') if current_user.role == 'teacher' else url_for('student_self_discovery') }}">
-                <span class="sidebar-icon">HN</span>
+                <span class="sidebar-icon"><i class="bi bi-compass"></i></span>
                 Hướng nghiệp
               </a>
               <a class="sidebar-link {% if request.endpoint in ['support_tools', 'psychology_quizzes', 'teacher_quizzes', 'teacher_quiz_new', 'teacher_quiz_edit', 'teacher_quiz_results', 'student_quizzes', 'student_quiz_take', 'student_quiz_result', 'teacher_life_skills', 'teacher_life_skill_new', 'teacher_life_skill_edit', 'student_life_skills', 'student_life_skill_detail', 'student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'teacher_chat_list', 'teacher_chat_room', 'emotion_journal'] %}active{% endif %}" href="{{ url_for('support_tools') }}">
-                <span class="sidebar-icon">HT</span>
+                <span class="sidebar-icon"><i class="bi bi-heart-pulse"></i></span>
                 Hỗ trợ học đường
               </a>
-              {% if current_user.role in ['teacher', 'student'] %}
-                <a class="sidebar-link {% if request.endpoint in ['student_forum', 'student_forum_react', 'student_forum_comment', 'student_forum_report'] %}active{% endif %}" href="{{ url_for('student_forum') }}">
-                  <span class="sidebar-icon">CD</span>
-                  Cộng đồng
-                </a>
-              {% endif %}
+              <a class="sidebar-link {% if request.endpoint in ['student_forum', 'student_forum_react', 'student_forum_comment', 'student_forum_report'] %}active{% endif %}" href="{{ url_for('student_forum') }}">
+                <span class="sidebar-icon"><i class="bi bi-chat-right-quote"></i></span>
+                Cộng đồng
+              </a>
               {% if current_user.role == 'teacher' %}
                 <a class="sidebar-link {% if request.endpoint == 'teacher_profile' %}active{% endif %}" href="{{ url_for('teacher_profile') }}">
-                  <span class="sidebar-icon">GV</span>
+                  <span class="sidebar-icon"><i class="bi bi-person-badge"></i></span>
                   Hồ sơ giáo viên
                 </a>
               {% endif %}
               {% if current_user.role == 'student' %}
                 <a class="sidebar-link {% if request.endpoint == 'student_profile' %}active{% endif %}" href="{{ url_for('student_profile') }}">
-                  <span class="sidebar-icon">HS</span>
+                  <span class="sidebar-icon"><i class="bi bi-person"></i></span>
                   Hồ sơ học sinh
                 </a>
-
               {% endif %}
 
               <a class="sidebar-link {% if request.endpoint == 'contact_admin' %}active{% endif %}" href="{{ url_for('contact_admin') }}">
-
-                <span class="sidebar-icon">LQ</span>
-
+                <span class="sidebar-icon"><i class="bi bi-headset"></i></span>
                 Liên hệ quản trị
               </a>
-
             {% endif %}
-
           </div>
 
-
-
           {% if current_user.role == 'admin' %}
-
             <div class="sidebar-section">
-
-              <p class="sidebar-label">Quản trị</p>
+              <p class="sidebar-label">Quản trị hệ thống</p>
               <a class="sidebar-link {% if request.endpoint == 'admin_users' %}active{% endif %}" href="{{ url_for('admin_users') }}">
-
-                <span class="sidebar-icon">US</span>
-
+                <span class="sidebar-icon"><i class="bi bi-people-fill"></i></span>
                 Người dùng
-
               </a>
-
               <a class="sidebar-link {% if request.endpoint == 'create_teacher' %}active{% endif %}" href="{{ url_for('create_teacher') }}">
-
-                <span class="sidebar-icon">GV</span>
-
+                <span class="sidebar-icon"><i class="bi bi-person-plus-fill"></i></span>
                 Tạo giáo viên
-
               </a>
-
               <a class="sidebar-link {% if request.endpoint == 'admin_stats' %}active{% endif %}" href="{{ url_for('admin_stats') }}">
-
-                <span class="sidebar-icon">TK</span>
-
+                <span class="sidebar-icon"><i class="bi bi-pie-chart-fill"></i></span>
                 Thống kê
               </a>
-
               <a class="sidebar-link {% if request.endpoint == 'admin_chat' %}active{% endif %}" href="{{ url_for('admin_chat') }}">
-
-                <span class="sidebar-icon">TN</span>
-
+                <span class="sidebar-icon"><i class="bi bi-envelope-paper-fill"></i></span>
                 Tin nhắn
-
               </a>
-
             </div>
-
           {% endif %}
 
         </aside>
 
+        <!-- Main Content Area -->
         <main class="main-area">
-
           <div class="page-frame">
 
     {% else %}
 
       <main class="auth-shell">
-
         <div class="auth-panel">
 
     {% endif %}
 
-
-
+          <!-- Flash Message Toasts -->
           {% with messages = get_flashed_messages(with_categories=true) %}
-
             {% if messages %}
-
               {% for category, message in messages %}
-
-                <div class="alert alert-{{ category }} shadow-sm">{{ message }}</div>
-
+                <div class="alert alert-{{ category if category != 'danger' else 'danger' }} alert-dismissible fade show shadow-sm border-0 rounded-4 mb-4" role="alert">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-info-circle-fill me-1"></i>
+                    <div>{{ message }}</div>
+                  </div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
               {% endfor %}
-
             {% endif %}
-
           {% endwith %}
 
+          <!-- Content Body -->
           <section class="content-panel">
-
             <div class="content-body">
-
               {% block content %}{% endblock %}
-
             </div>
-
           </section>
-
-
 
     {% if current_user.is_authenticated and current_user.role not in ['admin', 'teacher'] %}
 
-            <footer class="app-footer">
-              <div class="footer-inner">
-                <div class="footer-brand">
+            <!-- Footer -->
+            <footer class="app-footer mt-5 pt-4 border-top">
+              <div class="footer-inner d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <div class="footer-brand d-flex align-items-center gap-2 text-muted fw-bold">
+                  <div class="brand-icon-box" style="width:28px; height:28px; font-size:0.8rem;">
+                    <i class="bi bi-compass-fill"></i>
+                  </div>
                   <span>SelfPath AI</span>
                 </div>
-                <div class="footer-links">
-                  <a href="{{ url_for('index') }}">Giới thiệu</a>
-                  <a href="{{ url_for('contact_admin') if current_user.role in ['teacher', 'student'] else url_for('dashboard') }}">Liên hệ</a>
-                  <a href="{{ url_for('index') }}">Chính sách</a>
-                  <span class="footer-copy">© 2026</span>
+                <div class="footer-links d-flex gap-4 text-muted small fw-semibold">
+                  <a href="{{ url_for('index') }}" class="text-secondary text-decoration-none">Giới thiệu</a>
+                  <a href="{{ url_for('contact_admin') if current_user.role in ['teacher', 'student'] else url_for('dashboard') }}" class="text-secondary text-decoration-none">Liên hệ</a>
+                  <a href="{{ url_for('index') }}" class="text-secondary text-decoration-none">Chính sách</a>
+                  <span class="footer-copy text-muted">© 2026 SelfPath AI</span>
                 </div>
               </div>
             </footer>
           </div>
-
         </main>
-
       </div>
 
     {% else %}
-
         </div>
-
       </main>
-
     {% endif %}
 
-
-
+    <!-- Password Toggle Script -->
     <script>
-
       document.querySelectorAll('[data-password-toggle]').forEach((button) => {
-
         button.addEventListener('click', () => {
-
           const input = document.getElementById(button.getAttribute('data-password-toggle'));
-
-          if (!input) {
-
-            return;
-
-          }
-
+          if (!input) return;
           const isHidden = input.type === 'password';
-
           input.type = isHidden ? 'text' : 'password';
-
-          button.textContent = isHidden ? '🙈' : '👁';
+          button.innerHTML = isHidden ? '<i class="bi bi-eye-slash-fill"></i>' : '<i class="bi bi-eye-fill"></i>';
           button.setAttribute('aria-label', isHidden ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
         });
-
       });
-
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  </body>
-
+</body>
 </html>

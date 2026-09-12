@@ -1,74 +1,146 @@
 {% extends "layout.html" %}
-{% block title %}Khám phá bản thân{% endblock %}
+{% block title %}Khám phá bản thân - SelfPath AI{% endblock %}
+
 {% block content %}
-  <div class="career-mobile-page">
-    <div class="career-topbar">
-      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">← Trang chủ</a>
-      <h2 class="section-title mb-0">Khám phá bản thân</h2>
-      <span></span>
-    </div>
+<div class="self-discovery-container max-w-5xl mx-auto">
 
-    <section class="career-hero">
+  <!-- Header Bar -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
+    <div>
+      <span class="badge text-bg-primary px-3 py-2 mb-1"><i class="bi bi-person-bounding-box me-1"></i> KHÁM PHÁ BẢN THÂN</span>
+      <h2 class="section-title mb-0">Hồ Sơ Năng Lực & Tính Cách</h2>
+      <p class="text-muted small mb-0">Tổng hợp kết quả trắc nghiệm hướng nghiệp, nhật ký cảm xúc và phân tích xu hướng cá nhân</p>
+    </div>
+    <div>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-left"></i> Trang chủ</a>
+    </div>
+  </div>
+
+  <!-- Hero Personality Card -->
+  <div class="card p-4 p-md-5 border rounded-4 shadow-sm mb-4 bg-white">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4">
       <div>
-        <div class="career-kicker">Tính cách nổi bật của bạn</div>
-        <h3>{{ personality.title }}</h3>
-        <p>{{ personality.body }}</p>
+        <span class="badge text-bg-warning px-3 py-1 mb-2 fw-bold"><i class="bi bi-stars me-1"></i> TÍNH CÁCH NỔI BẬT CỦA BẠN</span>
+        <h2 class="fw-extrabold text-primary mb-2 display-6">{{ personality.title }}</h2>
+        <p class="text-secondary fs-5 mb-0" style="max-width: 680px;">{{ personality.body }}</p>
       </div>
-      <div class="career-hero-icon">◎</div>
-    </section>
+      <div class="student-avatar-nav bg-primary text-white fs-1 shadow-sm flex-shrink-0" style="width: 80px; height: 80px;">
+        <i class="bi bi-compass-fill"></i>
+      </div>
+    </div>
+  </div>
 
-    <div class="career-stat-grid">
-      <div class="career-stat"><strong>{{ entry_count }}</strong><span>Ngày ghi chú</span></div>
-      <div class="career-stat"><strong>{{ test_count }}</strong><span>Bài đã làm</span></div>
-      <div class="career-stat"><strong>{{ discovery_percent }}%</strong><span>Khám phá</span></div>
+  <!-- Metric Stats Grid -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card p-4 border rounded-4 shadow-sm bg-white text-center">
+        <div class="student-avatar-nav bg-primary text-white mx-auto mb-2" style="width:48px; height:48px; font-size:1.2rem;">
+          <i class="bi bi-journal-check"></i>
+        </div>
+        <h2 class="fw-extrabold text-primary mb-0 fs-1">{{ entry_count }}</h2>
+        <span class="text-muted small font-weight-bold">Ngày đã ghi nhật ký</span>
+      </div>
     </div>
 
-    <div class="career-section-head">
-      <h5>Insight từ nhật ký</h5>
-      <button type="button" class="btn btn-outline-secondary">Xem tất cả ›</button>
+    <div class="col-md-4">
+      <div class="card p-4 border rounded-4 shadow-sm bg-white text-center">
+        <div class="student-avatar-nav bg-purple text-white mx-auto mb-2" style="width:48px; height:48px; font-size:1.2rem;">
+          <i class="bi bi-file-earmark-check-fill"></i>
+        </div>
+        <h2 class="fw-extrabold text-purple mb-0 fs-1">{{ test_count }}</h2>
+        <span class="text-muted small font-weight-bold">Bài trắc nghiệm đã làm</span>
+      </div>
     </div>
-    <div class="career-insight-list">
+
+    <div class="col-md-4">
+      <div class="card p-4 border rounded-4 shadow-sm bg-white text-center">
+        <div class="student-avatar-nav bg-success text-white mx-auto mb-2" style="width:48px; height:48px; font-size:1.2rem;">
+          <i class="bi bi-pie-chart-fill"></i>
+        </div>
+        <h2 class="fw-extrabold text-success mb-0 fs-1">{{ discovery_percent }}%</h2>
+        <span class="text-muted small font-weight-bold">Mức độ hoàn thành hồ sơ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Insights from Journal -->
+  <div class="card p-4 border rounded-4 shadow-sm mb-4 bg-white">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0"><i class="bi bi-lightbulb-fill text-warning me-2"></i> Insights phân tích từ nhật ký</h5>
+      <a href="{{ url_for('emotion_journal') }}" class="btn btn-outline-primary btn-sm">Ghi nhật ký mới ›</a>
+    </div>
+
+    <div class="row g-3">
       {% for insight in insights %}
-        <article class="career-insight">
-          <div class="career-insight-icon {{ insight.tone }}">{{ insight.icon }}</div>
-          <div>
-            <h6>{{ insight.title }}</h6>
-            <p>{{ insight.body }}</p>
-            <span class="career-badge {{ insight.tone }}">{{ insight.badge }}</span>
+        <div class="col-md-6">
+          <div class="p-3 bg-light rounded-4 border h-100">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="fs-4 text-primary"><i class="bi bi-chat-quote-fill"></i></span>
+              <h6 class="fw-bold mb-0 text-dark">{{ insight.title }}</h6>
+            </div>
+            <p class="text-secondary small mb-2">{{ insight.body }}</p>
+            <span class="badge text-bg-primary">{{ insight.badge }}</span>
           </div>
-        </article>
-      {% endfor %}
-    </div>
-
-    <div class="career-section-head">
-      <h5>Bài khám phá</h5>
-      <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-secondary">Xem tất cả ›</a>
-    </div>
-    <div class="career-test-strip">
-      {% for test in tests %}
-        {% set done = latest_submissions.get(test.id) %}
-        <a class="career-test-card" href="{{ url_for('student_career_test_take', test_id=test.id) }}">
-          <span class="career-test-icon">{{ '✓' if done else '♧' }}</span>
-          <strong>{{ test.title }}</strong>
-          <small>{{ question_counts.get(test.id, 0) }} câu · 5–7 phút</small>
-          <span class="career-progress"><i style="width: {{ done.percent if done else 18 }}%"></i></span>
-        </a>
+        </div>
       {% else %}
-        <div class="career-empty">Chưa có bài khám phá. Giáo viên sẽ upload bài tại khu vực hướng nghiệp.</div>
-      {% endfor %}
-    </div>
-
-    <div class="career-section-head">
-      <h5>Xu hướng cảm xúc</h5>
-    </div>
-    <section class="career-trend-box">
-      {% for trend in trends %}
-        <div class="career-trend-row">
-          <span>{{ trend.label }}</span>
-          <div class="career-trend-track"><i style="width: {{ trend.percent }}%; background: {{ trend.color }}"></i></div>
-          <strong>{{ trend.percent }}%</strong>
+        <div class="col-12">
+          <div class="alert alert-light border text-center py-3 text-muted">Chưa có đủ dữ liệu nhật ký để phân tích insight.</div>
         </div>
       {% endfor %}
-    </section>
+    </div>
   </div>
+
+  <!-- Self Discovery Tests -->
+  <div class="card p-4 border rounded-4 shadow-sm mb-4 bg-white">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0"><i class="bi bi-ui-checks-grid text-primary me-2"></i> Bài trắc nghiệm khám phá năng lực</h5>
+    </div>
+
+    <div class="row g-3">
+      {% for test in tests %}
+        {% set done = latest_submissions.get(test.id) %}
+        <div class="col-md-6">
+          <a class="card p-3 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white h-100" href="{{ url_for('student_career_test_take', test_id=test.id) }}">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge {% if done %}text-bg-success{% else %}text-bg-primary{% endif %}">
+                {% if done %}<i class="bi bi-check-circle-fill me-1"></i> Đã làm{% else %}<i class="bi bi-play-circle me-1"></i> Bắt đầu{% endif %}
+              </span>
+              <small class="text-muted"><i class="bi bi-clock me-1"></i> 5–7 phút</small>
+            </div>
+            <h6 class="fw-bold mb-1 text-dark">{{ test.title }}</h6>
+            <small class="text-muted d-block mb-3">{{ question_counts.get(test.id, 0) }} câu hỏi trắc nghiệm</small>
+
+            <div class="progress mt-auto" style="height: 6px;">
+              <div class="progress-bar {% if done %}bg-success{% else %}bg-primary{% endif %}" role="progressbar" style="width: {{ done.percent if done else 0 }}%"></div>
+            </div>
+          </a>
+        </div>
+      {% else %}
+        <div class="col-12">
+          <div class="alert alert-light border text-center py-4 text-muted">Chưa có bài trắc nghiệm nào. Giáo viên sẽ cập nhật thêm bài test.</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Mood Trends Box -->
+  <div class="card p-4 border rounded-4 shadow-sm bg-white">
+    <h5 class="fw-bold mb-3"><i class="bi bi-graph-up-arrow text-success me-2"></i> Xu hướng cảm xúc chính</h5>
+
+    <div class="d-grid gap-3">
+      {% for trend in trends %}
+        <div class="p-3 bg-light rounded-4 border">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="fw-bold text-dark">{{ trend.label }}</span>
+            <span class="fw-bold text-primary">{{ trend.percent }}%</span>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar rounded-pill" role="progressbar" style="width: {{ trend.percent }}%; background-color: {{ trend.color }};"></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
 {% endblock %}

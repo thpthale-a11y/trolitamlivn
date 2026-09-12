@@ -1,65 +1,110 @@
 {% extends "layout.html" %}
-{% block title %}Hỗ trợ học đường{% endblock %}
-{% block content %}
-<div class="support-hub">
-    <section class="support-hero">
-      <div class="support-kicker">Nhóm hỗ trợ phụ</div>
-      <h2>Tâm lý & kỹ năng sống</h2>
-      <p>Khu vực này gom các công cụ hỗ trợ học đường vào một nơi để giao diện gọn hơn. Trọng tâm chính của nền tảng vẫn là hướng nghiệp; phần này giúp học sinh ổn định tinh thần, rèn kỹ năng và trao đổi khi cần.</p>
-    </section>
+{% block title %}Hỗ trợ học đường - SelfPath AI{% endblock %}
 
-    <div class="support-grid">
-      {% if current_user.role == 'teacher' %}
-        <a class="support-card purple" href="{{ url_for('teacher_quizzes') }}">
-          <span class="support-icon">TL</span>
-          <h3>Trắc nghiệm tâm lý</h3>
-          <p>Tạo và quản lý các chủ đề đánh giá tâm lý học đường cho học sinh.</p>
-          <span class="support-meta">{{ quiz_count|default(0) }} chủ đề</span>
-        </a>
-        <a class="support-card orange" href="{{ url_for('teacher_life_skills') }}">
-          <span class="support-icon">KS</span>
-          <h3>Kỹ năng sống</h3>
-          <p>Upload bài học video, bài thực hành và nội dung rèn kỹ năng mềm.</p>
-          <span class="support-meta">{{ lesson_count|default(0) }} bài học</span>
-        </a>
-        <a class="support-card pink" href="{{ url_for('teacher_chat_list') }}">
-          <span class="support-icon">CH</span>
-          <h3>Chat chuyên gia</h3>
-          <p>Theo dõi các cuộc trò chuyện hỗ trợ học sinh khi các em cần trao đổi riêng.</p>
-          <span class="support-meta">{{ conversation_count|default(0) }} cuộc chat</span>
-        </a>
-        <a class="support-card blue" href="{{ url_for('student_forum') }}">
-          <span class="support-icon">CD</span>
-          <h3>Cộng đồng học sinh</h3>
-          <p>Quan sát không gian chia sẻ chung để nắm được nhu cầu và chủ đề học sinh quan tâm.</p>
-          <span class="support-meta">Diễn đàn</span>
-        </a>
-      {% else %}
-        <a class="support-card purple" href="{{ url_for('student_quizzes') }}">
-          <span class="support-icon">TL</span>
-          <h3>Trắc nghiệm tâm lý</h3>
-          <p>Làm các bài đánh giá ngắn để hiểu cảm xúc, áp lực học tập và điểm mạnh cá nhân.</p>
-          <span class="support-meta">{{ quiz_count|default(0) }} bài có sẵn</span>
-        </a>
-        <a class="support-card orange" href="{{ url_for('student_life_skills') }}">
-          <span class="support-icon">KS</span>
-          <h3>Kỹ năng sống</h3>
-          <p>Học các video ngắn về giao tiếp, tự học, quản lý cảm xúc và thói quen cá nhân.</p>
-          <span class="support-meta">{{ lesson_count|default(0) }} bài học</span>
-        </a>
-        <a class="support-card pink" href="{{ url_for('student_chat_rooms') }}">
-          <span class="support-icon">CH</span>
-          <h3>Chat chuyên gia</h3>
-          <p>Nhắn với Kbot hoặc giáo viên khi cần được lắng nghe, giải tỏa và định hướng nhẹ.</p>
-          <span class="support-meta">Kbot & giáo viên</span>
-        </a>
-        <a class="support-card blue" href="{{ url_for('emotion_journal') }}">
-          <span class="support-icon">NK</span>
-          <h3>Nhật ký cảm xúc</h3>
-          <p>Ghi lại tâm trạng hằng ngày để nhìn ra thói quen cảm xúc và tiến bộ của bản thân.</p>
-          <span class="support-meta">{{ journal_count|default(0) }} nhật ký</span>
-        </a>
-      {% endif %}
-    </div>
+{% block content %}
+<div class="support-container max-w-5xl mx-auto">
+
+  <!-- Header Hero -->
+  <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border mb-4">
+    <span class="badge text-bg-primary px-3 py-2 mb-2"><i class="bi bi-heart-pulse-fill me-1"></i> TÂM LÝ & KỸ NĂNG SỐNG</span>
+    <h2 class="section-title mb-2">Trung Tâm Hỗ Trợ Học Đường</h2>
+    <p class="text-muted mb-0">
+      Tổng hợp các công cụ hỗ trợ sức khỏe tinh thần, rèn luyện kỹ năng mềm và trao đổi tư vấn. Đảm bảo môi trường học tập lành mạnh & phát triển toàn diện.
+    </p>
   </div>
+
+  <!-- Tools Grid -->
+  <div class="row g-4">
+    {% if current_user.role == 'teacher' %}
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('teacher_quizzes') }}">
+          <div class="student-avatar-nav bg-purple text-white mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-cpu-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Trắc nghiệm tâm lý</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Tạo và quản lý các bài trắc nghiệm tâm lý học đường cho học sinh.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-list-check me-1"></i> {{ quiz_count|default(0) }} chủ đề</span>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('teacher_life_skills') }}">
+          <div class="student-avatar-nav bg-success text-white mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-lightbulb-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Kỹ năng sống</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Đăng tải bài học video, hướng dẫn thực hành rèn kỹ năng mềm.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-collection-play me-1"></i> {{ lesson_count|default(0) }} bài học</span>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('teacher_chat_list') }}">
+          <div class="student-avatar-nav bg-primary text-white mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Chat tư vấn</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Lắng nghe và tư vấn riêng cho học sinh khi các em gặp khó khăn.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-chat-text me-1"></i> {{ conversation_count|default(0) }} phòng chat</span>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('student_forum') }}">
+          <div class="student-avatar-nav bg-warning text-dark mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Cộng đồng học sinh</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Theo dõi diễn đàn trao đổi chung để nắm bắt tâm tư học sinh.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-chat-square-quote me-1"></i> Diễn đàn</span>
+        </a>
+      </div>
+
+    {% else %}
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('student_quizzes') }}">
+          <div class="student-avatar-nav bg-purple text-white mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-cpu-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Trắc nghiệm tâm lý</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Đánh giá cảm xúc, mức độ stress và phong cách cá nhân.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-check2-square me-1"></i> {{ quiz_count|default(0) }} bài test</span>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('student_life_skills') }}">
+          <div class="student-avatar-nav bg-success text-white mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-lightbulb-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Kỹ năng sống</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Học kỹ năng giao tiếp, tự học, quản lý thời gian & cảm xúc.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-play-circle me-1"></i> {{ lesson_count|default(0) }} bài học</span>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('student_chat_rooms') }}">
+          <div class="student-avatar-nav bg-primary text-white mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-robot"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Chat Kbot AI & Chuyên gia</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Trò chuyện 24/7 với Kbot AI hoặc nhắn tin trực tiếp với giáo viên.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-chat-dots me-1"></i> AI & Giáo viên</span>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a class="card h-100 p-4 border rounded-4 shadow-sm text-decoration-none text-dark hover-lift bg-white" href="{{ url_for('emotion_journal') }}">
+          <div class="student-avatar-nav bg-warning text-dark mb-3" style="width:52px; height:52px; font-size:1.4rem;">
+            <i class="bi bi-emoji-smile-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Nhật ký cảm xúc</h5>
+          <p class="text-muted small mb-3 flex-grow-1">Ghi lại tâm trạng mỗi ngày và theo dõi quá trình phát triển bản thân.</p>
+          <span class="badge text-bg-light text-dark text-start w-fit"><i class="bi bi-journal-check me-1"></i> {{ journal_count|default(0) }} bản ghi</span>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

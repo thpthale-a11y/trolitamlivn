@@ -1,153 +1,180 @@
 {% extends "layout.html" %}
-{% block title %}Lộ trình học tập{% endblock %}
+{% block title %}Lộ trình học tập - SelfPath AI{% endblock %}
+
 {% block content %}
-  <div class="learning-page">
-    {% set path_domains = {
-      'Lập trình viên': 'tech',
-      'Thiết kế UX/UI': 'design',
-      'Khoa học dữ liệu': 'data',
-      'Kinh doanh': 'business',
-      'Y tế': 'health',
-      'Giáo dục': 'education',
-      'Truyền thông': 'media',
-      'Tâm lý học': 'psychology',
-      'Kỹ thuật cơ khí': 'engineering',
-      'Du lịch khách sạn': 'travel',
-      'An toàn thông tin': 'security',
-      'Kỹ sư AI': 'ai',
-      'Quản trị mạng': 'network',
-      'Phát triển game': 'game',
-      'Kỹ sư phần mềm': 'software',
-      'Marketing số': 'digital-marketing',
-      'Tài chính - Kế toán': 'finance',
-      'Quản trị nhân sự': 'hr',
-      'Logistics': 'logistics',
-      'Luật': 'law',
-      'Kiến trúc sư': 'architecture',
-      'Thiết kế đồ họa': 'graphic-design',
-      'Sản xuất phim': 'film',
-      'Báo chí': 'journalism',
-      'Điều dưỡng': 'nursing',
-      'Dược sĩ': 'pharmacy',
-      'Công nghệ sinh học': 'biotech',
-      'Kỹ thuật ô tô': 'automotive',
-      'Điện - điện tử': 'electronics',
-      'Nông nghiệp công nghệ cao': 'agritech'
-    } %}
-    <div class="career-topbar">
-      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">← Trang chủ</a>
-      <h2 class="section-title mb-0">Lộ trình học tập</h2>
-      <span></span>
+<div class="learning-path-container max-w-5xl mx-auto">
+  {% set path_domains = {
+    'Lập trình viên': 'tech',
+    'Thiết kế UX/UI': 'design',
+    'Khoa học dữ liệu': 'data',
+    'Kinh doanh': 'business',
+    'Y tế': 'health',
+    'Giáo dục': 'education',
+    'Truyền thông': 'media',
+    'Tâm lý học': 'psychology'
+  } %}
+
+  <!-- Header Bar -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
+    <div>
+      <span class="badge text-bg-success px-3 py-2 mb-1"><i class="bi bi-signpost-split-fill me-1"></i> LỘ TRÌNH PHÁT TRIỂN</span>
+      <h2 class="section-title mb-0">Xây Dựng Kế Hoạch Học Tập & Nghề Nghiệp</h2>
+      <p class="text-muted small mb-0">Hệ thống lộ trình rèn luyện theo từng khối lớp dành riêng cho bạn</p>
     </div>
+    <div>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-left"></i> Trang chủ</a>
+    </div>
+  </div>
 
-    {% if not selected_path %}
-      <section class="learning-select-head">
-        <h3>Bạn muốn trở thành gì?</h3>
-      </section>
+  {% if not selected_path %}
+    <!-- Path Selection -->
+    <div class="card p-4 border rounded-4 shadow-sm bg-white mb-4">
+      <h4 class="fw-bold mb-2"><i class="bi bi-compass-fill text-primary me-2"></i> Bạn muốn hướng tới lộ trình nghề nghiệp nào?</h4>
+      <p class="text-muted small mb-4">Chọn 1 ngành học bên dưới để mở lộ trình chi tiết từng lớp và các nhiệm vụ rèn luyện.</p>
 
-      <div class="learning-career-grid">
+      <div class="row g-3">
         {% for path in paths %}
-          {% set path_domain = path_domains.get(path.title, path.color) %}
-          <button type="button" class="learning-career-card" data-domain="{{ path_domain }}" data-path-url="{{ url_for('student_learning_path', path_id=path.id) }}">
-            <span class="learning-career-icon {{ path.color }}" data-domain="{{ path_domain }}">{{ path.icon or '◇' }}</span>
-            <strong>{{ path.title }}</strong>
-            <em>{{ path.summary }}</em>
-          </button>
+          <div class="col-md-6 col-lg-4">
+            <div class="card p-3 border rounded-4 shadow-sm h-100 learning-career-card cursor-pointer" data-path-url="{{ url_for('student_learning_path', path_id=path.id) }}">
+              <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="student-avatar-nav bg-primary text-white fs-4" style="width:44px; height:44px;">
+                  {{ path.icon or '◇' }}
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0 text-dark">{{ path.title }}</h6>
+                </div>
+              </div>
+              <p class="text-muted small mb-0 flex-grow-1">{{ path.summary }}</p>
+            </div>
+          </div>
         {% else %}
-          <div class="career-empty">Chưa có lộ trình nào. Giáo viên cần upload ngành và lộ trình trước.</div>
+          <div class="col-12">
+            <div class="alert alert-light border rounded-4 text-center py-4 text-muted">Chưa có lộ trình nào được tải lên.</div>
+          </div>
         {% endfor %}
       </div>
 
-      <a id="learning-open-btn" class="btn btn-primary w-100 disabled mt-4" href="#">Xem lộ trình học tập →</a>
+      <div class="mt-4 pt-3 border-top text-center">
+        <a id="learning-open-btn" class="btn btn-primary btn-lg shadow-sm disabled px-5" href="#">
+          Xem lộ trình học tập chi tiết <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
 
-      <script>
-        const cards = document.querySelectorAll('.learning-career-card');
-        const openButton = document.getElementById('learning-open-btn');
-        cards.forEach((card) => {
-          card.addEventListener('click', () => {
-            cards.forEach((item) => item.classList.remove('active'));
-            card.classList.add('active');
-            openButton.href = card.dataset.pathUrl;
-            openButton.classList.remove('disabled');
-          });
+    <script>
+      const cards = document.querySelectorAll('.learning-career-card');
+      const openButton = document.getElementById('learning-open-btn');
+      cards.forEach((card) => {
+        card.addEventListener('click', () => {
+          cards.forEach((item) => item.classList.remove('border-primary', 'bg-light', 'shadow'));
+          card.classList.add('border-primary', 'bg-light', 'shadow');
+          openButton.href = card.dataset.pathUrl;
+          openButton.classList.remove('disabled');
         });
-      </script>
-    {% else %}
-      {% set selected_domain = path_domains.get(selected_path.title, selected_path.color) %}
-      <section class="learning-goal-card">
+      });
+    </script>
+  {% else %}
+    <!-- Selected Path Header -->
+    <div class="card p-4 p-md-5 border rounded-4 shadow-sm mb-4 bg-white">
+      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4">
         <div>
-          <div class="career-kicker">Đang hướng tới</div>
-          <h3>{{ selected_path.goal_label or selected_path.title }}</h3>
-          <div class="learning-main-progress"><i style="width: {{ selected_path.completion_percent }}%"></i></div>
-          <span>{{ selected_path.completion_percent }}% hoàn thành</span>
+          <span class="badge text-bg-warning px-3 py-1 mb-2 fw-bold"><i class="bi bi-flag-fill me-1"></i> MỤC TIÊU ĐANG HƯỚNG TỚI</span>
+          <h2 class="fw-extrabold text-primary mb-2 display-6">{{ selected_path.goal_label or selected_path.title }}</h2>
+          <div class="progress mb-2" style="height: 10px; width: 300px; max-width:100%;">
+            <div class="progress-bar bg-success rounded-pill" role="progressbar" style="width: {{ selected_path.completion_percent }}%;"></div>
+          </div>
+          <span class="text-success fw-bold small"><i class="bi bi-check-circle-fill me-1"></i> {{ selected_path.completion_percent }}% tiến độ lộ trình</span>
         </div>
-        <div class="learning-goal-icon {{ selected_path.color }}" data-domain="{{ selected_domain }}">{{ selected_path.icon or '◇' }}</div>
-      </section>
-
-      <div class="career-stat-grid">
-        <div class="career-stat"><strong>{{ done_tasks }}/{{ total_tasks }}</strong><span>Nhiệm vụ xong</span></div>
-        <div class="career-stat"><strong>{{ stages|length }}</strong><span>Giai đoạn học</span></div>
-        <div class="career-stat"><strong>{{ skills|length }}</strong><span>Kỹ năng đang rèn</span></div>
+        <div class="student-avatar-nav bg-primary text-white fs-1 shadow-sm flex-shrink-0" style="width: 80px; height: 80px;">
+          {{ selected_path.icon or '◇' }}
+        </div>
       </div>
+    </div>
 
-      <div class="forum-section-head">
-        <h5>Lộ trình theo năm học</h5>
-        <span>Bấm để xem chi tiết</span>
+    <!-- Stat Tiles -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card p-3 border rounded-4 shadow-sm bg-white text-center">
+          <h3 class="fw-extrabold text-primary mb-0 fs-2">{{ done_tasks }}/{{ total_tasks }}</h3>
+          <span class="text-muted small">Nhiệm vụ hoàn thành</span>
+        </div>
       </div>
+      <div class="col-md-4">
+        <div class="card p-3 border rounded-4 shadow-sm bg-white text-center">
+          <h3 class="fw-extrabold text-purple mb-0 fs-2">{{ stages|length }}</h3>
+          <span class="text-muted small">Giai đoạn học tập</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3 border rounded-4 shadow-sm bg-white text-center">
+          <h3 class="fw-extrabold text-success mb-0 fs-2">{{ skills|length }}</h3>
+          <span class="text-muted small">Kỹ năng đang rèn</span>
+        </div>
+      </div>
+    </div>
 
-      <div class="learning-timeline">
+    <!-- Stages Timeline Grid -->
+    <div class="card p-4 border rounded-4 shadow-sm mb-4 bg-white">
+      <h5 class="fw-bold mb-3"><i class="bi bi-calendar3 text-primary me-2"></i> Lộ trình rèn luyện theo khối lớp</h5>
+
+      <div class="d-grid gap-4">
         {% for stage in stages %}
           {% set tasks = tasks_by_stage.get(stage.id, []) %}
           {% set done = tasks|selectattr('is_done')|list|length %}
-          <article class="learning-stage {% if not stage.is_open %}collapsed{% endif %}">
-            <div class="learning-stage-dot">{{ stage.year_label.replace('Lớp ', '') }}</div>
-            <div class="learning-stage-card">
-              <div class="learning-stage-head">
-                <div>
-                  <small>{{ stage.year_label }}{% if stage.subtitle %} · {{ stage.subtitle }}{% endif %}</small>
-                  <h5>{{ stage.title }}</h5>
-                </div>
-                <span class="learning-status">{{ stage.status }}</span>
+
+          <div class="p-4 border rounded-4 bg-light">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="badge text-bg-primary fs-6 me-2">{{ stage.year_label }}</span>
+                <span class="fw-bold text-dark fs-5">{{ stage.title }}</span>
               </div>
-
-              {% if stage.is_open %}
-                <div class="learning-task-list">
-                  {% for task in tasks %}
-                    <div class="learning-task">
-                      <span class="learning-check {% if task.is_done %}done{% endif %}">{{ '✓' if task.is_done else '' }}</span>
-                      <div>
-                        <strong class="{% if task.is_done %}text-decoration-line-through text-muted{% endif %}">{{ task.title }}</strong>
-                        <small>{{ task.subtitle }}</small>
-                      </div>
-                      <span class="learning-task-type">{{ task.task_type }}</span>
-                    </div>
-                  {% endfor %}
-                </div>
-                <div class="learning-stage-progress">
-                  <span>Tiến độ giai đoạn</span>
-                  <strong>{{ done }}/{{ tasks|length }} nhiệm vụ</strong>
-                  <i style="width: {{ (done / (tasks|length) * 100)|round if tasks else 0 }}%"></i>
-                </div>
-              {% endif %}
+              <span class="badge text-bg-success">{{ stage.status }}</span>
             </div>
-          </article>
-        {% endfor %}
-      </div>
 
-      <div class="forum-section-head mt-4">
-        <h5>Kỹ năng đang rèn</h5>
-        <span>Cập nhật tự động</span>
-      </div>
-      <div class="learning-skill-grid">
-        {% for skill in skills %}
-          <article class="learning-skill-card">
-            <strong>{{ skill.name }}</strong>
-            <span>{{ skill.level_label }}</span>
-            <div class="learning-skill-progress {{ skill.color }}"><i style="width: {{ skill.percent }}%"></i></div>
-            <em>{{ skill.percent }}%</em>
-          </article>
+            {% if stage.is_open %}
+              <div class="d-grid gap-2 mb-3">
+                {% for task in tasks %}
+                  <div class="p-3 bg-white border rounded-3 d-flex align-items-center gap-3">
+                    <span class="badge {% if task.is_done %}text-bg-success{% else %}text-bg-light border text-muted{% endif %} fs-6">
+                      {% if task.is_done %}<i class="bi bi-check-lg"></i>{% else %}<i class="bi bi-circle"></i>{% endif %}
+                    </span>
+                    <div class="flex-grow-1">
+                      <strong class="d-block {% if task.is_done %}text-decoration-line-through text-muted{% else %}text-dark{% endif %}">{{ task.title }}</strong>
+                      <small class="text-muted">{{ task.subtitle }}</small>
+                    </div>
+                    <span class="badge text-bg-info">{{ task.task_type }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="d-flex align-items-center justify-content-between small text-muted">
+                <span>Tiến độ giai đoạn:</span>
+                <span class="fw-bold text-dark">{{ done }}/{{ tasks|length }} nhiệm vụ</span>
+              </div>
+            {% endif %}
+          </div>
         {% endfor %}
       </div>
-    {% endif %}
-  </div>
+    </div>
+
+    <!-- Skills List -->
+    <div class="card p-4 border rounded-4 shadow-sm bg-white">
+      <h5 class="fw-bold mb-3"><i class="bi bi-stars text-warning me-2"></i> Kỹ năng trọng tâm đang rèn luyện</h5>
+      <div class="row g-3">
+        {% for skill in skills %}
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-4 border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold text-dark">{{ skill.name }}</span>
+                <span class="badge text-bg-primary">{{ skill.level_label }}</span>
+              </div>
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: {{ skill.percent }}%;"></div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

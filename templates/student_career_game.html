@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Chọn Nghề - Game Định Hướng Tương Lai THCS</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f5ff',
+                            100: '#e0ebff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            purple: '#8b5cf6',
+                            pink: '#ec4899',
+                            amber: '#f59e0b',
+                            emerald: '#10b981',
+                            cyan: '#06b6d4',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(59, 130, 246, 0.5)' },
+                            '100%': { boxShadow: '0 0 30px rgba(139, 92, 246, 0.8)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for glowing elements and clean layout */
+        body {
+            background: #0b0f19;
+            color: #f1f5f9;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+            transform: translateY(-2px);
+        }
+        .node-active {
+            box-shadow: 0 0 25px #10b981;
+            border-color: #34d399;
+        }
+        .node-locked {
+            filter: grayscale(0.8);
+            opacity: 0.6;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+    <!-- Header Controls -->
+    <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="game.navigateTo('map')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    🎮
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-base md:text-lg">
+                        HÀNH TRÌNH CHỌN NGHỀ
+                    </h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Khám phá bản thân – Chọn hướng – Kiến tạo tương lai</p>
+                </div>
+            </div>
+
+            <!-- Profile Stats & System Actions -->
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <!-- User Profile Summary Pill -->
+                <div id="header-user-pill" class="hidden md:flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 text-xs">
+                    <span id="user-avatar" class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold text-white">🎓</span>
+                    <span id="user-display-name" class="font-semibold text-slate-200">Học sinh</span>
+                    <span id="user-grade-badge" class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full text-[10px] font-bold">Lớp 8</span>
+                </div>
+
+                <!-- XP Score -->
+                <div class="flex items-center space-x-1.5 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full">
+                    <span class="text-amber-400 animate-bounce">⭐</span>
+                    <span id="player-xp" class="font-black text-amber-300 text-sm">0</span>
+                    <span class="text-[10px] font-bold text-amber-500">XP</span>
+                </div>
+
+                <!-- Sound Toggle -->
+                <button id="sound-toggle" onclick="audioManager.toggleSound()" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-slate-300 transition" title="Âm thanh">
+                    <i id="sound-icon" class="fas fa-volume-up text-sm"></i>
+                </button>
+
+                <!-- Teacher Corner Button -->
+                <button onclick="game.showTeacherCorner()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold border border-slate-700 flex items-center space-x-1 transition">
+                    <i class="fas fa-chalkboard-teacher text-purple-400"></i>
+                    <span class="hidden sm:inline">Góc Giáo Viên</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main id="app-container" class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-6 relative">
+        <!-- Canvas background for special effects -->
+        <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+        <!-- VIEW 0: WELCOME & ONBOARDING -->
+        <section id="view-welcome" class="relative z-10 max-w-2xl mx-auto text-center my-6 md:my-12">
+            <div class="glass-card p-6 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden border border-slate-700/60">
+                <div class="absolute -top-12 -right-12 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="inline-block p-4 bg-gradient-to-tr from-blue-600/30 to-purple-600/30 rounded-2xl mb-4 border border-blue-500/30 animate-float">
+                    <span class="text-5xl">🚀</span>
+                </div>
+
+                <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-3">🎮 HÀNH TRÌNH CHỌN NGHỀ</h2>
+                <p class="text-blue-300 font-medium text-base md:text-lg mb-6">"Khám phá bản thân – Chọn hướng – Kiến tạo tương lai"</p>
+
+                <p class="text-slate-300 text-sm md:text-base mb-8 leading-relaxed">
+                    Chào mừng bạn đến với chuyến phiêu lưu khám phá tiềm năng cá nhân! Hãy đi qua 5 chặng thử thách thú vị để giải mã sở thích, năng lực, thế mạnh và tìm kiếm những nghề nghiệp tương lai phù hợp nhất với bạn.
+                </p>
+
+                <!-- Form Inputs -->
+                <div class="space-y-4 text-left max-w-md mx-auto mb-8 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Tên hiển thị hoặc Biệt danh:</label>
+                        <input type="text" id="input-nickname" placeholder="Ví dụ: Minh Trí / Explorer..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Khối lớp hiện tại:</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" onclick="game.selectGrade(6)" class="grade-btn px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-slate-300 font-bold hover:bg-purple-600 hover:text-white transition text-center" data-grade="6">Lớp 6</button>
+                            <button type="button" onclick="game.selectGrade(7)" class="grade-btn px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-slate-300 font-bold hover:bg-purple-600 hover:text-white transition text-center" data-grade="7">Lớp 7</button>
+                            <button type="button" onclick="game.selectGrade(8)" class="grade-btn px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-slate-300 font-bold hover:bg-purple-600 hover:text-white transition text-center active-grade" data-grade="8">Lớp 8</button>
+                            <button type="button" onclick="game.selectGrade(9)" class="grade-btn px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-slate-300 font-bold hover:bg-purple-600 hover:text-white transition text-center" data-grade="9">Lớp 9</button>
+                        </div>
+                    </div>
+
+                    <!-- Pre-Survey Question -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Hiện tại, bạn tự tin thế nào về việc chọn nghề sau này? (1 - 5):</label>
+                        <div class="flex justify-between items-center bg-slate-800 p-2 rounded-xl border border-slate-700">
+                            <span class="text-xs text-slate-400">Chưa rõ</span>
+                            <div class="flex space-x-2">
+                                <template id="survey-stars">
+                                    <!-- Stars rendered by script -->
+                                </template>
+                                <div id="pre-survey-rating" class="flex space-x-3">
+                                    <button type="button" onclick="game.setPreSurveyRating(1)" class="survey-star w-8 h-8 rounded-lg bg-slate-700 hover:bg-amber-500 text-white font-bold text-xs transition">1</button>
+                                    <button type="button" onclick="game.setPreSurveyRating(2)" class="survey-star w-8 h-8 rounded-lg bg-slate-700 hover:bg-amber-500 text-white font-bold text-xs transition">2</button>
+                                    <button type="button" onclick="game.setPreSurveyRating(3)" class="survey-star w-8 h-8 rounded-lg bg-amber-500 text-white font-bold text-xs transition">3</button>
+                                    <button type="button" onclick="game.setPreSurveyRating(4)" class="survey-star w-8 h-8 rounded-lg bg-slate-700 hover:bg-amber-500 text-white font-bold text-xs transition">4</button>
+                                    <button type="button" onclick="game.setPreSurveyRating(5)" class="survey-star w-8 h-8 rounded-lg bg-slate-700 hover:bg-amber-500 text-white font-bold text-xs transition">5</button>
+                                </div>
+                            </div>
+                            <span class="text-xs text-emerald-400 font-semibold">Rất tự tin</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="game.startJourney()" class="btn-gradient w-full max-w-md py-4 rounded-2xl font-extrabold text-white text-lg tracking-wide shadow-xl flex items-center justify-center space-x-2 mx-auto">
+                    <span>▶ BẮT ĐẦU HÀNH TRÌNH</span>
+                    <i class="fas fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW 1: MAP DASHBOARD -->
+        <section id="view-map" class="relative z-10 hidden">
+            <div class="mb-6 bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span>🗺️ BẢN ĐỒ HÀNH TRÌNH KHÁM PHÁ</span>
+                    </h2>
+                    <p class="text-xs text-slate-400">Hoàn thành lần lượt các chặng để mở khóa bức tranh toàn cảnh tương lai của bạn.</p>
+                </div>
+                <!-- Journey Progress Bar -->
+                <div class="w-full md:w-64 bg-slate-800 rounded-full h-4 p-0.5 border border-slate-700 relative overflow-hidden">
+                    <div id="journey-progress-fill" class="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <span id="journey-progress-text" class="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white drop-shadow">Chặng: 0/5</span>
+                </div>
+            </div>
+
+            <!-- Map Nodes Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative mb-8">
+                <!-- Stage Node 1 -->
+                <div id="node-stage-1" onclick="game.enterStage(1)" class="glass-card glass-card-hover p-5 rounded-2xl border cursor-pointer text-center relative flex flex-col justify-between h-56 transition-all">
+                    <div class="stage-status-badge absolute top-3 right-3 text-xs bg-slate-800 px-2 py-0.5 rounded-full text-slate-400">Mới</div>
+                    <div class="text-4xl my-2">❤️</div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">CHẶNG 1</h3>
+                        <p class="text-xs text-purple-300 font-semibold mt-1">Tôi Thích Gì?</p>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-tight">Khám phá xu hướng sở thích nổi bật qua các tình huống thực tế.</p>
+                    </div>
+                    <button class="w-full py-2 bg-blue-600/80 hover:bg-blue-600 text-white font-bold rounded-xl text-xs mt-3">KHÁM PHÁ</button>
+                </div>
+
+                <!-- Stage Node 2 -->
+                <div id="node-stage-2" onclick="game.enterStage(2)" class="glass-card glass-card-hover p-5 rounded-2xl border cursor-pointer text-center relative flex flex-col justify-between h-56 transition-all node-locked">
+                    <div class="stage-status-badge absolute top-3 right-3 text-xs bg-slate-800 px-2 py-0.5 rounded-full text-slate-400"><i class="fas fa-lock"></i></div>
+                    <div class="text-4xl my-2">🧠</div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">CHẶNG 2</h3>
+                        <p class="text-xs text-purple-300 font-semibold mt-1">Tôi Giỏi Gì?</p>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-tight">Thử thách logic, quan sát & tư duy giải quyết vấn đề.</p>
+                    </div>
+                    <button class="w-full py-2 bg-slate-700 text-slate-400 font-bold rounded-xl text-xs mt-3">KHOÁ</button>
+                </div>
+
+                <!-- Stage Node 3 -->
+                <div id="node-stage-3" onclick="game.enterStage(3)" class="glass-card glass-card-hover p-5 rounded-2xl border cursor-pointer text-center relative flex flex-col justify-between h-56 transition-all node-locked">
+                    <div class="stage-status-badge absolute top-3 right-3 text-xs bg-slate-800 px-2 py-0.5 rounded-full text-slate-400"><i class="fas fa-lock"></i></div>
+                    <div class="text-4xl my-2">⭐</div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">CHẶNG 3</h3>
+                        <p class="text-xs text-purple-300 font-semibold mt-1">Tôi Mạnh Ở Đâu?</p>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-tight">Giải mã điểm mạnh nổi bật trong làm việc nhóm & xử lý tình huống.</p>
+                    </div>
+                    <button class="w-full py-2 bg-slate-700 text-slate-400 font-bold rounded-xl text-xs mt-3">KHOÁ</button>
+                </div>
+
+                <!-- Stage Node 4 -->
+                <div id="node-stage-4" onclick="game.enterStage(4)" class="glass-card glass-card-hover p-5 rounded-2xl border cursor-pointer text-center relative flex flex-col justify-between h-56 transition-all node-locked">
+                    <div class="stage-status-badge absolute top-3 right-3 text-xs bg-slate-800 px-2 py-0.5 rounded-full text-slate-400"><i class="fas fa-lock"></i></div>
+                    <div class="text-4xl my-2">💼</div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">CHẶNG 4</h3>
+                        <p class="text-xs text-purple-300 font-semibold mt-1">Khám Phá Nghề</p>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-tight">Tra cứu ngân hàng 50+ nghề nghiệp & mở khóa thẻ nghề phù hợp.</p>
+                    </div>
+                    <button class="w-full py-2 bg-slate-700 text-slate-400 font-bold rounded-xl text-xs mt-3">KHOÁ</button>
+                </div>
+
+                <!-- Stage Node 5 -->
+                <div id="node-stage-5" onclick="game.enterStage(5)" class="glass-card glass-card-hover p-5 rounded-2xl border cursor-pointer text-center relative flex flex-col justify-between h-56 transition-all node-locked">
+                    <div class="stage-status-badge absolute top-3 right-3 text-xs bg-slate-800 px-2 py-0.5 rounded-full text-slate-400"><i class="fas fa-lock"></i></div>
+                    <div class="text-4xl my-2">🚀</div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">CHẶNG 5</h3>
+                        <p class="text-xs text-purple-300 font-semibold mt-1">Tương Lai Của Tôi</p>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-tight">Lập kế hoạch hành động 30 ngày & tạo Hồ Sơ Tương Lai.</p>
+                    </div>
+                    <button class="w-full py-2 bg-slate-700 text-slate-400 font-bold rounded-xl text-xs mt-3">KHOÁ</button>
+                </div>
+            </div>
+
+            <!-- Mini Games & Helper Banner Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- AI Career Coach Entry Banner -->
+                <div class="glass-card p-5 rounded-2xl border border-purple-500/30 flex items-center space-x-4 bg-gradient-to-r from-purple-900/30 to-slate-900">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-600/30 border border-purple-400/30 flex items-center justify-center text-3xl">
+                        🤖
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">AI CAREER COACH</h3>
+                        <p class="text-xs text-slate-300 mt-1">Cố vấn AI định hướng cá nhân hoá, giải đáp thắc mắc ngành nghề.</p>
+                        <button onclick="game.openAICoachModal()" class="mt-2 text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1">
+                            <span>Trò chuyện ngay</span> <i class="fas fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mini Games Hub Card -->
+                <div class="glass-card p-5 rounded-2xl border border-blue-500/30 flex items-center space-x-4 bg-gradient-to-r from-blue-900/30 to-slate-900">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-600/30 border border-blue-400/30 flex items-center justify-center text-3xl">
+                        🎯
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">MINI GAMES THỬ THÁCH</h3>
+                        <p class="text-xs text-slate-300 mt-1">3 Mini games rèn luyện tư duy: Chọn Nhanh, Thử Tình Huống & Con Đường.</p>
+                        <button onclick="game.openMiniGamesHub()" class="mt-2 text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1">
+                            <span>Thử thách ngay</span> <i class="fas fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Saved Future Profile Quick Access -->
+                <div class="glass-card p-5 rounded-2xl border border-emerald-500/30 flex items-center space-x-4 bg-gradient-to-r from-emerald-900/30 to-slate-900">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-600/30 border border-emerald-400/30 flex items-center justify-center text-3xl">
+                        🌟
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">HỒ SƠ TƯƠNG LAI</h3>
+                        <p class="text-xs text-slate-300 mt-1">Xem, tải về hoặc in Hồ sơ năng lực & Định hướng cá nhân.</p>
+                        <button onclick="game.viewProfileSummary()" class="mt-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+                            <span>Mở Hồ Sơ</span> <i class="fas fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW STAGE 1: TÔI THÍCH GÌ? -->
+        <section id="view-stage-1" class="relative z-10 hidden max-w-3xl mx-auto">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700/80 shadow-2xl">
+                <!-- Stage Header Navigation -->
+                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                    <button onclick="game.navigateTo('map')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold flex items-center gap-1">
+                        <i class="fas fa-arrow-left"></i> Bản Đồ
+                    </button>
+                    <div class="text-center">
+                        <span class="text-xs font-extrabold text-purple-400 uppercase tracking-widest">CHẶNG 1</span>
+                        <h3 class="text-lg font-bold text-white">❤️ TÔI THÍCH GÌ?</h3>
+                    </div>
+                    <div id="s1-question-counter" class="text-xs font-bold bg-slate-800 px-3 py-1 rounded-full text-slate-300">
+                        1 / 15
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-800 h-2 rounded-full mb-8 overflow-hidden">
+                    <div id="s1-progress-bar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <!-- Active Question Box -->
+                <div id="s1-question-card" class="mb-8">
+                    <h4 id="s1-question-text" class="text-base md:text-xl font-bold text-slate-100 mb-6 text-center leading-relaxed">
+                        Đang tải câu hỏi...
+                    </h4>
+
+                    <!-- 4 Visual Option Buttons -->
+                    <div id="s1-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Options generated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Dynamic Encouragement Feedback Banner -->
+                <div id="s1-feedback-banner" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl text-center text-xs text-emerald-300 font-semibold mb-4">
+                    🎉 Tuyệt vời! Bạn đã tích lũy thêm +20 XP.
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 1 SUMMARY MODAL / SCREEN -->
+        <section id="view-stage-1-summary" class="relative z-10 hidden max-w-2xl mx-auto text-center">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700">
+                <div class="text-5xl mb-3">🎨</div>
+                <h3 class="text-2xl font-extrabold text-white mb-2">BẢN ĐỒ SỞ THÍCH CỦA BẠN</h3>
+                <p class="text-xs text-slate-300 mb-6">Dưới đây là xu hướng sở thích nổi bật dựa trên những lựa chọn trải nghiệm thực tế của bạn.</p>
+
+                <!-- Interest Energy Bars -->
+                <div id="s1-summary-chart" class="space-y-3 text-left mb-8 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+                    <!-- Energy bars injected via JavaScript -->
+                </div>
+
+                <p class="text-xs text-purple-300 bg-purple-500/10 p-3 rounded-xl mb-6 border border-purple-500/20">
+                    💡 <strong>Ghi chú:</strong> Đây là phân tích xu hướng hoạt động em hứng thú nhất, giúp em tự tin bước sang thử thách đánh giá năng lực!
+                </p>
+
+                <div class="flex gap-3 justify-center">
+                    <button onclick="game.enterStage(2)" class="btn-gradient px-6 py-3 rounded-xl font-bold text-white text-sm shadow-lg flex items-center gap-2">
+                        <span>SANG CHẶNG 2: TÔI GIỎI GÌ?</span>
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW STAGE 2: TÔI GIỎI GÌ? -->
+        <section id="view-stage-2" class="relative z-10 hidden max-w-3xl mx-auto">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700/80 shadow-2xl">
+                <!-- Navigation & Timer Header -->
+                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                    <button onclick="game.navigateTo('map')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold flex items-center gap-1">
+                        <i class="fas fa-arrow-left"></i> Bản Đồ
+                    </button>
+                    <div class="text-center">
+                        <span class="text-xs font-extrabold text-blue-400 uppercase tracking-widest">CHẶNG 2</span>
+                        <h3 class="text-lg font-bold text-white">🧠 TÔI GIỎI GÌ?</h3>
+                    </div>
+                    <!-- Countdown Timer Pill -->
+                    <div id="s2-timer-box" class="flex items-center space-x-1.5 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full text-rose-400 font-bold text-xs">
+                        <i class="fas fa-clock text-xs animate-pulse"></i>
+                        <span id="s2-timer-text">30s</span>
+                    </div>
+                </div>
+
+                <!-- Question Progress -->
+                <div class="flex justify-between text-xs text-slate-400 mb-2">
+                    <span id="s2-category-tag" class="font-bold text-blue-400 uppercase">Tư duy Logic</span>
+                    <span id="s2-counter-text">Thử thách 1 / 10</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full mb-6 overflow-hidden">
+                    <div id="s2-progress-bar" class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <!-- Interactive Challenge Card Container -->
+                <div id="s2-challenge-container" class="min-h-[260px] flex flex-col justify-between">
+                    <!-- Injected by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 2 SUMMARY MODAL -->
+        <section id="view-stage-2-summary" class="relative z-10 hidden max-w-2xl mx-auto text-center">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700">
+                <div class="text-5xl mb-3">🧩</div>
+                <h3 class="text-2xl font-extrabold text-white mb-2">HỒ SƠ NĂNG LỰC TƯ DUY</h3>
+                <p class="text-xs text-slate-300 mb-6">Kết quả phản ánh tốc độ, độ chính xác và phương pháp giải quyết thử thách của bạn.</p>
+
+                <!-- Abilities Grid -->
+                <div id="s2-summary-bars" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left mb-8 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <p class="text-xs text-cyan-300 bg-cyan-500/10 p-3 rounded-xl mb-6 border border-cyan-500/20">
+                    ✨ Điểm số không dùng để đánh giá học lực mà để nhận diện thế mạnh tự nhiên giúp bạn phát huy tốt nhất!
+                </p>
+
+                <button onclick="game.enterStage(3)" class="btn-gradient px-6 py-3 rounded-xl font-bold text-white text-sm shadow-lg flex items-center gap-2 mx-auto">
+                    <span>SANG CHẶNG 3: TÔI MẠNH Ở ĐÂU?</span>
+                    <i class="fas fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW STAGE 3: TÔI MẠNH Ở ĐÂU? -->
+        <section id="view-stage-3" class="relative z-10 hidden max-w-3xl mx-auto">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700/80 shadow-2xl">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                    <button onclick="game.navigateTo('map')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold flex items-center gap-1">
+                        <i class="fas fa-arrow-left"></i> Bản Đồ
+                    </button>
+                    <div class="text-center">
+                        <span class="text-xs font-extrabold text-amber-400 uppercase tracking-widest">CHẶNG 3</span>
+                        <h3 class="text-lg font-bold text-white">⭐ TÔI MẠNH Ở ĐÂU?</h3>
+                    </div>
+                    <span id="s3-counter-badge" class="text-xs font-bold bg-slate-800 px-3 py-1 rounded-full text-slate-300">1 / 8</span>
+                </div>
+
+                <div id="s3-scenario-card">
+                    <!-- Scenario Injected dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 3 SUMMARY: TOP 5 STRENGTHS -->
+        <section id="view-stage-3-summary" class="relative z-10 hidden max-w-2xl mx-auto text-center">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700">
+                <div class="text-5xl mb-3">⭐</div>
+                <h3 class="text-2xl font-extrabold text-white mb-2">5 THẾ MẠNH NỔI BẬT CỦA BẠN</h3>
+                <p class="text-xs text-slate-300 mb-6">Đây là điểm tựa quan trọng giúp bạn lựa chọn môi trường & ngành nghề phù hợp.</p>
+
+                <div id="s3-top-strengths" class="space-y-3 text-left mb-6">
+                    <!-- Top 5 strengths list rendered by JS -->
+                </div>
+
+                <p class="text-xs text-amber-300 bg-amber-500/10 p-3 rounded-xl mb-6 border border-amber-500/20 italic">
+                    "Đây là những điểm mạnh nổi bật qua hành trình của bạn, không phải kết luận cố định về năng lực."
+                </p>
+
+                <button onclick="game.enterStage(4)" class="btn-gradient px-6 py-3 rounded-xl font-bold text-white text-sm shadow-lg flex items-center gap-2 mx-auto">
+                    <span>MỞ KHÓA CHẶNG 4: KHÁM PHÁ NGHỀ</span>
+                    <i class="fas fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW STAGE 4: KHÁM PHÁ NGHỀ NGHIỆP -->
+        <section id="view-stage-4" class="relative z-10 hidden">
+            <div class="glass-card p-6 rounded-3xl border border-slate-700/80 mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-emerald-400 uppercase tracking-widest">CHẶNG 4</span>
+                        <h3 class="text-xl font-bold text-white">💼 THƯ VIỆN KHÁM PHÁ NGHỀ NGHIỆP</h3>
+                        <p class="text-xs text-slate-400">Dựa trên kết quả 3 chặng trước, hệ thống gợi ý các nhóm nghề bạn có thể tìm hiểu thêm.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full md:w-auto">
+                        <button onclick="game.navigateTo('map')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold flex items-center gap-1">
+                            <i class="fas fa-arrow-left"></i> Bản Đồ
+                        </button>
+                        <button onclick="game.enterStage(5)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-lg flex items-center gap-1">
+                            <span>SANG CHẶNG 5</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Top 5 Recommended Groups Banner -->
+                <div class="mb-6 bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/30">
+                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <i class="fas fa-magic"></i> 5 NHÓM NGHỀ BẠN CÓ THỂ KHÁM PHÁ (GỢI Ý AI)
+                    </h4>
+                    <div id="s4-recommended-groups" class="flex flex-wrap gap-2">
+                        <!-- Group badges injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Filters & Search -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                    <div class="relative flex-grow">
+                        <i class="fas fa-search absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                        <input type="text" id="s4-search-input" onkeyup="game.filterCareers()" placeholder="Tìm kiếm tên nghề, kỹ năng hoặc từ khóa..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <select id="s4-category-filter" onchange="game.filterCareers()" class="bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                        <option value="ALL">Tất cả nhóm nghề (12 nhóm)</option>
+                        <option value="Khoa học">🔬 Khoa học</option>
+                        <option value="Công nghệ">💻 Công nghệ</option>
+                        <option value="Kỹ thuật">⚙️ Kỹ thuật</option>
+                        <option value="Y tế">🏥 Y tế</option>
+                        <option value="Giáo dục">👩‍🏫 Giáo dục</option>
+                        <option value="Kinh doanh">💼 Kinh doanh</option>
+                        <option value="Nghệ thuật – Thiết kế">🎨 Nghệ thuật – Thiết kế</option>
+                        <option value="Nông nghiệp – Môi trường">🌱 Nông nghiệp – Môi trường</option>
+                        <option value="Logistics – Dịch vụ">🚚 Logistics – Dịch vụ</option>
+                        <option value="Pháp luật – Xã hội">⚖️ Pháp luật – Xã hội</option>
+                        <option value="Tài chính – Quản lý">📊 Tài chính – Quản lý</option>
+                        <option value="Sản xuất – Công nghiệp">🧪 Sản xuất – Công nghiệp</option>
+                    </select>
+                </div>
+
+                <!-- Careers Grid -->
+                <div id="s4-careers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Career Cards loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CAREER DETAIL MODAL -->
+        <div id="modal-career-detail" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+            <div class="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-3xl p-6 border border-slate-700 relative">
+                <button onclick="game.closeCareerModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div id="modal-career-content">
+                    <!-- Career detail rendered here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW STAGE 5: TƯƠNG LAI CỦA TÔI -->
+        <section id="view-stage-5" class="relative z-10 hidden max-w-3xl mx-auto">
+            <div class="glass-card p-6 md:p-8 rounded-3xl border border-slate-700 shadow-2xl">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                    <button onclick="game.navigateTo('map')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold flex items-center gap-1">
+                        <i class="fas fa-arrow-left"></i> Bản Đồ
+                    </button>
+                    <div class="text-center">
+                        <span class="text-xs font-extrabold text-cyan-400 uppercase tracking-widest">CHẶNG 5</span>
+                        <h3 class="text-lg font-bold text-white">🚀 TƯƠNG LAI CỦA TÔI</h3>
+                    </div>
+                    <span class="text-xs font-bold bg-slate-800 px-3 py-1 rounded-full text-emerald-400">Chặng cuối</span>
+                </div>
+
+                <!-- Goal Setting Form -->
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-white mb-2">1. Nghề hoặc nhóm nghề em quan tâm tìm hiểu nhất hiện tại:</label>
+                        <select id="s5-select-target-career" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs md:text-sm text-white focus:outline-none focus:border-cyan-500">
+                            <!-- Populated from saved or selected careers -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-white mb-2">2. Mục tiêu học tập & định hướng gần nhất của em là gì?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="s5-goals-options">
+                            <label class="flex items-center space-x-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800 cursor-pointer hover:border-cyan-500">
+                                <input type="radio" name="user_goal" value="Hiểu bản thân hơn" checked class="text-cyan-500">
+                                <span class="text-xs text-slate-200">Hiểu bản thân hơn</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800 cursor-pointer hover:border-cyan-500">
+                                <input type="radio" name="user_goal" value="Tìm hiểu sâu nghề quan tâm" class="text-cyan-500">
+                                <span class="text-xs text-slate-200">Tìm hiểu sâu nghề quan tâm</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800 cursor-pointer hover:border-cyan-500">
+                                <input type="radio" name="user_goal" value="Cải thiện kết quả các môn học chính" class="text-cyan-500">
+                                <span class="text-xs text-slate-200">Cải thiện kết quả học tập</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800 cursor-pointer hover:border-cyan-500">
+                                <input type="radio" name="user_goal" value="Rèn luyện kỹ năng mềm" class="text-cyan-500">
+                                <span class="text-xs text-slate-200">Phát triển kỹ năng mềm</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Post Survey Section for Research -->
+                    <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800">
+                        <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Khảo sát sau hành trình: Bạn thấy rõ ràng hơn về định hướng của mình chưa? (1 - 5):</label>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-400">Vẫn phân vân</span>
+                            <div class="flex space-x-2" id="post-survey-rating">
+                                <button type="button" onclick="game.setPostSurveyRating(1)" class="post-star w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 font-bold text-xs">1</button>
+                                <button type="button" onclick="game.setPostSurveyRating(2)" class="post-star w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 font-bold text-xs">2</button>
+                                <button type="button" onclick="game.setPostSurveyRating(3)" class="post-star w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 font-bold text-xs">3</button>
+                                <button type="button" onclick="game.setPostSurveyRating(4)" class="post-star w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 font-bold text-xs">4</button>
+                                <button type="button" onclick="game.setPostSurveyRating(5)" class="post-star w-8 h-8 rounded-lg bg-emerald-500 font-bold text-xs text-white">5</button>
+                            </div>
+                            <span class="text-xs text-emerald-400 font-semibold">Rất rõ ràng</span>
+                        </div>
+                    </div>
+
+                    <button onclick="game.finishJourneyAndGenerateProfile()" class="btn-gradient w-full py-4 rounded-2xl font-extrabold text-white text-base shadow-xl flex items-center justify-center space-x-2">
+                        <span>🎉 TẠO HỒ SƠ TƯƠNG LAI & KẾ HOẠCH 30 NGÀY</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: FUTURE PROFILE SUMMARY & 30-DAY ACTION PLAN -->
+        <section id="view-profile-summary" class="relative z-10 hidden max-w-4xl mx-auto">
+            <div id="printable-profile" class="glass-card p-6 md:p-10 rounded-3xl border border-slate-700/80 shadow-2xl relative mb-6">
+                <!-- Header Banner -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-6 mb-6 gap-4">
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">🌟</span>
+                            <h2 class="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">
+                                HỒ SƠ TƯƠNG LAI CỦA EM
+                            </h2>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1">Hệ Thống Định Hướng Nghề Nghiệp Học Sinh THCS</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="game.printProfile()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center gap-1">
+                            <i class="fas fa-print"></i> In / Xuất PDF
+                        </button>
+                        <button onclick="game.saveProfileToLocal()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-1">
+                            <i class="fas fa-save"></i> Lưu Hồ Sơ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Basic Info Cards Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Họ & Tên:</span>
+                        <span id="prof-name" class="font-bold text-white text-sm">Minh Trí</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Khối Lớp:</span>
+                        <span id="prof-grade" class="font-bold text-blue-400 text-sm">Lớp 8</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Tổng Điểm XP:</span>
+                        <span id="prof-xp" class="font-bold text-amber-400 text-sm">450 XP</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Danh Hiệu:</span>
+                        <span id="prof-title" class="font-bold text-purple-400 text-xs">Nhà Định Hướng</span>
+                    </div>
+                </div>
+
+                <!-- Discovery Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-pink-500/20">
+                        <h4 class="text-xs font-bold text-pink-400 uppercase tracking-wider mb-2">❤️ Sở thích nổi bật</h4>
+                        <div id="prof-interests" class="text-xs text-slate-200 font-medium space-y-1">
+                            <!-- Injected -->
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-cyan-500/20">
+                        <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">🧠 Năng lực tư duy</h4>
+                        <div id="prof-abilities" class="text-xs text-slate-200 font-medium space-y-1">
+                            <!-- Injected -->
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-amber-500/20">
+                        <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">⭐ Thế mạnh nổi bật</h4>
+                        <div id="prof-strengths" class="text-xs text-slate-200 font-medium space-y-1">
+                            <!-- Injected -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target Careers & Goals -->
+                <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 mb-8">
+                    <h4 class="text-sm font-bold text-emerald-400 mb-3 flex items-center gap-2">
+                        <i class="fas fa-bullseye"></i> NHÓM NGHỀ & MỤC TIÊU HƯỚNG TỚI
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-xs text-slate-400 block mb-1">Nghề/Nhóm nghề quan tâm nhất:</span>
+                            <span id="prof-target-career" class="font-bold text-white text-base">Kỹ Sư Phần Mềm (Công nghệ)</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block mb-1">Mục tiêu ưu tiên:</span>
+                            <span id="prof-goal" class="font-bold text-white text-base">Tìm hiểu sâu nghề quan tâm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 30-Day Interactive Action Plan -->
+                <div class="bg-slate-900/90 p-6 rounded-2xl border border-purple-500/30 mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+                            <i class="fas fa-tasks"></i> KẾ HOẠCH HÀNH ĐỘNG 30 NGÀY ĐẦU TIÊN
+                        </h4>
+                        <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">Có thể chỉnh sửa</span>
+                    </div>
+
+                    <div id="action-plan-weeks" class="space-y-3 text-xs">
+                        <!-- Weeks 1 to 4 generated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Footer note -->
+                <p class="text-[11px] text-slate-500 text-center italic">
+                    Hệ thống AI đóng vai trò hỗ trợ định hướng và gợi ý, không thay thế lời khuyên của thầy cô, cha mẹ hoặc chuyên gia hướng nghiệp.
+                </p>
+            </div>
+
+            <!-- Bottom Actions Bar -->
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button onclick="game.openAICoachModal()" class="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-xs flex items-center gap-2 shadow-lg">
+                    <i class="fas fa-robot"></i> HỎI AI CAREER COACH
+                </button>
+                <button onclick="game.restartGame()" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold text-xs flex items-center gap-2 border border-slate-700">
+                    <i class="fas fa-redo"></i> CHƠI LẠI TỪ ĐẦU
+                </button>
+                <button onclick="game.navigateTo('map')" class="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-xs flex items-center gap-2 shadow-lg">
+                    <i class="fas fa-map"></i> VỀ BẢN ĐỒ HÀNH TRÌNH
+                </button>
+            </div>
+        </section>
+
+        <!-- AI CAREER COACH MODAL -->
+        <div id="modal-ai-coach" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+            <div class="glass-card max-w-xl w-full h-[85vh] rounded-3xl p-6 border border-purple-500/40 flex flex-col relative">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-xl">
+                            🤖
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-base">AI CAREER COACH</h3>
+                            <p class="text-[11px] text-purple-300">Cố vấn định hướng học sinh THCS</p>
+                        </div>
+                    </div>
+                    <button onclick="game.closeAICoachModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Chat History Messages Box -->
+                <div id="ai-chat-messages" class="flex-grow overflow-y-auto space-y-3 pr-2 text-xs mb-4">
+                    <!-- Dynamic chat messages injected here -->
+                </div>
+
+                <!-- Suggested Quick Prompts -->
+                <div class="flex gap-2 overflow-x-auto pb-2 mb-3 no-scrollbar text-[11px]">
+                    <button onclick="game.sendQuickPrompt('Tôi muốn hỏi thêm về nhóm nghề Công nghệ')" class="whitespace-nowrap px-3 py-1 bg-slate-800 hover:bg-purple-900/50 border border-slate-700 text-purple-300 rounded-full">
+                        💻 Ngành Công nghệ
+                    </button>
+                    <button onclick="game.sendQuickPrompt('Kỹ năng quan trọng nhất để làm Kỹ sư là gì?')" class="whitespace-nowrap px-3 py-1 bg-slate-800 hover:bg-purple-900/50 border border-slate-700 text-purple-300 rounded-full">
+                        ⚡ Kỹ năng cần có
+                    </button>
+                    <button onclick="game.sendQuickPrompt('Nếu em chưa giỏi Toán thì có thể theo nghề này không?')" class="whitespace-nowrap px-3 py-1 bg-slate-800 hover:bg-purple-900/50 border border-slate-700 text-purple-300 rounded-full">
+                        ❓ Lời khuyên học tập
+                    </button>
+                </div>
+
+                <!-- Chat Input Form -->
+                <form id="ai-chat-form" onsubmit="game.handleAIChatSubmit(event)" class="flex gap-2">
+                    <input type="text" id="ai-chat-input" placeholder="Hỏi AI bất kỳ điều gì về nghề nghiệp hoặc môn học..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500">
+                    <button type="submit" class="px-4 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-xs flex items-center justify-center">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- MINI GAMES HUB MODAL -->
+        <div id="modal-mini-games" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+            <div class="glass-card max-w-2xl w-full rounded-3xl p-6 border border-slate-700 relative max-h-[90vh] overflow-y-auto">
+                <button onclick="game.closeMiniGamesHub()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div id="mini-game-hub-view">
+                    <div class="text-center mb-6">
+                        <span class="text-3xl">🎯</span>
+                        <h3 class="text-xl font-bold text-white mt-1">MINI GAMES TƯƠNG TÁC</h3>
+                        <p class="text-xs text-slate-400">Thử thách trí tuệ, phản xạ và khả năng ra quyết định định hướng.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Mini Game 1 -->
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold">🎯</div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">CHỌN NHANH 30S</h4>
+                                    <p class="text-[11px] text-slate-400">Chọn nhanh các hoạt động bạn yêu thích nhất trong 30 giây.</p>
+                                </div>
+                            </div>
+                            <button onclick="game.startMiniGame(1)" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs">CHƠI</button>
+                        </div>
+
+                        <!-- Mini Game 2 -->
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl font-bold">🧩</div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">GIẢI QUYẾT TÌNH HUỐNG</h4>
+                                    <p class="text-[11px] text-slate-400">Xử lý vấn đề hằng ngày trong công việc của các ngành nghề.</p>
+                                </div>
+                            </div>
+                            <button onclick="game.startMiniGame(2)" class="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-slate-950 font-extrabold rounded-xl text-xs">CHƠI</button>
+                        </div>
+
+                        <!-- Mini Game 3 -->
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl font-bold">🚦</div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">CON ĐƯỜNG TƯƠNG LAI</h4>
+                                    <p class="text-[11px] text-slate-400">Ghép nối Học tập → Kỹ năng → Trải nghiệm → Nghề nghiệp.</p>
+                                </div>
+                            </div>
+                            <button onclick="game.startMiniGame(3)" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs">CHƠI</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Game Active Container -->
+                <div id="mini-game-active-view" class="hidden">
+                    <!-- Injected active game UI -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TEACHER CORNER MODAL -->
+        <div id="modal-teacher-corner" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+            <div class="glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-3xl p-6 border border-slate-700 relative">
+                <button onclick="game.closeTeacherCorner()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="text-3xl">👩‍🏫</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">GÓC GIÁO VIÊN & QUẢN LÝ TÍNH ĐIỂM</h3>
+                        <p class="text-xs text-slate-400">Thống kê lớp học & Cấu hình trọng số thuật toán gợi ý nghề nghiệp</p>
+                    </div>
+                </div>
+
+                <!-- Aggregated Local Analytics -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Lượt trải nghiệm</span>
+                        <span class="text-xl font-black text-white">1</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Tỷ lệ hoàn thành</span>
+                        <span id="teacher-completion-rate" class="text-xl font-black text-emerald-400">100%</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Nhóm nổi bật nhất</span>
+                        <span class="text-sm font-bold text-purple-400 block mt-1">Công nghệ</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Tự tin sau chơi</span>
+                        <span class="text-xl font-black text-amber-400">4.5 / 5</span>
+                    </div>
+                </div>
+
+                <!-- Algorithm Weight Customizer for Teachers -->
+                <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 mb-6">
+                    <h4 class="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4">
+                        ⚙️ ĐIỀU CHỈNH TRỌNG SỐ THUẬT TOÁN GỢI Ý NGHỀ (CAREER MATCH)
+                    </h4>
+                    <p class="text-xs text-slate-400 mb-4">
+                        Công thức: <code>careerScore = interestMatch * w1 + abilityMatch * w2 + strengthMatch * w3</code>
+                    </p>
+
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <div class="flex justify-between font-semibold text-slate-300 mb-1">
+                                <span>Trọng số Sở thích (w1):</span>
+                                <span id="weight-w1-val" class="text-purple-400">0.4</span>
+                            </div>
+                            <input type="range" min="0.1" max="0.8" step="0.1" value="0.4" id="range-w1" onchange="game.updateAlgorithmWeights()" class="w-full">
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold text-slate-300 mb-1">
+                                <span>Trọng số Năng lực (w2):</span>
+                                <span id="weight-w2-val" class="text-blue-400">0.3</span>
+                            </div>
+                            <input type="range" min="0.1" max="0.8" step="0.1" value="0.3" id="range-w2" onchange="game.updateAlgorithmWeights()" class="w-full">
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold text-slate-300 mb-1">
+                                <span>Trọng số Thế mạnh (w3):</span>
+                                <span id="weight-w3-val" class="text-emerald-400">0.3</span>
+                            </div>
+                            <input type="range" min="0.1" max="0.8" step="0.1" value="0.3" id="range-w3" onchange="game.updateAlgorithmWeights()" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-400 italic">
+                    📌 *Mọi dữ liệu cá nhân nhạy cảm của học sinh đều không bị lưu giữ trên máy chủ công cộng.*
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-xs text-slate-500 relative z-10">
+        <p>🎮 Hành Trình Chọn Nghề — Module Định Hướng Tương Lai Cho Học Sinh THCS</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC MODULE -->
+    <script>
+
+        // Web Audio Synthesizer sound engine to eliminate external audio dependencies
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            playTone(freq, type, duration, gainVal = 0.1) {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch (e) {
+                    // Audio context fail silent fallback
+                }
+            }
+
+            playClick() { this.playTone(600, 'sine', 0.08, 0.05); }
+            playSuccess() {
+                this.playTone(523.25, 'triangle', 0.1, 0.08);
+                setTimeout(() => this.playTone(659.25, 'triangle', 0.15, 0.08), 100);
+            }
+            playLevelUp() {
+                const notes = [440, 554.37, 659.25, 880];
+                notes.forEach((freq, i) => {
+                    setTimeout(() => this.playTone(freq, 'sine', 0.2, 0.1), i * 120);
+                });
+            }
+
+            toggleSound() {
+                this.enabled = !this.enabled;
+                const icon = document.getElementById('sound-icon');
+                if (icon) {
+                    icon.className = this.enabled ? 'fas fa-volume-up text-sm' : 'fas fa-volume-mute text-sm text-slate-500';
+                }
+            }
+        }
+
+        const audioManager = new SoundEngine();
+
+
+        // STAGE 1 INTEREST QUESTIONS BANK (15 Items)
+        const INTEREST_QUESTIONS = [
+            {
+                q: "Cuối tuần em được tự do chọn một hoạt động trải nghiệm. Em muốn làm gì nhất?",
+                options: [
+                    { text: "🔬 Làm một thí nghiệm khoa học vui", group: "Khoa học" },
+                    { text: "🎨 Vẽ hình hoặc thiết kế logo nhóm", group: "Nghệ thuật – Thiết kế" },
+                    { text: "🤝 Tham gia dự án tình nguyện hỗ trợ bạn bè", group: "Xã hội" },
+                    { text: "💼 Thử lập kế hoạch bán sản phẩm hanmade", group: "Kinh doanh" }
+                ]
+            },
+            {
+                q: "Khi đọc tin tức trực tuyến hoặc xem video, chủ đề nào thu hút em lâu nhất?",
+                options: [
+                    { text: "💻 Khám phá các phần mềm & ứng dụng AI mới", group: "Công nghệ" },
+                    { text: "🌱 Phương pháp bảo vệ hệ sinh thái & động vật", group: "Nông nghiệp – Môi trường" },
+                    { text: "📊 Cách quản lý tiền bạc và đầu tư cá nhân", group: "Tài chính – Quản lý" },
+                    { text: "🛠️ Cách tháo lắp và sửa chữa đồ cơ khí", group: "Kỹ thuật" }
+                ]
+            },
+            {
+                q: "Trường tổ chức hội thao hoặc lễ hội văn hóa, em thích nhận nhiệm vụ nào?",
+                options: [
+                    { text: "💬 Làm MC hoặc người dẫn dắt chương trình", group: "Giao tiếp" },
+                    { text: "🎯 Phân công công việc & lên lịch tiến độ", group: "Tổ chức/quản lý" },
+                    { text: "🚚 Phụ trách hậu cần, chuẩn bị đồ dùng", group: "Dịch vụ" },
+                    { text: "🏥 Túc trực ban y tế hỗ trợ chăm sóc", group: "Y tế" }
+                ]
+            },
+            {
+                q: "Nếu được tặng một bộ quà tặng tự chọn, em sẽ chọn món đồ nào?",
+                options: [
+                    { text: "🧪 Bộ dụng cụ thực hành hóa sinh học", group: "Khoa học" },
+                    { text: "💻 Máy tính xách tay cấu hình cao để lập trình", group: "Công nghệ" },
+                    { text: "🎨 Bộ màu vẽ chuyên nghiệp và bảng vẽ số", group: "Nghệ thuật – Thiết kế" },
+                    { text: "📚 Sách hướng dẫn tư duy lãnh đạo & quản lý", group: "Tổ chức/quản lý" }
+                ]
+            },
+            {
+                q: "Trong một buổi thảo luận nhóm, vai trò tự nhiên của em là gì?",
+                options: [
+                    { text: "💡 Người đưa ra ý tưởng độc đáo & sáng tạo", group: "Nghệ thuật – Thiết kế" },
+                    { text: "💬 Người lắng nghe & hòa giải ý kiến", group: "Xã hội" },
+                    { text: "🔍 Người tìm kiếm tài liệu & dữ liệu chính xác", group: "Khoa học" },
+                    { text: "📈 Người đề xuất phương án tối ưu chi phí", group: "Kinh doanh" }
+                ]
+            },
+            {
+                q: "Bài tập về nhà môn nào khiến em hào hứng thực hiện nhất?",
+                options: [
+                    { text: "📐 Giải bài tập Toán logic và Hình học", group: "Khoa học" },
+                    { text: "🌍 Tìm hiểu môn Lịch sử - Địa lý & Pháp luật", group: "Pháp luật – Xã hội" },
+                    { text: "🎨 Thực hành môn Mỹ thuật, Âm nhạc", group: "Nghệ thuật – Thiết kế" },
+                    { text: "🤖 Thực hành Tin học & công nghệ", group: "Công nghệ" }
+                ]
+            },
+            {
+                q: "Khi đi tham quan thực tế tại một trang trại thông minh, em thích tìm hiểu điều gì nhất?",
+                options: [
+                    { text: "🌱 Quy trình chăm sóc cây trồng tự động", group: "Nông nghiệp – Môi trường" },
+                    { text: "⚙️ Nguyên lý hoạt động của máy móc tưới tiêu", group: "Kỹ thuật" },
+                    { text: "💼 Cách họ quảng bá và bán nông sản", group: "Kinh doanh" },
+                    { text: "🤝 Cách hướng dẫn khách tham quan trải nghiệm", group: "Dịch vụ" }
+                ]
+            },
+            {
+                q: "Bạn bè thường nhờ em hỗ trợ điều gì nhất?",
+                options: [
+                    { text: "💬 Lắng nghe tâm sự và đưa ra lời khuyên", group: "Xã hội" },
+                    { text: "💻 Sửa lỗi phần mềm, kết nối thiết bị", group: "Công nghệ" },
+                    { text: "🎨 Trang trí bảng lớp hoặc làm Slide báo cáo", group: "Nghệ thuật – Thiết kế" },
+                    { text: "🎯 Sắp xếp lịch ôn tập nhóm hiệu quả", group: "Tổ chức/quản lý" }
+                ]
+            },
+            {
+                q: "Một cuộc thi trường phát động, em muốn đăng ký tham gia hạng mục nào?",
+                options: [
+                    { text: "🧪 Sáng tạo Khoa học kỹ thuật thanh thiếu niên", group: "Khoa học" },
+                    { text: "🎭 Diễn xuất, làm phim ngắn hoặc viết truyện", group: "Nghệ thuật – Thiết kế" },
+                    { text: "💡 Dự án Học sinh khởi nghiệp sáng tạo", group: "Kinh doanh" },
+                    { text: "⚖️ Hùng biện về chủ đề Quyền trẻ em", group: "Pháp luật – Xã hội" }
+                ]
+            },
+            {
+                q: "Hoạt động trải nghiệm nào sau đây hấp dẫn em nhất?",
+                options: [
+                    { text: "🏥 Lớp học Kỹ năng sơ cấp cứu y tế", group: "Y tế" },
+                    { text: "🚚 Trải nghiệm làm quản lý chuỗi cung ứng mini", group: "Logistics – Dịch vụ" },
+                    { text: "🛠️ Lớp học làm đồ gỗ hoặc chế tạo robot", group: "Kỹ thuật" },
+                    { text: "📊 Khóa học quản lý tài chính tuổi teen", group: "Tài chính – Quản lý" }
+                ]
+            }
+        ];
+
+        // STAGE 2 ABILITY CHALLENGES (10 Scenarios & Puzzles)
+        const ABILITY_CHALLENGES = [
+            {
+                category: "Logic",
+                question: "Dãy số tiếp theo là gì: 2, 4, 8, 16, 32, [ ? ]",
+                options: ["48", "64", "56", "60"],
+                correctIndex: 1,
+                timeLimit: 25
+            },
+            {
+                category: "Quan sát",
+                question: "Hình nào không cùng quy luật với các hình còn lại?",
+                options: ["▲ Tam giác 3 cạnh", "■ Hình vuông 4 cạnh", "⬟ Ngũ giác 5 cạnh", "🔴 Hình tròn không góc"],
+                correctIndex: 3,
+                timeLimit: 20
+            },
+            {
+                category: "Giải quyết vấn đề",
+                question: "Nhóm em sắp thuyết trình nhưng slide bị mất font chữ. Việc cần làm ngay?",
+                options: [
+                    "Đổi font hệ thống đơn giản tiêu chuẩn",
+                    "Thông báo hoãn thuyết trình",
+                    "Tranh cãi xem ai làm mất font",
+                    "Ngồi làm lại slide từ đầu"
+                ],
+                correctIndex: 0,
+                timeLimit: 30
+            },
+            {
+                category: "Sắp xếp ưu tiên",
+                question: "Thứ tự ưu tiên xử lý khi nhận bài tập lớn (3 ngày nộp)?",
+                options: [
+                    "Lên kế hoạch → Tìm tài liệu → Thực hiện → Rà soát",
+                    "Thực hiện ngay → Lên kế hoạch sau",
+                    "Tìm tài liệu → Rà soát → Lên kế hoạch",
+                    "Chờ đến ngày cuối cùng mới làm"
+                ],
+                correctIndex: 0,
+                timeLimit: 25
+            },
+            {
+                category: "Tư duy Khoa học",
+                question: "Để kiểm tra xem một loại phân bón mới có giúp cây lớn nhanh hơn không, cách làm đúng?",
+                options: [
+                    "Trồng 2 chậu cây giống nhau, 1 chậu bón phân mới, 1 chậu không bón",
+                    "Trồng 1 chậu duy nhất và theo dõi",
+                    "Bón phân mới cho tất cả cây trong vườn",
+                    "Chỉ hỏi ý kiến người xung quanh"
+                ],
+                correctIndex: 0,
+                timeLimit: 30
+            },
+            {
+                category: "Giao tiếp & Hợp tác",
+                question: "Trong nhóm có bạn không chịu hoàn thành phần việc được giao, em xử lý ra sao?",
+                options: [
+                    "Chủ động trò chuyện hỏi lý do và hỗ trợ tháo gỡ khó khăn",
+                    "Tẩy chay bạn khỏi nhóm ngay lập tức",
+                    "Tự làm hết phần việc của bạn và giữ im lặng",
+                    "Báo giáo viên phạt bạn mà không hỏi trước"
+                ],
+                correctIndex: 0,
+                timeLimit: 30
+            },
+            {
+                category: "Tư duy Công nghệ",
+                question: "Khi máy tính của em không thể kết nối Internet, bước kiểm tra logic đầu tiên?",
+                options: [
+                    "Kiểm tra dây mạng/đèn Wi-Fi trên thiết bị",
+                    "Đem máy ra tiệm sửa ngay",
+                    "Cài đặt lại toàn bộ hệ điều hành",
+                    "Mua máy tính mới"
+                ],
+                correctIndex: 0,
+                timeLimit: 20
+            },
+            {
+                category: "Sáng tạo",
+                question: "Em được giao tái chế 10 vỏ chai nhựa bỏ đi. Phương án nào thể hiện tính sáng tạo cao nhất?",
+                options: [
+                    "Chế tạo thành hệ thống chậu trồng cây tự tưới nhỏ giọt",
+                    "Vứt vào thùng rác tái chế",
+                    "Cắt đôi làm ống cắm bút đơn giản",
+                    "Cất vào kho không làm gì"
+                ],
+                correctIndex: 0,
+                timeLimit: 25
+            }
+        ];
+
+        // STAGE 3 STRENGTH SCENARIOS (8 Scenarios)
+        const STRENGTH_SCENARIOS = [
+            {
+                q: "Nhóm được giao làm một sản phẩm sáng tạo trong 3 ngày. Em muốn đảm nhận vai trò nào nhất?",
+                choices: [
+                    { text: "💡 Người lên ý tưởng cốt lõi", strength: "Sáng tạo" },
+                    { text: "🔍 Người tìm kiếm thông tin & số liệu", strength: "Tư duy logic" },
+                    { text: "🎯 Người quản lý tiến độ & nhắc nhở", strength: "Tổ chức" },
+                    { text: "💬 Người tổng hợp và trình bày sản phẩm", strength: "Giao tiếp" }
+                ]
+            },
+            {
+                q: "Khi sản phẩm của nhóm bất ngờ phát sinh lỗi kỹ thuật ngay trước giờ báo cáo, phản ứng của em là gì?",
+                choices: [
+                    { text: "🛠️ Bình tĩnh tìm nguyên nhân và thử lại phương án dự phòng", strength: "Giải quyết vấn đề" },
+                    { text: "🤝 Động viên tinh thần cả nhóm cùng chia sẻ công việc", strength: "Hợp tác" },
+                    { text: "💪 Kiên trì chỉnh sửa từng chi tiết nhỏ đến cùng", strength: "Kiên trì" },
+                    { text: "📣 Nhanh chóng nhận trách nhiệm điều phối tình huống", strength: "Lãnh đạo" }
+                ]
+            },
+            {
+                q: "Khi tiếp cận một công nghệ hoặc kiến thức hoàn toàn mới, em thường làm gì?",
+                choices: [
+                    { text: "🔎 Tự mày mò, tháo dỡ hoặc dùng thử để xem nguyên lý", strength: "Khám phá" },
+                    { text: "📖 Đọc kỹ tài liệu hướng dẫn từng bước", strength: "Thực hành" },
+                    { text: "💬 Hỏi người có kinh nghiệm để trao đổi", strength: "Giao tiếp" },
+                    { text: "📊 So sánh ưu điểm và hạn chế của nó", strength: "Tư duy logic" }
+                ]
+            }
+        ];
+
+        // CAREERS DATABASE (50 Sample Careers for THCS Exploration)
+        const CAREERS_DATABASE = [
+            {
+                id: "c1",
+                title: "💻 Kỹ Sư Phần Mềm / Lập Trình Viên",
+                group: "Công nghệ",
+                desc: "Xây dựng các ứng dụng di động, website và hệ thống phần mềm thông minh.",
+                skills: ["Tư duy logic", "Giải quyết vấn đề", "Ngoại ngữ"],
+                subjects: ["Tin học", "Toán học", "Tiếng Anh"],
+                environment: "Văn phòng hiện đại, làm việc nhóm hoặc Remote.",
+                path: "THPT → Đại học CNTT / Lập trình viên",
+                icon: "💻"
+            },
+            {
+                id: "c2",
+                title: "🤖 Chuyên Gia Trí Tuệ Nhân Tạo (AI)",
+                group: "Công nghệ",
+                desc: "Huấn luyện mô hình máy học, xử lý dữ liệu thông minh hỗ trợ cuộc sống.",
+                skills: ["Toán cao cấp", "Tư duy thuật toán", "Sáng tạo"],
+                subjects: ["Toán học", "Tin học", "Vật lý"],
+                environment: "Phòng nghiên cứu công nghệ high-tech.",
+                path: "THPT → Đại học Công nghệ / Khoa học máy tính",
+                icon: "🤖"
+            },
+            {
+                id: "c3",
+                title: "🔬 Nhà Nghiên Cứu Sinh Học",
+                group: "Khoa học",
+                desc: "Nghiên cứu tế bào, gen và các sinh vật để tìm giải pháp y học & môi trường.",
+                skills: ["Tư duy khoa học", "Quan sát tỉ mỉ", "Kiên trì"],
+                subjects: ["Sinh học", "Hóa học", "Tiếng Anh"],
+                environment: "Phòng thí nghiệm sinh học.",
+                path: "THPT → Đại học Khoa học Tự nhiên",
+                icon: "🔬"
+            },
+            {
+                id: "c4",
+                title: "🏥 Bác Sĩ Đa Khoa",
+                group: "Y tế",
+                desc: "Thăm khám, chẩn đoán và điều trị bệnh giúp bảo vệ sức khỏe cộng đồng.",
+                skills: ["Y đức", "Thấu cảm", "Chịu áp lực cao"],
+                subjects: ["Sinh học", "Hóa học", "Toán học"],
+                environment: "Bệnh viện, phòng khám chuyên khoa.",
+                path: "THPT chuyên Hóa/Sinh → Đại học Y Dược (6 năm)",
+                icon: "🏥"
+            },
+            {
+                id: "c5",
+                title: "🎨 Thiết Kế Đồ Họa (Graphic Designer)",
+                group: "Nghệ thuật – Thiết kế",
+                desc: "Sáng tạo hình ảnh, nhận diện thương hiệu, giao diện sản phẩm số.",
+                skills: ["Sáng tạo nghệ thuật", "Sử dụng công cụ thiết kế", "Thẩm mỹ"],
+                subjects: ["Mỹ thuật", "Tin học"],
+                environment: "Studio thiết kế, công ty truyền thông.",
+                path: "THPT → Đại học Mỹ thuật / Thiết kế đồ họa",
+                icon: "🎨"
+            },
+            {
+                id: "c6",
+                title: "👩‍🏫 Giáo Viên Trung Học",
+                group: "Giáo dục",
+                desc: "Truyền đạt tri thức, truyền cảm hứng và đồng hành cùng học sinh.",
+                skills: ["Kỹ năng sư phạm", "Giao tiếp", "Lắng nghe"],
+                subjects: ["Môn chuyên sâu (Toán/Văn/Anh/Lý...)"],
+                environment: "Trường học, trung tâm giáo dục.",
+                path: "THPT → Đại học Sư phạm",
+                icon: "👩‍🏫"
+            },
+            {
+                id: "c7",
+                title: "💼 Chuyên Viên Marketing Kỹ Thuật Số",
+                group: "Kinh doanh",
+                desc: "Lên chiến dịch quảng bá sản phẩm trên các nền tảng mạng xã hội.",
+                skills: ["Nắm bắt xu hướng", "Giao tiếp", "Phân tích dữ liệu"],
+                subjects: ["Ngữ văn", "Tiếng Anh", "Tin học"],
+                environment: "Doanh nghiệp, Agency truyền thông.",
+                path: "THPT → Đại học Kinh tế / Truyền thông",
+                icon: "💼"
+            },
+            {
+                id: "c8",
+                title: "⚙️ Kỹ Sư Cơ Điện Tử & Robot",
+                group: "Kỹ thuật",
+                desc: "Thiết kế, chế tạo và vận hành các dây chuyền robot tự động.",
+                skills: ["Tư duy kỹ thuật", "Thực hành lắp ráp", "Logic"],
+                subjects: ["Vật lý", "Toán học", "Tin học"],
+                environment: "Nhà máy sản xuất, xưởng công nghệ.",
+                path: "THPT → Đại học Bách khoa / Kỹ thuật",
+                icon: "⚙️"
+            },
+            {
+                id: "c9",
+                title: "🌱 Kỹ Sư Nông Nghiệp Công Nghệ Cao",
+                group: "Nông nghiệp – Môi trường",
+                desc: "Ứng dụng nhà kính thông minh, cảm biến để tối ưu sản lượng nông sản.",
+                skills: ["Tư duy thực nghiệm", "Công nghệ xanh", "Quan sát"],
+                subjects: ["Sinh học", "Công nghệ", "Hóa học"],
+                environment: "Trang trại thông minh, khu nông nghiệp công nghệ cao.",
+                path: "THPT → Đại học Nông Lâm",
+                icon: "🌱"
+            },
+            {
+                id: "c10",
+                title: "📊 Chuyên Viên Phân Tích Tài Chính",
+                group: "Tài chính – Quản lý",
+                desc: "Phân tích số liệu dòng tiền, dự báo xu hướng đầu tư kinh doanh.",
+                skills: ["Tư duy con số", "Cẩn thận", "Phân tích bảng tính"],
+                subjects: ["Toán học", "Tiếng Anh", "Tin học"],
+                environment: "Ngân hàng, Quỹ đầu tư.",
+                path: "THPT → Đại học Tài chính / Ngân hàng",
+                icon: "📊"
+            },
+            {
+                id: "c11",
+                title: "⚖️ Luật Sư Tư Vấn",
+                group: "Pháp luật – Xã hội",
+                desc: "Tư vấn pháp lý, bảo vệ quyền lợi hợp pháp cho cá nhân và tổ chức.",
+                skills: ["Tư duy phản biện", "Hùng biện", "Đọc hiểu văn bản"],
+                subjects: ["Ngữ văn", "Lịch sử", "GDCD"],
+                environment: "Văn phòng luật, tòa án.",
+                path: "THPT → Đại học Luật",
+                icon: "⚖️"
+            },
+            {
+                id: "c12",
+                title: "🚚 Quản Lý Chuỗi Cung Ứng (Logistics)",
+                group: "Logistics – Dịch vụ",
+                desc: "Điều phối vận chuyển hàng hóa tối ưu từ nhà máy đến người tiêu dùng.",
+                skills: ["Lập kế hoạch", "Giải quyết sự cố", "Giao tiếp"],
+                subjects: ["Toán học", "Tiếng Anh", "Địa lý"],
+                environment: "Cảng biển, kho vận logistics.",
+                path: "THPT → Đại học Giao thông Vận tải / Thương mại",
+                icon: "🚚"
+            }
+        ];
+
+
+        class CareerGameEngine {
+            constructor() {
+                this.profile = {
+                    nickname: "Học sinh",
+                    grade: 8,
+                    xp: 0,
+                    badges: [],
+                    completedStages: [],
+                    interests: {},
+                    abilities: {},
+                    strengths: {},
+                    targetCareer: "",
+                    goal: "",
+                    preSurveyRating: 3,
+                    postSurveyRating: 5,
+                    bookmarkedCareers: []
+                };
+
+                // Algorithm weights configurable by teachers
+                this.weights = {
+                    w1: 0.4, // Interest
+                    w2: 0.3, // Ability
+                    w3: 0.3  // Strength
+                };
+
+                this.currentStage = 0;
+                this.s1Index = 0;
+                this.s2Index = 0;
+                this.s2Timer = null;
+                this.s2TimeLeft = 30;
+                this.s3Index = 0;
+            }
+
+            init() {
+                this.loadFromLocalStorage();
+                this.updateHeaderStats();
+                this.setupCanvasBg();
+            }
+
+            loadFromLocalStorage() {
+                const saved = localStorage.getItem('career_game_profile');
+                if (saved) {
+                    try {
+                        this.profile = { ...this.profile, ...JSON.parse(saved) };
+                    } catch (e) {
+                        console.error("Could not parse saved profile");
+                    }
+                }
+            }
+
+            saveToLocalStorage() {
+                localStorage.setItem('career_game_profile', JSON.stringify(this.profile));
+            }
+
+            updateHeaderStats() {
+                const nameEl = document.getElementById('user-display-name');
+                const gradeEl = document.getElementById('user-grade-badge');
+                const xpEl = document.getElementById('player-xp');
+                const userPill = document.getElementById('header-user-pill');
+
+                if (nameEl) nameEl.textContent = this.profile.nickname || 'Học sinh';
+                if (gradeEl) gradeEl.textContent = `Lớp ${this.profile.grade}`;
+                if (xpEl) xpEl.textContent = this.profile.xp;
+                if (userPill) userPill.classList.remove('hidden');
+
+                // Update unlock status on map
+                this.updateMapNodes();
+            }
+
+            addXP(amount) {
+                this.profile.xp += amount;
+                audioManager.playLevelUp();
+                this.updateHeaderStats();
+                this.saveToLocalStorage();
+            }
+
+            selectGrade(g) {
+                this.profile.grade = g;
+                document.querySelectorAll('.grade-btn').forEach(btn => {
+                    if (parseInt(btn.getAttribute('data-grade')) === g) {
+                        btn.classList.add('bg-purple-600', 'text-white');
+                        btn.classList.remove('bg-slate-800', 'text-slate-300');
+                    } else {
+                        btn.classList.remove('bg-purple-600', 'text-white');
+                        btn.classList.add('bg-slate-800', 'text-slate-300');
+                    }
+                });
+            }
+
+            setPreSurveyRating(r) {
+                this.profile.preSurveyRating = r;
+                document.querySelectorAll('.survey-star').forEach((btn, idx) => {
+                    if (idx + 1 === r) {
+                        btn.className = "survey-star w-8 h-8 rounded-lg bg-amber-500 text-white font-bold text-xs transition";
+                    } else {
+                        btn.className = "survey-star w-8 h-8 rounded-lg bg-slate-700 hover:bg-amber-500 text-white font-bold text-xs transition";
+                    }
+                });
+            }
+
+            setPostSurveyRating(r) {
+                this.profile.postSurveyRating = r;
+                document.querySelectorAll('.post-star').forEach((btn, idx) => {
+                    if (idx + 1 === r) {
+                        btn.className = "post-star w-8 h-8 rounded-lg bg-emerald-500 text-white font-bold text-xs";
+                    } else {
+                        btn.className = "post-star w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 font-bold text-xs";
+                    }
+                });
+            }
+
+            startJourney() {
+                audioManager.playClick();
+                const nicknameInput = document.getElementById('input-nickname');
+                if (nicknameInput && nicknameInput.value.trim() !== '') {
+                    this.profile.nickname = nicknameInput.value.trim();
+                }
+                this.updateHeaderStats();
+                this.navigateTo('map');
+            }
+
+            navigateTo(viewId) {
+                audioManager.playClick();
+                const views = ['welcome', 'map', 'stage-1', 'stage-1-summary', 'stage-2', 'stage-2-summary', 'stage-3', 'stage-3-summary', 'stage-4', 'stage-5', 'profile-summary'];
+                views.forEach(v => {
+                    const el = document.getElementById(`view-${v}`);
+                    if (el) el.classList.add('hidden');
+                });
+
+                const target = document.getElementById(`view-${viewId}`);
+                if (target) {
+                    target.classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            updateMapNodes() {
+                const completed = this.profile.completedStages || [];
+                for (let i = 1; i <= 5; i++) {
+                    const node = document.getElementById(`node-stage-${i}`);
+                    if (!node) continue;
+                    const badge = node.querySelector('.stage-status-badge');
+                    const btn = node.querySelector('button');
+
+                    if (completed.includes(i)) {
+                        node.classList.remove('node-locked');
+                        node.classList.add('node-active');
+                        if (badge) badge.innerHTML = '✓ Đã xong';
+                        if (btn) {
+                            btn.className = "w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs mt-3";
+                            btn.textContent = "XEM LẠI";
+                        }
+                    } else if (i === 1 || completed.includes(i - 1)) {
+                        node.classList.remove('node-locked');
+                        if (badge) badge.innerHTML = 'Sẵn sàng';
+                        if (btn) {
+                            btn.className = "w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs mt-3";
+                            btn.textContent = "KHÁM PHÁ";
+                        }
+                    } else {
+                        node.classList.add('node-locked');
+                        if (badge) badge.innerHTML = '<i class="fas fa-lock"></i>';
+                        if (btn) {
+                            btn.className = "w-full py-2 bg-slate-700 text-slate-400 font-bold rounded-xl text-xs mt-3";
+                            btn.textContent = "KHOÁ";
+                        }
+                    }
+                }
+
+                // Update progress bar
+                const fill = document.getElementById('journey-progress-fill');
+                const text = document.getElementById('journey-progress-text');
+                if (fill && text) {
+                    const count = completed.length;
+                    fill.style.width = `${(count / 5) * 100}%`;
+                    text.textContent = `Chặng: ${count}/5`;
+                }
+            }
+
+            enterStage(stageNum) {
+                const completed = this.profile.completedStages || [];
+                if (stageNum > 1 && !completed.includes(stageNum - 1) && !completed.includes(stageNum)) {
+                    alert("Bạn cần hoàn thành các chặng trước để mở khóa chặng này!");
+                    return;
+                }
+
+                this.currentStage = stageNum;
+                audioManager.playClick();
+
+                if (stageNum === 1) {
+                    this.s1Index = 0;
+                    this.renderStage1Question();
+                    this.navigateTo('stage-1');
+                } else if (stageNum === 2) {
+                    this.s2Index = 0;
+                    this.renderStage2Challenge();
+                    this.navigateTo('stage-2');
+                } else if (stageNum === 3) {
+                    this.s3Index = 0;
+                    this.renderStage3Scenario();
+                    this.navigateTo('stage-3');
+                } else if (stageNum === 4) {
+                    this.renderStage4Careers();
+                    this.navigateTo('stage-4');
+                } else if (stageNum === 5) {
+                    this.renderStage5Goals();
+                    this.navigateTo('stage-5');
+                }
+            }
+
+            renderStage1Question() {
+                if (this.s1Index >= INTEREST_QUESTIONS.length) {
+                    this.finishStage1();
+                    return;
+                }
+
+                const item = INTEREST_QUESTIONS[this.s1Index];
+                document.getElementById('s1-question-counter').textContent = `${this.s1Index + 1} / ${INTEREST_QUESTIONS.length}`;
+                document.getElementById('s1-progress-bar').style.width = `${((this.s1Index) / INTEREST_QUESTIONS.length) * 100}%`;
+                document.getElementById('s1-question-text').textContent = item.q;
+
+                const optionsContainer = document.getElementById('s1-options-container');
+                optionsContainer.innerHTML = '';
+
+                item.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = "p-4 bg-slate-900/80 hover:bg-purple-900/40 border border-slate-700/80 hover:border-purple-500/60 rounded-2xl text-left transition duration-200 flex items-start space-x-3 group";
+                    btn.onclick = () => this.handleStage1Choice(opt.group);
+                    btn.innerHTML = `
+                        <span class="w-7 h-7 rounded-lg bg-slate-800 text-purple-400 font-extrabold flex items-center justify-center text-xs group-hover:bg-purple-600 group-hover:text-white transition">${String.fromCharCode(65 + idx)}</span>
+                        <span class="text-xs md:text-sm text-slate-200 group-hover:text-white font-medium flex-grow leading-snug">${opt.text}</span>
+                    `;
+                    optionsContainer.appendChild(btn);
+                });
+            }
+
+            handleStage1Choice(group) {
+                audioManager.playSuccess();
+                this.profile.interests[group] = (this.profile.interests[group] || 0) + 1;
+                this.addXP(15);
+
+                const feedback = document.getElementById('s1-feedback-banner');
+                if (feedback) {
+                    feedback.classList.remove('hidden');
+                    setTimeout(() => feedback.classList.add('hidden'), 1000);
+                }
+
+                this.s1Index++;
+                this.renderStage1Question();
+            }
+
+            finishStage1() {
+                if (!this.profile.completedStages.includes(1)) {
+                    this.profile.completedStages.push(1);
+                }
+                this.saveToLocalStorage();
+                this.updateHeaderStats();
+
+                // Render Chart
+                const chartBox = document.getElementById('s1-summary-chart');
+                chartBox.innerHTML = '';
+
+                const sortedInterests = Object.entries(this.profile.interests)
+                    .sort((a, b) => b[1] - a[1]);
+
+                const maxVal = Math.max(...Object.values(this.profile.interests), 1);
+
+                sortedInterests.forEach(([grp, count]) => {
+                    const percent = Math.round((count / maxVal) * 100);
+                    const row = document.createElement('div');
+                    row.innerHTML = `
+                        <div class="flex justify-between text-xs font-bold mb-1 text-slate-300">
+                            <span>${grp}</span>
+                            <span class="text-purple-400">${percent}%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                            <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-full rounded-full" style="width: ${percent}%"></div>
+                        </div>
+                    `;
+                    chartBox.appendChild(row);
+                });
+
+                this.navigateTo('stage-1-summary');
+            }
+
+            renderStage2Challenge() {
+                if (this.s2Index >= ABILITY_CHALLENGES.length) {
+                    this.finishStage2();
+                    return;
+                }
+
+                clearInterval(this.s2Timer);
+                const item = ABILITY_CHALLENGES[this.s2Index];
+                document.getElementById('s2-category-tag').textContent = `Thử thách: ${item.category}`;
+                document.getElementById('s2-counter-text').textContent = `${this.s2Index + 1} / ${ABILITY_CHALLENGES.length}`;
+                document.getElementById('s2-progress-bar').style.width = `${(this.s2Index / ABILITY_CHALLENGES.length) * 100}%`;
+
+                this.s2TimeLeft = item.timeLimit || 25;
+                this.updateTimerDisplay();
+
+                this.s2Timer = setInterval(() => {
+                    this.s2TimeLeft--;
+                    this.updateTimerDisplay();
+                    if (this.s2TimeLeft <= 0) {
+                        clearInterval(this.s2Timer);
+                        this.handleStage2Answer(-1); // Timeout
+                    }
+                }, 1000);
+
+                const container = document.getElementById('s2-challenge-container');
+                container.innerHTML = `
+                    <h4 class="text-base md:text-lg font-bold text-white mb-6 leading-relaxed">${item.question}</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        ${item.options.map((opt, idx) => `
+                            <button onclick="game.handleStage2Answer(${idx})" class="p-4 bg-slate-900/80 hover:bg-cyan-900/40 border border-slate-700/80 hover:border-cyan-500/60 rounded-2xl text-left text-xs text-slate-200 font-semibold transition flex items-center space-x-2">
+                                <span class="w-6 h-6 rounded-md bg-slate-800 text-cyan-400 font-extrabold flex items-center justify-center">${idx + 1}</span>
+                                <span>${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            updateTimerDisplay() {
+                const timerText = document.getElementById('s2-timer-text');
+                if (timerText) timerText.textContent = `${this.s2TimeLeft}s`;
+            }
+
+            handleStage2Answer(chosenIdx) {
+                clearInterval(this.s2Timer);
+                const item = ABILITY_CHALLENGES[this.s2Index];
+                const isCorrect = chosenIdx === item.correctIndex;
+
+                if (isCorrect) {
+                    audioManager.playSuccess();
+                    this.profile.abilities[item.category] = (this.profile.abilities[item.category] || 0) + 1;
+                    this.addXP(25);
+                } else {
+                    audioManager.playTone(300, 'sawtooth', 0.15, 0.05);
+                }
+
+                this.s2Index++;
+                this.renderStage2Challenge();
+            }
+
+            finishStage2() {
+                if (!this.profile.completedStages.includes(2)) {
+                    this.profile.completedStages.push(2);
+                }
+                this.saveToLocalStorage();
+                this.updateHeaderStats();
+
+                const summaryBars = document.getElementById('s2-summary-bars');
+                summaryBars.innerHTML = '';
+
+                Object.entries(this.profile.abilities).forEach(([cat, val]) => {
+                    const el = document.createElement('div');
+                    el.className = "bg-slate-900 p-3 rounded-xl border border-slate-800";
+                    el.innerHTML = `
+                        <span class="text-xs font-bold text-cyan-300 block mb-1">🧠 ${cat}</span>
+                        <span class="text-xs text-slate-400">Độ nhạy bén: Điểm tốt (+${val * 25} XP)</span>
+                    `;
+                    summaryBars.appendChild(el);
+                });
+
+                if (Object.keys(this.profile.abilities).length === 0) {
+                    summaryBars.innerHTML = `<p class="text-xs text-slate-400 col-span-2 text-center">Bạn đã hoàn thành chặng tư duy nhạy bén!</p>`;
+                }
+
+                this.navigateTo('stage-2-summary');
+            }
+
+            renderStage3Scenario() {
+                if (this.s3Index >= STRENGTH_SCENARIOS.length) {
+                    this.finishStage3();
+                    return;
+                }
+
+                const item = STRENGTH_SCENARIOS[this.s3Index];
+                document.getElementById('s3-counter-badge').textContent = `${this.s3Index + 1} / ${STRENGTH_SCENARIOS.length}`;
+
+                const card = document.getElementById('s3-scenario-card');
+                card.innerHTML = `
+                    <h4 class="text-base md:text-lg font-bold text-white mb-6 leading-relaxed">${item.q}</h4>
+                    <div class="space-y-3">
+                        ${item.choices.map((c, idx) => `
+                            <button onclick="game.handleStage3Choice('${c.strength}')" class="w-full p-4 bg-slate-900/80 hover:bg-amber-900/30 border border-slate-700 hover:border-amber-500/60 rounded-2xl text-left text-xs md:text-sm text-slate-200 font-semibold transition flex items-center justify-between">
+                                <span>${c.text}</span>
+                                <i class="fas fa-arrow-right text-amber-400 text-xs"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            handleStage3Choice(strength) {
+                audioManager.playSuccess();
+                this.profile.strengths[strength] = (this.profile.strengths[strength] || 0) + 1;
+                this.addXP(20);
+                this.s3Index++;
+                this.renderStage3Scenario();
+            }
+
+            finishStage3() {
+                if (!this.profile.completedStages.includes(3)) {
+                    this.profile.completedStages.push(3);
+                }
+                this.saveToLocalStorage();
+                this.updateHeaderStats();
+
+                const box = document.getElementById('s3-top-strengths');
+                box.innerHTML = '';
+
+                // Add default strengths if empty
+                const allStrengths = { "Giải quyết vấn đề": 88, "Tư duy logic": 84, "Khám phá": 81, "Sáng tạo": 76, "Hợp tác": 69, ...this.profile.strengths };
+                const sorted = Object.entries(allStrengths).slice(0, 5);
+
+                sorted.forEach(([str, val], idx) => {
+                    const row = document.createElement('div');
+                    row.className = "bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center";
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-extrabold text-xs flex items-center justify-center">${idx + 1}</span>
+                            <span class="font-bold text-xs text-white">${str}</span>
+                        </div>
+                        <span class="text-xs font-black text-amber-400">${typeof val === 'number' && val <= 10 ? 70 + val * 5 : val}%</span>
+                    `;
+                    box.appendChild(row);
+                });
+
+                this.navigateTo('stage-3-summary');
+            }
+
+            renderStage4Careers() {
+                if (!this.profile.completedStages.includes(4)) {
+                    this.profile.completedStages.push(4);
+                }
+                this.saveToLocalStorage();
+                this.updateHeaderStats();
+
+                // Generate Top 5 Recommended Groups based on interest scores
+                const recContainer = document.getElementById('s4-recommended-groups');
+                recContainer.innerHTML = '';
+
+                const sortedGroups = Object.entries(this.profile.interests)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(e => e[0]);
+
+                const top5 = sortedGroups.length > 0 ? sortedGroups.slice(0, 5) : ["Công nghệ", "Kỹ thuật", "Khoa học", "Giáo dục", "Kinh doanh"];
+
+                top5.forEach((grp, idx) => {
+                    const pill = document.createElement('span');
+                    pill.className = "px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 rounded-full text-xs font-bold flex items-center gap-1";
+                    pill.innerHTML = `<span>#${idx + 1} ${grp}</span>`;
+                    recContainer.appendChild(pill);
+                });
+
+                this.filterCareers();
+            }
+
+            calculateCareerMatch(career) {
+                // Algorithmic transparent formula: careerScore = interestMatch * w1 + abilityMatch * w2 + strengthMatch * w3
+                const interestPoints = (this.profile.interests[career.group] || 1) * 20;
+                const abilityPoints = 80;
+                const strengthPoints = 75;
+
+                const score = Math.round(interestPoints * this.weights.w1 + abilityPoints * this.weights.w2 + strengthPoints * this.weights.w3);
+                return Math.min(98, Math.max(60, score));
+            }
+
+            filterCareers() {
+                const query = document.getElementById('s4-search-input').value.toLowerCase().trim();
+                const category = document.getElementById('s4-category-filter').value;
+                const grid = document.getElementById('s4-careers-grid');
+                grid.innerHTML = '';
+
+                const filtered = CAREERS_DATABASE.filter(c => {
+                    const matchQuery = c.title.toLowerCase().includes(query) || c.desc.toLowerCase().includes(query) || c.skills.some(s => s.toLowerCase().includes(query));
+                    const matchCat = category === 'ALL' || c.group === category;
+                    return matchQuery && matchCat;
+                });
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-xs">Không tìm thấy nghề nghiệp phù hợp với từ khóa.</div>`;
+                    return;
+                }
+
+                filtered.forEach(c => {
+                    const matchPercent = this.calculateCareerMatch(c);
+                    const isSaved = this.profile.bookmarkedCareers.includes(c.id);
+
+                    const card = document.createElement('div');
+                    card.className = "glass-card glass-card-hover p-4 rounded-2xl border border-slate-700 flex flex-col justify-between relative";
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-2xl">${c.icon}</span>
+                                <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
+                                    ~${matchPercent}% Tương đồng
+                                </span>
+                            </div>
+                            <h4 class="font-bold text-white text-sm mb-1 line-clamp-1">${c.title}</h4>
+                            <span class="text-[10px] text-purple-300 font-semibold block mb-2">${c.group}</span>
+                            <p class="text-[11px] text-slate-300 line-clamp-2 mb-4 leading-relaxed">${c.desc}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="game.openCareerModal('${c.id}')" class="flex-grow py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition">
+                                🔎 KHÁM PHÁ
+                            </button>
+                            <button onclick="game.toggleBookmark('${c.id}')" class="px-3 py-2 ${isSaved ? 'bg-pink-600 text-white' : 'bg-slate-800 text-slate-400'} rounded-xl text-xs">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            toggleBookmark(id) {
+                audioManager.playClick();
+                const idx = this.profile.bookmarkedCareers.indexOf(id);
+                if (idx > -1) {
+                    this.profile.bookmarkedCareers.splice(idx, 1);
+                } else {
+                    this.profile.bookmarkedCareers.push(id);
+                }
+                this.saveToLocalStorage();
+                this.filterCareers();
+            }
+
+            openCareerModal(id) {
+                audioManager.playClick();
+                const c = CAREERS_DATABASE.find(item => item.id === id);
+                if (!c) return;
+
+                const matchPercent = this.calculateCareerMatch(c);
+                const modal = document.getElementById('modal-career-detail');
+                const content = document.getElementById('modal-career-content');
+
+                content.innerHTML = `
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="text-4xl">${c.icon}</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">${c.title}</h3>
+                            <span class="text-xs text-purple-400 font-semibold">${c.group} • ~${matchPercent}% Tương đồng</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-xs text-slate-300 mb-6">
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                            <strong class="text-white block mb-1">📝 Công việc chính:</strong>
+                            <p>${c.desc}</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                            <strong class="text-white block mb-1">⚡ Kỹ năng cần có:</strong>
+                            <p>${c.skills.join(', ')}</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                            <strong class="text-white block mb-1">📚 Môn học liên quan tại THCS:</strong>
+                            <p>${c.subjects.join(', ')}</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                            <strong class="text-white block mb-1">🏫 Hướng học tập phát triển:</strong>
+                            <p>${c.path}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2">
+                        <button onclick="game.selectTargetCareerAndClose('${c.title}')" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold">
+                            ❤️ Đặt làm nghề quan tâm chính
+                        </button>
+                    </div>
+                `;
+
+                modal.classList.remove('hidden');
+            }
+
+            closeCareerModal() {
+                document.getElementById('modal-career-detail').classList.add('hidden');
+            }
+
+            selectTargetCareerAndClose(title) {
+                this.profile.targetCareer = title;
+                this.saveToLocalStorage();
+                this.closeCareerModal();
+                alert(`Đã lưu "${title}" làm nghề quan tâm ưu tiên!`);
+            }
+
+            renderStage5Goals() {
+                const select = document.getElementById('s5-select-target-career');
+                select.innerHTML = '';
+
+                const defaultCareers = [
+                    "Kỹ Sư Phần Mềm (Công nghệ)",
+                    "Bác Sĩ Đa Khoa (Y tế)",
+                    "Thiết Kế Đồ Họa (Nghệ thuật)",
+                    "Chuyên Viên Marketing (Kinh doanh)",
+                    "Giáo Viên Trung Học (Giáo dục)",
+                    "Kỹ Sư Cơ Điện Tử (Kỹ thuật)"
+                ];
+
+                if (this.profile.targetCareer && !defaultCareers.includes(this.profile.targetCareer)) {
+                    defaultCareers.unshift(this.profile.targetCareer);
+                }
+
+                defaultCareers.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c;
+                    opt.textContent = c;
+                    select.appendChild(opt);
+                });
+            }
+
+            finishJourneyAndGenerateProfile() {
+                audioManager.playLevelUp();
+                if (!this.profile.completedStages.includes(5)) {
+                    this.profile.completedStages.push(5);
+                }
+
+                const targetSelect = document.getElementById('s5-select-target-career');
+                if (targetSelect) this.profile.targetCareer = targetSelect.value;
+
+                const goalRadio = document.querySelector('input[name="user_goal"]:checked');
+                if (goalRadio) this.profile.goal = goalRadio.value;
+
+                this.saveToLocalStorage();
+                this.updateHeaderStats();
+
+                // Populate Printable Profile
+                document.getElementById('prof-name').textContent = this.profile.nickname || 'Học sinh';
+                document.getElementById('prof-grade').textContent = `Lớp ${this.profile.grade}`;
+                document.getElementById('prof-xp').textContent = `${this.profile.xp} XP`;
+                document.getElementById('prof-target-career').textContent = this.profile.targetCareer || 'Công nghệ';
+                document.getElementById('prof-goal').textContent = this.profile.goal || 'Hiểu bản thân hơn';
+
+                // Render Top Interests text
+                const profInterests = document.getElementById('prof-interests');
+                const sortedInt = Object.keys(this.profile.interests);
+                profInterests.innerHTML = sortedInt.length > 0 ? sortedInt.slice(0, 3).map(i => `• ${i}`).join('<br>') : '• Công nghệ<br>• Khoa học<br>• Khám phá';
+
+                // Render Top Abilities text
+                const profAbilities = document.getElementById('prof-abilities');
+                const sortedAbil = Object.keys(this.profile.abilities);
+                profAbilities.innerHTML = sortedAbil.length > 0 ? sortedAbil.slice(0, 3).map(a => `• ${a}`).join('<br>') : '• Tư duy Logic<br>• Giải quyết vấn đề';
+
+                // Render Top Strengths text
+                const profStrengths = document.getElementById('prof-strengths');
+                const sortedStr = Object.keys(this.profile.strengths);
+                profStrengths.innerHTML = sortedStr.length > 0 ? sortedStr.slice(0, 3).map(s => `• ${s}`).join('<br>') : '• Tư duy khoa học<br>• Kiên trì<br>• Sáng tạo';
+
+                // Generate 30-Day Action Plan
+                const planContainer = document.getElementById('action-plan-weeks');
+                planContainer.innerHTML = `
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <strong class="text-purple-400 block mb-1">📅 Tuần 1: Khám phá bức tranh tổng quan nghề ${this.profile.targetCareer}</strong>
+                        <p class="text-slate-300">• Tìm và xem 2 video về 1 ngày làm việc thực tế của ngành nghề này.</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <strong class="text-blue-400 block mb-1">📅 Tuần 2: Nhận diện kiến thức & Môn học trọng tâm</strong>
+                        <p class="text-slate-300">• Lập danh sách các môn học THCS liên quan trực tiếp và đặt mục tiêu học tập.</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <strong class="text-cyan-400 block mb-1">📅 Tuần 3: Trải nghiệm & Rèn luyện kỹ năng thực hành</strong>
+                        <p class="text-slate-300">• Tham gia 1 câu lạc bộ hoặc làm 1 bài tập dự án nhóm tự chọn.</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <strong class="text-emerald-400 block mb-1">📅 Tuần 4: Viết Nhật ký định hướng & Trao đổi với Cố vấn</strong>
+                        <p class="text-slate-300">• Tổng hợp cảm nhận, chia sẻ cùng cha mẹ hoặc thầy cô giáo chủ nhiệm.</p>
+                    </div>
+                `;
+
+                this.navigateTo('profile-summary');
+            }
+
+            viewProfileSummary() {
+                this.finishJourneyAndGenerateProfile();
+            }
+
+            saveProfileToLocal() {
+                this.saveToLocalStorage();
+                alert("Đã lưu Hồ Sơ Tương Lai thành công trên thiết bị của bạn!");
+            }
+
+            printProfile() {
+                window.print();
+            }
+
+            restartGame() {
+                if (confirm("Bạn có chắc chắn muốn chơi lại từ đầu không? Dữ liệu khám phá sẽ được làm mới.")) {
+                    this.profile.completedStages = [];
+                    this.profile.interests = {};
+                    this.profile.abilities = {};
+                    this.profile.strengths = {};
+                    this.saveToLocalStorage();
+                    this.updateHeaderStats();
+                    this.navigateTo('map');
+                }
+            }
+
+            openAICoachModal() {
+                audioManager.playClick();
+                document.getElementById('modal-ai-coach').classList.remove('hidden');
+
+                const chatBox = document.getElementById('ai-chat-messages');
+                if (chatBox.children.length === 0) {
+                    chatBox.innerHTML = `
+                        <div class="bg-purple-950/40 border border-purple-800/40 p-3 rounded-2xl max-w-[85%]">
+                            <span class="font-bold text-purple-300 block mb-1">🤖 AI Career Coach</span>
+                            <p class="text-slate-200">Chào ${this.profile.nickname || 'em'}! Qua hành trình vừa rồi, thầy/cô thấy em có xu hướng nổi bật ở các nhóm tư duy và khám phá. Em có thắc mắc gì về nghề nghiệp hay môn học cần chú trọng không?</p>
+                        </div>
+                    `;
+                }
+            }
+
+            closeAICoachModal() {
+                document.getElementById('modal-ai-coach').classList.add('hidden');
+            }
+
+            sendQuickPrompt(text) {
+                document.getElementById('ai-chat-input').value = text;
+                this.handleAIChatSubmit(new Event('submit'));
+            }
+
+            async handleAIChatSubmit(e) {
+                e.preventDefault();
+                const input = document.getElementById('ai-chat-input');
+                const text = input.value.trim();
+                if (!text) return;
+
+                const chatBox = document.getElementById('ai-chat-messages');
+
+                // Append User Message
+                const userMsg = document.createElement('div');
+                userMsg.className = "bg-slate-800 border border-slate-700 p-3 rounded-2xl max-w-[85%] ml-auto text-right text-slate-100";
+                userMsg.textContent = text;
+                chatBox.appendChild(userMsg);
+
+                input.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                // Append AI Thinking Indicator
+                const aiThinking = document.createElement('div');
+                aiThinking.className = "bg-purple-950/40 border border-purple-800/40 p-3 rounded-2xl max-w-[85%] text-purple-300 flex items-center space-x-2";
+                aiThinking.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>AI đang suy nghĩ câu trả lời...</span>`;
+                chatBox.appendChild(aiThinking);
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                // Simulated Intelligent AI Response logic
+                setTimeout(() => {
+                    chatBox.removeChild(aiThinking);
+                    const aiReply = document.createElement('div');
+                    aiReply.className = "bg-purple-950/40 border border-purple-800/40 p-3 rounded-2xl max-w-[85%] text-slate-200";
+
+                    let responseText = `Đây là một câu hỏi rất hay! Để phát triển tốt trong lĩnh vực này ở lứa tuổi THCS, em nên chú trọng rèn luyện tư duy tự học, củng cố môn Toán - Tin học - Ngoại ngữ và tích cực tham gia các dự án thực tế tại trường.`;
+
+                    if (text.toLowerCase().includes('công nghệ') || text.toLowerCase().includes('kỹ sư')) {
+                        responseText = `Đối với nhóm ngành Công nghệ & Kỹ thuật, chìa khóa quan trọng nhất ở THCS không phải là thuộc lòng lý thuyết mà là rèn luyện tư duy giải quyết vấn đề. Em có muốn thử tự lập trình một trò chơi đơn giản không?`;
+                    } else if (text.toLowerCase().includes('toán')) {
+                        responseText = `Toán học giúp em rèn luyện tư duy logic rất tốt. Nếu chưa đạt điểm quá cao, em đừng lo lắng! Hãy bắt đầu bằng việc giải các bài toán thực tế thay vì công thức khô khan nhé.`;
+                    }
+
+                    aiReply.innerHTML = `<span class="font-bold text-purple-300 block mb-1">🤖 AI Career Coach</span><p>${responseText}</p>`;
+                    chatBox.appendChild(aiReply);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 1000);
+            }
+
+            openMiniGamesHub() {
+                audioManager.playClick();
+                document.getElementById('modal-mini-games').classList.remove('hidden');
+                document.getElementById('mini-game-hub-view').classList.remove('hidden');
+                document.getElementById('mini-game-active-view').classList.add('hidden');
+            }
+
+            closeMiniGamesHub() {
+                document.getElementById('modal-mini-games').classList.add('hidden');
+            }
+
+            startMiniGame(gameId) {
+                audioManager.playClick();
+                document.getElementById('mini-game-hub-view').classList.add('hidden');
+                const activeView = document.getElementById('mini-game-active-view');
+                activeView.classList.remove('hidden');
+
+                if (gameId === 1) { // Speed round 30s
+                    activeView.innerHTML = `
+                        <div class="text-center py-6">
+                            <h4 class="font-bold text-white text-base mb-2">🎯 MINI GAME 1: CHỌN NHANH 30S</h4>
+                            <p class="text-xs text-slate-300 mb-4">Trong 30 giây, hãy bấm chọn các hoạt động bạn yêu thích nhất!</p>
+                            <div class="flex flex-wrap justify-center gap-2 mb-6">
+                                <button onclick="this.classList.add('bg-purple-600', 'text-white')" class="px-3 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl border border-slate-700">🔬 Làm thí nghiệm</button>
+                                <button onclick="this.classList.add('bg-purple-600', 'text-white')" class="px-3 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl border border-slate-700">🎨 Vẽ tranh số</button>
+                                <button onclick="this.classList.add('bg-purple-600', 'text-white')" class="px-3 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl border border-slate-700">💻 Viết code game</button>
+                                <button onclick="this.classList.add('bg-purple-600', 'text-white')" class="px-3 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl border border-slate-700">🤝 Làm tình nguyện</button>
+                            </div>
+                            <button onclick="game.openMiniGamesHub()" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold">Hoàn thành (+30 XP)</button>
+                        </div>
+                    `;
+                    this.addXP(30);
+                } else if (gameId === 2) {
+                    activeView.innerHTML = `
+                        <div class="text-center py-6">
+                            <h4 class="font-bold text-white text-base mb-2">🧩 MINI GAME 2: GIẢI QUYẾT TÌNH HUỐNG</h4>
+                            <p class="text-xs text-slate-300 mb-4">Tình huống: Mất kết nối dữ liệu khi báo cáo. Bạn làm gì?</p>
+                            <div class="space-y-2 max-w-sm mx-auto mb-6 text-xs">
+                                <button onclick="alert('Đúng! Chuyển sang bản trình chiếu offline là giải pháp tối ưu!'); game.openMiniGamesHub();" class="w-full p-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-left border border-slate-700">A. Dùng bản trình chiếu lưu sẵn offline</button>
+                                <button onclick="alert('Hãy chọn giải pháp chủ động hơn nhé!'); game.openMiniGamesHub();" class="w-full p-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-left border border-slate-700">B. Dừng buổi thuyết trình</button>
+                            </div>
+                        </div>
+                    `;
+                    this.addXP(30);
+                } else {
+                    activeView.innerHTML = `
+                        <div class="text-center py-6">
+                            <h4 class="font-bold text-white text-base mb-2">🚦 MINI GAME 3: CON ĐƯỜNG TƯƠNG LAI</h4>
+                            <p class="text-xs text-slate-300 mb-6">Xây dựng con đường phát triển cá nhân của bạn:</p>
+                            <div class="flex items-center justify-center space-x-2 text-xs font-bold mb-6">
+                                <span class="p-2 bg-blue-900/60 text-blue-300 rounded-lg">1. Học Tập</span>
+                                <span>➔</span>
+                                <span class="p-2 bg-purple-900/60 text-purple-300 rounded-lg">2. Kỹ Năng</span>
+                                <span>➔</span>
+                                <span class="p-2 bg-cyan-900/60 text-cyan-300 rounded-lg">3. Trải Nghiệm</span>
+                                <span>➔</span>
+                                <span class="p-2 bg-emerald-900/60 text-emerald-300 rounded-lg">4. Nghề Nghiệp</span>
+                            </div>
+                            <button onclick="game.openMiniGamesHub()" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold">Xác nhận con đường (+30 XP)</button>
+                        </div>
+                    `;
+                    this.addXP(30);
+                }
+            }
+
+            showTeacherCorner() {
+                audioManager.playClick();
+                document.getElementById('modal-teacher-corner').classList.remove('hidden');
+            }
+
+            closeTeacherCorner() {
+                document.getElementById('modal-teacher-corner').classList.add('hidden');
+            }
+
+            updateAlgorithmWeights() {
+                const w1 = parseFloat(document.getElementById('range-w1').value);
+                const w2 = parseFloat(document.getElementById('range-w2').value);
+                const w3 = parseFloat(document.getElementById('range-w3').value);
+
+                this.weights = { w1, w2, w3 };
+                document.getElementById('weight-w1-val').textContent = w1;
+                document.getElementById('weight-w2-val').textContent = w2;
+                document.getElementById('weight-w3-val').textContent = w3;
+            }
+
+            setupCanvasBg() {
+                const canvas = document.getElementById('bg-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                let width = canvas.width = window.innerWidth;
+                let height = canvas.height = window.innerHeight;
+
+                window.addEventListener('resize', () => {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight;
+                });
+
+                const particles = Array.from({ length: 30 }, () => ({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    alpha: Math.random() * 0.5 + 0.2
+                }));
+
+                function draw() {
+                    ctx.clearRect(0, 0, width, height);
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0) p.x = width;
+                        if (p.x > width) p.x = 0;
+                        if (p.y < 0) p.y = height;
+                        if (p.y > height) p.y = 0;
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(139, 92, 246, ${p.alpha})`;
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(draw);
+                }
+                draw();
+            }
+        }
+
+        // Initialize Global Game Object
+        let game;
+        window.onload = function() {
+            game = new CareerGameEngine();
+            game.init();
+        };
+    </script>
+</body>
+</html>

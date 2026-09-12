@@ -1,50 +1,70 @@
 {% extends "layout.html" %}
 
-{% block title %}Đăng ký{% endblock %}
+{% block title %}Đăng ký tài khoản - SelfPath AI{% endblock %}
 
 {% block content %}
-  <div class="mb-4">
-    <p class="text-primary fw-semibold mb-1">Tạo tài khoản</p>
-    <h2 class="section-title">Đăng ký</h2>
+<div class="auth-box">
+  <div class="text-center mb-4">
+    <div class="brand-icon-box mx-auto mb-3" style="width: 54px; height: 54px; font-size: 1.5rem;">
+      <i class="bi bi-person-plus-fill"></i>
+    </div>
+    <h2 class="section-title mb-1">Tạo tài khoản mới</h2>
+    <p class="text-muted small">Dành cho Học sinh và Phụ huynh tham gia hệ thống SelfPath AI</p>
   </div>
 
   <form method="post" class="row g-3">
     {{ form.hidden_tag() }}
 
     <div class="col-12">
-      {{ form.username.label(class_='form-label') }}
-      {{ form.username(class_='form-control') }}
-    </div>
-
-    <div class="col-12">
-      {{ form.email.label(class_='form-label') }}
-      {{ form.email(class_='form-control') }}
-    </div>
-
-    <div class="col-md-6">
-      {{ form.password.label(class_='form-label') }}
-      <div class="password-field">
-        {{ form.password(class_='form-control') }}
-        <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hiện mật khẩu">👁</button>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      {{ form.password2.label(class_='form-label') }}
-      <div class="password-field">
-        {{ form.password2(class_='form-control') }}
-        <button type="button" class="password-toggle" data-password-toggle="{{ form.password2.id }}" aria-label="Hiện mật khẩu">👁</button>
+      <label class="form-label fw-bold small">Tên tài khoản / Họ tên</label>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0 rounded-start-4"><i class="bi bi-person text-muted"></i></span>
+        {{ form.username(class_='form-control border-start-0 rounded-end-4', placeholder='Nhập tên của bạn') }}
       </div>
     </div>
 
     <div class="col-12">
-      {{ form.role.label(class_='form-label') }}
-      {{ form.role(class_='form-select') }}
+      <label class="form-label fw-bold small">Địa chỉ Email</label>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0 rounded-start-4"><i class="bi bi-envelope text-muted"></i></span>
+        {{ form.email(class_='form-control border-start-0 rounded-end-4', placeholder='email@example.com') }}
+      </div>
     </div>
 
-    <div class="col-12 d-flex gap-2">
-      {{ form.submit(class_='btn btn-primary') }}
-      <a href="{{ url_for('login') }}" class="btn btn-outline-secondary">Đăng nhập</a>
+    <div class="col-md-6">
+      <label class="form-label fw-bold small">Mật khẩu</label>
+      <div class="password-field">
+        {{ form.password(class_='form-control rounded-4', placeholder='Tối thiểu 6 ký tự') }}
+        <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hiện mật khẩu">
+          <i class="bi bi-eye-fill"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label fw-bold small">Xác nhận mật khẩu</label>
+      <div class="password-field">
+        {{ form.password2(class_='form-control rounded-4', placeholder='Nhập lại mật khẩu') }}
+        <button type="button" class="password-toggle" data-password-toggle="{{ form.password2.id }}" aria-label="Hiện mật khẩu">
+          <i class="bi bi-eye-fill"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <label class="form-label fw-bold small">Bạn là (Vai trò)</label>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0 rounded-start-4"><i class="bi bi-award text-muted"></i></span>
+        {{ form.role(class_='form-select border-start-0 rounded-end-4') }}
+      </div>
+    </div>
+
+    <div class="col-12 d-grid gap-2 mt-4">
+      {{ form.submit(class_='btn btn-primary btn-lg shadow-sm', value='Đăng ký tài khoản') }}
+      <a href="{{ url_for('login') }}" class="btn btn-link text-decoration-none text-muted small text-center">
+        Đã có tài khoản? <span class="text-primary fw-bold">Đăng nhập ngay</span>
+      </a>
     </div>
   </form>
+</div>
 {% endblock %}
